@@ -6,6 +6,7 @@ import Header from "@editorjs/header";
 import List from "@editorjs/list";
 import Paragraph from "@editorjs/paragraph";
 import Quote from "@editorjs/quote";
+import Table from "@editorjs/table";
 import createGenericInlineTool from "editorjs-inline-tool";
 
 const inlineToolbar = ["link", "bold", "italic", "strikethrough"];
@@ -24,6 +25,7 @@ export const tools: Record<string, ToolConstructable | ToolSettings> = {
     class: List,
     inlineToolbar,
   },
+  table: Table,
   quote: {
     class: Quote,
     inlineToolbar,
