@@ -56,3 +56,6 @@ django-queries-results.html
 /playwright-report/
 /playwright/.cache/
 .vercel
+
+.github/workflows
+.github/actions
