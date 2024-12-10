@@ -7,6 +7,11 @@ const env = process.env;
 const DEFAULT_WORKERS = "2";
 // const DEFAULT_RETRIES = "1";
 
+// FIXME: High timeouts are a temporary solution to handle slower CI environments.
+// Local development on high-performance machines is much faster, but shared CI workers
+// can be overloaded, causing operations to take longer than expected.
+export const SUCCESS_BANNER_TIMEOUT = process.env.CI ? 20000 : 10000;
+
 export default defineConfig({
   testDir: "playwright/tests",
   fullyParallel: true,
@@ -36,7 +41,7 @@ export default defineConfig({
     : [["html"], ["list"]],
   expect: { timeout: 10 * 1000 },
   maxFailures: 10,
-  timeout: 30 * 1000,
+  timeout: 35 * 1000,
   use: {
     baseURL: env.BASE_URL || "",
     trace: env.CI ? "retain-on-failure" : "on",

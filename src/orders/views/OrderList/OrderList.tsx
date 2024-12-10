@@ -22,7 +22,8 @@ import createDialogActionHandlers from "@dashboard/utils/handlers/dialogActionHa
 import createSortHandler from "@dashboard/utils/handlers/sortHandler";
 import { mapEdgesToItems, mapNodeToChoice } from "@dashboard/utils/maps";
 import { getSortParams } from "@dashboard/utils/sort";
-import React from "react";
+import { useOnboarding } from "@dashboard/welcomePage/WelcomePageOnboarding/onboardingContext";
+import React, { useEffect } from "react";
 import { useIntl } from "react-intl";
 
 import OrderListPage from "../../components/OrderListPage/OrderListPage";
@@ -45,6 +46,12 @@ export const OrderList: React.FC<OrderListProps> = ({ params }) => {
   const notify = useNotifier();
   const { updateListSettings, settings } = useListSettings(ListViews.ORDER_LIST);
   const { valueProvider } = useConditionalFilterContext();
+
+  const { markOnboardingStepAsCompleted } = useOnboarding();
+
+  useEffect(() => {
+    markOnboardingStepAsCompleted("explore-orders");
+  }, []);
 
   const {
     hasPresetsChanged,

@@ -1,5 +1,91 @@
 # Changelog
 
+## 3.20.21
+
+### Patch Changes
+
+- 8d08677: Removing value from area input in address form no more cause error
+- c48e50b: The app no longer changes the url when it is already been updated.
+- 38d9a92: Selecting sale entries no longer fails when browsing the sales list
+- 315676c: The double success banner no longer appears during app installation
+- 3e89b07: Assign product dialog no more crash when product has no channels
+- 36fb327: Prevent a call update channel after voucher create when no voucher id returns from response
+- 917c0f8: Adding tranalstions to shipping methods no more cause error
+- 5013483: Assigning product to collection no more cause error
+- 749a09f: Update variant file attribute value no more cause error
+
+## 3.20.20
+
+### Patch Changes
+
+- a40691f: Environments created via Saleor Cloud now identify and report to PostHog. This means Dashboard now sends telemetry data regarding home page onboarding steps and links.
+- da3e53b: Removed unnecessary expect that was waiting for the success banner, as it was causing delays on CI. Instead, the test rely on other assertions to verify that changes have been applied
+- 3f2ca21: Onboarding state is now stored in user metadata, that means that onboarding state is persisted between logins on different machines
+- c40fdf7: Add environment variables to GitHub Workflow to control when to show onboarding for new users
+- d677431: Now the list app page shows footer that allows the user to sumbmit a demanded app.
+- 479ae66: Merged expectSuccessBannerMessage and expectSuccessBanner into a single method, removed the redundant method, and updated tests to use the new unified method.
+- 24691c4: Rename newHome to wecomePage to allow seamlessly removing a feature flag
+- 13f63c2: New home page layout is now reponsive, it means that layout adjusts to desktop, tablet and mobile devices
+- 67687b3: User onboardng steps are now checking when user does required actions
+- e947997: E2E tests are now updated for new home page meaing that they don't fail when new home page is enabled.
+- 18a4eae: Activity section in home page now has uniform padding with header, stock and sales.
+- f1e5f34: Enhanced success banner verification in basePage.ts by adding network idle state check and parallel assertions, while modernizing array operations in shipping methods tests using spread syntax instead of .concat()
+- 0c2971b: Add integration test for new home sidebar
+- fab4b4e: Refactored tests by replacing direct banner visibility checks with `expectSuccessBanner()`.
+  Removed unnecessary `waitForNetworkIdleAfterAction` wrappers.
+  Simplified test scope for `staffMembers` and removed explicit timeouts where appropriate.
+- f9130c4: You can now see an onboarding component that guides the user through Saleor Dashboard features.
+- 9cd4da2: You can now see new sidebar with analytics and activities
+- 981a0bc: Removed waitForNetworkIdleAfterAction and replaced it with a direct navigation call.Added blur actions on metadataKeyInput and metadataValueInput to ensure input stability before saving in scope of SALEOR_128
+- 6990b1e: New home page with onboarding is now enabled, old home page code has been removed
+- d9600ab: Removed waitForNetworkIdleAfterAction and added direct element waits to ensure readiness before actions.
+- e48622c: Test set now includes tests for welcome page onboarding component.
+- 8bc92e3: You can now see information tiles regarding Saleor Docs, community, and technical help in the home page.
+- 4d9d127: Adjust inline discount test for precise floating-point comparison with .toFixed(2)
+- 7250d03: Padding under home page tiles is now increased to prevent clipping
+
+## 3.20.19
+
+### Patch Changes
+
+- fd98d31: Selecting sale entries no longer fails when browsing the sales list
+- 05a2be7: Variant creation no longer reports an error when API call fails, this means this scenario is now handled gracefully.
+- bd125e8: List item links are no longer rendered outside of cursor. This means you can now copy the item's URL with mouse right click or use middle click to open page in new tab.
+- 747030e: Enhanced success banner verification in basePage.ts by adding network idle state check and parallel assertions, while modernizing array operations in shipping methods tests using spread syntax instead of .concat()
+- 73f4a95: Refactored tests by replacing direct banner visibility checks with `expectSuccessBanner()`.
+  Removed unnecessary `waitForNetworkIdleAfterAction` wrappers.
+  Simplified test scope for `staffMembers` and removed explicit timeouts where appropriate.
+- e1c0868: The "Save" button in Change Password form now submits the form data to Saleor.
+- f4466d9: Now, codeql action is no longer needed since we enabled code analysis via GH configuration with default settings.
+- a28cd97: Prepare base layout for new home, hide new home page under feature flag
+- 54e77d2: You can now select attribute value from dropdown in datagrid cell
+- 82cd647: Adjust inline discount test for precise floating-point comparison with .toFixed(2)
+
+## 3.20.18
+
+### Patch Changes
+
+- 9436450: Optimize test by reusing an existing order instead of creating a new one
+- 3db9f24: Increase global single test timeout to avoid false neagtive test results
+- abdd791: Refactor tests to replace `waitForDOMToFullyLoad` with `waitForLoaderToDisappear`, making the test shorter by waiting only for the loader to disappear instead of the entire DOM to load.
+- 711c368: Upgrade lz-string library to version that supports MIT license
+
+## 3.20.17
+
+### Patch Changes
+
+- 725ab22: `.env.template` no longer references Demo environment.
+- 4feda35: Increase global single test timeout to avoid false neagtive test results
+- 55988f0: Moving test cases for activation and deactivation staff members to other file and running it in serial mode to avoid login in two tests in the same time (it can cause error with code LOGIN_ATTEMPT_DELAYED)
+- 048b0fb: Added support for the new channel setting: `checkoutSettings.automaticallyCompleteFullyPaidCheckouts`. Setting can be changed in channel configuration page.
+- a230369: Link value input in Navigation no longer overrides input value with cached value.
+
+## 3.20.16
+
+### Patch Changes
+
+- 8f225fa: Fixes a bug when the text truncating breaks on undefined attribute value.
+
 ## 3.20.15
 
 ### Patch Changes
