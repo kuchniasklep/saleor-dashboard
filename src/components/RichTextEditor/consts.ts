@@ -15,17 +15,29 @@ export const tools: Record<string, ToolConstructable | ToolSettings> = {
   embed: Embed,
   header: {
     class: Header,
+    inlineToolbar,
     config: {
       defaultLevel: 1,
       levels: [1, 2, 3],
     },
-    inlineToolbar,
   },
   list: {
     class: List,
     inlineToolbar,
+    config: {
+      defaultStyle: 'unordered'
+    },
   },
-  table: Table,
+  table: {
+    class: Table,
+    inlineToolbar,
+    config: {
+      rows: 3,
+      cols: 2,
+      maxRows: 5,
+      maxCols: 5,
+    },
+  } as unknown as ToolConstructable,
   quote: {
     class: Quote,
     inlineToolbar,
