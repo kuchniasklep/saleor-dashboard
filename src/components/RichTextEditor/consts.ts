@@ -28,16 +28,7 @@ export const tools: Record<string, ToolConstructable | ToolSettings> = {
       defaultStyle: 'unordered'
     },
   },
-  table: {
-    class: Table,
-    inlineToolbar,
-    config: {
-      rows: 3,
-      cols: 2,
-      maxRows: 5,
-      maxCols: 5,
-    },
-  } as unknown as ToolConstructable,
+  table: Table,
   quote: {
     class: Quote,
     inlineToolbar,
