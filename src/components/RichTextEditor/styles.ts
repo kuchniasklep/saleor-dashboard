@@ -14,6 +14,9 @@ const useStyles = makeStyles(
         "& .codex-editor": {
           zIndex: 2,
         },
+        "& .codex-editor:has(.ce-popover--opened)": {
+          zIndex: 10,
+        },
         "& .cdx-quote__text": {
           minHeight: 24,
         },
