@@ -1,4 +1,4 @@
-![Saleor Dashboard](https://user-images.githubusercontent.com/44495184/185379472-2a204c0b-9b7a-4a3e-93c0-2cb85205ed5e.png)
+<img width="1920" height="1080" alt="Saleor Dashboard 25/26" src="https://github.com/user-attachments/assets/c9705611-2729-4e65-ae35-22081f03c569" />
 
 <div align="center">
   <h1>Saleor Dashboard</h1>
@@ -36,11 +36,12 @@
 
 ## Prerequisites
 
-- Node.js v20
+- Node.js v22 (recommended)
 - A running instance of [Saleor](https://github.com/saleor/saleor/)
+- PNPM package manager - preferably installed via [corepack](https://pnpm.io/installation#using-corepack)
 
 > [!NOTE]
-> Currently both Node v20 and v18 are supported. We recommend using Node v20, since support for older versions will be dropped.
+> Currently both Node v22, v20 are supported. We recommend using Node v22, since support for older versions will be dropped.
 
 ## Development
 
@@ -59,7 +60,7 @@ cd saleor-dashboard
 3. Install the dependencies:
 
 ```bash
-npm i
+pnpm install
 ```
 
 4. Configure the env vars as described in [docs/configuration.md](docs/configuration.md).
@@ -67,7 +68,7 @@ npm i
 5. Start the development server with:
 
 ```bash
-npm run dev
+pnpm run dev
 ```
 
 > Note:
@@ -81,3 +82,4 @@ npm run dev
 - [Usage with Docker 🐳](docs/docker.md)
 - [Sentry adapter 🗼](docs/sentry-adapter.md)
 - [Deployment 🌐](docs/deployment.md)
+- [Developing with stable and staging Saleor graphql.schema](docs/multi-schema.md)

@@ -1,7 +1,7 @@
 import { DashboardCard } from "@dashboard/components/Card";
 import { OrderDetailsFragment } from "@dashboard/graphql";
 import { getDiscountTypeLabel } from "@dashboard/orders/utils/data";
-import { OrderDetailsViewModel } from "@dashboard/orders-v2/order-details-view-model";
+import { OrderDetailsViewModel } from "@dashboard/orders/utils/OrderDetailsViewModel";
 import { makeStyles } from "@saleor/macaw-ui";
 import { FormattedMessage, useIntl } from "react-intl";
 
@@ -30,6 +30,7 @@ const useStyles = makeStyles(
   }),
   { name: "OrderSummaryCard" },
 );
+// TODO: remove this in the next PR
 const OrderSummaryCard = ({ order }: OrderPaymentProps) => {
   const classes = useStyles();
   const intl = useIntl();

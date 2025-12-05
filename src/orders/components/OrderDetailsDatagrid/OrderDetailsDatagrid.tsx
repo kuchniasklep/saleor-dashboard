@@ -1,15 +1,18 @@
 // @ts-strict-ignore
 import { ColumnPicker } from "@dashboard/components/Datagrid/ColumnPicker/ColumnPicker";
 import { useColumns } from "@dashboard/components/Datagrid/ColumnPicker/useColumns";
+import { ROW_ACTION_BAR_WIDTH } from "@dashboard/components/Datagrid/const";
 import Datagrid from "@dashboard/components/Datagrid/Datagrid";
 import {
   DatagridChangeStateContext,
   useDatagridChangeState,
 } from "@dashboard/components/Datagrid/hooks/useDatagridChange";
+import { useEmptyColumn } from "@dashboard/components/Datagrid/hooks/useEmptyColumn";
 import { OrderLineFragment } from "@dashboard/graphql";
 import useListSettings from "@dashboard/hooks/useListSettings";
 import { productPath } from "@dashboard/products/urls";
 import { ListViews } from "@dashboard/types";
+import { Theme } from "@glideapps/glide-data-grid";
 import { ExternalLinkIcon } from "@saleor/macaw-ui-next";
 import { useCallback, useMemo } from "react";
 import { useIntl } from "react-intl";
@@ -18,24 +21,30 @@ import { Link } from "react-router-dom";
 import { messages as orderMessages } from "../OrderListDatagrid/messages";
 import { createGetCellContent, orderDetailsStaticColumnsAdapter } from "./datagrid";
 import { messages } from "./messages";
+import { OrderDetailsRowActions } from "./OrderDetailsRowActions";
 
 interface OrderDetailsDatagridProps {
   lines: OrderLineFragment[];
   loading: boolean;
-  onShowMetadata: (id: string) => void;
-  enableVerticalBorder?: boolean;
+  onOrderLineShowMetadata: (id: string) => void;
+  datagridCustomTheme?: Partial<Theme>;
 }
 
 export const OrderDetailsDatagrid = ({
   lines,
   loading,
-  onShowMetadata,
-  enableVerticalBorder = true,
+  onOrderLineShowMetadata,
+  datagridCustomTheme = {},
 }: OrderDetailsDatagridProps) => {
   const intl = useIntl();
+
   const datagrid = useDatagridChangeState();
   const { updateListSettings, settings } = useListSettings(ListViews.ORDER_DETAILS_LIST);
-  const orderDetailsStaticColumns = useMemo(() => orderDetailsStaticColumnsAdapter(intl), [intl]);
+  const emptyColumn = useEmptyColumn();
+  const orderDetailsStaticColumns = useMemo(
+    () => orderDetailsStaticColumnsAdapter(intl, emptyColumn),
+    [intl, emptyColumn],
+  );
   const handleColumnChange = useCallback(
     picked => {
       if (updateListSettings) {
@@ -56,10 +65,10 @@ export const OrderDetailsDatagrid = ({
       columns: visibleColumns,
       data: lines,
       loading,
-      onShowMetadata,
+      onOrderLineShowMetadata,
       intl,
     }),
-    [intl, visibleColumns, loading],
+    [visibleColumns, loading, lines, intl, onOrderLineShowMetadata],
   );
   const getMenuItems = useCallback(
     index => [
@@ -79,15 +88,34 @@ export const OrderDetailsDatagrid = ({
     [intl, lines],
   );
 
+  const renderRowActions = useCallback(
+    index => (
+      <OrderDetailsRowActions
+        key={`row-actions-${index}`}
+        menuItems={getMenuItems(index)}
+        onShowMetadata={() => {
+          if (lines[index]) {
+            onOrderLineShowMetadata(lines[index].id);
+          }
+        }}
+        disabled={loading}
+        intl={intl}
+      />
+    ),
+    [getMenuItems, lines, onOrderLineShowMetadata, loading, intl],
+  );
+
   return (
     <DatagridChangeStateContext.Provider value={datagrid}>
       <Datagrid
         showEmptyDatagrid
+        themeOverride={datagridCustomTheme}
         rowMarkers="none"
         columnSelect="single"
-        freezeColumns={1}
+        freezeColumns={2}
         availableColumns={visibleColumns}
-        verticalBorder={enableVerticalBorder}
+        verticalBorder={false}
+        showTopBorder={false}
         emptyText={intl.formatMessage(orderMessages.emptyText)}
         getCellContent={getCellContent}
         getCellError={() => false}
@@ -102,8 +130,11 @@ export const OrderDetailsDatagrid = ({
             staticColumns={staticColumns}
             selectedColumns={selectedColumns}
             onToggle={handlers.onToggle}
+            align="end"
           />
         )}
+        renderRowActions={renderRowActions}
+        rowActionBarWidth={ROW_ACTION_BAR_WIDTH}
       />
     </DatagridChangeStateContext.Provider>
   );

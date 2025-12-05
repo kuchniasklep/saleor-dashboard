@@ -58,7 +58,9 @@ export default defineConfig(({ command, mode }) => {
     SENTRY_PROJECT,
     ENABLED_SERVICE_NAME_HEADER,
     ONBOARDING_USER_JOINED_DATE_THRESHOLD,
-    // eslint-disable-next-line camelcase
+    // Multi-schema support
+    FF_USE_STAGING_SCHEMA,
+
     npm_package_version,
   } = env;
 
@@ -154,13 +156,15 @@ export default defineConfig(({ command, mode }) => {
         POSTHOG_HOST,
         ENABLED_SERVICE_NAME_HEADER,
         ONBOARDING_USER_JOINED_DATE_THRESHOLD,
-        // eslint-disable-next-line camelcase
+        // Multi-schema support
+        FF_USE_STAGING_SCHEMA,
+
         RELEASE_NAME: npm_package_version,
       },
     },
     build: {
       sourcemap,
-      minify: false,
+      minify: true,
       emptyOutDir: true,
       outDir: "../build/dashboard",
       assetsDir: ".",

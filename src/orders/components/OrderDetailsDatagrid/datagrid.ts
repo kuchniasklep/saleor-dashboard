@@ -11,13 +11,17 @@ import { GetCellContentOpts } from "@dashboard/components/Datagrid/Datagrid";
 import { AvailableColumn } from "@dashboard/components/Datagrid/types";
 import { OrderLineFragment } from "@dashboard/graphql";
 import { commonMessages } from "@dashboard/intl";
-import { getDatagridRowDataIndex } from "@dashboard/misc";
+import { getDatagridRowDataIndex, isFirstColumn } from "@dashboard/misc";
 import { GridCell, Item } from "@glideapps/glide-data-grid";
 import { IntlShape } from "react-intl";
 
 import { columnsMessages } from "./messages";
 
-export const orderDetailsStaticColumnsAdapter = (intl: IntlShape): AvailableColumn[] => [
+export const orderDetailsStaticColumnsAdapter = (
+  intl: IntlShape,
+  emptyColumn: AvailableColumn,
+): AvailableColumn[] => [
+  emptyColumn,
   {
     id: "product",
     title: intl.formatMessage(columnsMessages.product),
@@ -53,11 +57,6 @@ export const orderDetailsStaticColumnsAdapter = (intl: IntlShape): AvailableColu
     title: intl.formatMessage(columnsMessages.isGift),
     width: 150,
   },
-  {
-    id: "metadata",
-    title: intl.formatMessage(commonMessages.metadata),
-    width: 150,
-  },
 ];
 
 interface GetCellContentProps {
@@ -65,11 +64,11 @@ interface GetCellContentProps {
   data: OrderLineFragment[];
   loading: boolean;
   intl: IntlShape;
-  onShowMetadata: (id: string) => void;
+  onOrderLineShowMetadata: (id: string) => void;
 }
 
 export const createGetCellContent =
-  ({ columns, data, loading, onShowMetadata, intl }: GetCellContentProps) =>
+  ({ columns, data, loading, onOrderLineShowMetadata, intl }: GetCellContentProps) =>
   ([column, row]: Item, { added, removed }: GetCellContentOpts): GridCell => {
     if (loading) {
       return loadingCell();
@@ -79,6 +78,10 @@ export const createGetCellContent =
     const rowData = added.includes(row) ? undefined : data[getDatagridRowDataIndex(row, removed)];
 
     if (!rowData || !columnId) {
+      return readonlyTextCell("", false);
+    }
+
+    if (isFirstColumn(column)) {
       return readonlyTextCell("", false);
     }
 
@@ -115,7 +118,7 @@ export const createGetCellContent =
         });
       case "metadata":
         return buttonCell(intl.formatMessage(commonMessages.viewMetadata), () => {
-          onShowMetadata(rowData.id);
+          onOrderLineShowMetadata(rowData.id);
         });
 
       default:

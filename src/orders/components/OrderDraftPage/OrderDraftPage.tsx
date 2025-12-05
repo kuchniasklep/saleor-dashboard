@@ -1,12 +1,12 @@
 // @ts-strict-ignore
 import { FetchResult } from "@apollo/client";
-import { AppWidgets } from "@dashboard/apps/components/AppWidgets/AppWidgets";
 import { TopNav } from "@dashboard/components/AppLayout/TopNav";
 import CardSpacer from "@dashboard/components/CardSpacer";
 import { ConfirmButtonTransitionState } from "@dashboard/components/ConfirmButton";
 import { DateTime } from "@dashboard/components/Date";
 import { DetailPageLayout } from "@dashboard/components/Layouts";
 import { Savebar } from "@dashboard/components/Savebar";
+import { AppWidgets } from "@dashboard/extensions/components/AppWidgets/AppWidgets";
 import { extensionMountPoints } from "@dashboard/extensions/extensionMountPoints";
 import { getExtensionsItemsForDraftOrderDetails } from "@dashboard/extensions/getExtensionsItems";
 import { useExtensions } from "@dashboard/extensions/hooks/useExtensions";
@@ -55,7 +55,7 @@ interface OrderDraftPageProps extends FetchMoreProps {
   onShippingAddressEdit: () => void;
   onShippingMethodEdit: () => void;
   onProfileView: () => void;
-  onShowMetadata: (id: string) => void;
+  onOrderLineShowMetadata: (id: string) => void;
 }
 
 const draftOrderListUrl = orderDraftListUrl();
@@ -80,7 +80,7 @@ const OrderDraftPage = (props: OrderDraftPageProps) => {
     onShippingAddressEdit,
     onShippingMethodEdit,
     onProfileView,
-    onShowMetadata,
+    onOrderLineShowMetadata,
     order,
     channelUsabilityData,
     users,
@@ -147,7 +147,7 @@ const OrderDraftPage = (props: OrderDraftPageProps) => {
           onOrderLineChange={onOrderLineChange}
           onOrderLineRemove={onOrderLineRemove}
           onShippingMethodEdit={onShippingMethodEdit}
-          onShowMetadata={onShowMetadata}
+          onOrderLineShowMetadata={onOrderLineShowMetadata}
         />
         <OrderHistory
           history={order?.events}

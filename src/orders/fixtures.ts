@@ -8,6 +8,7 @@ import {
   JobStatusEnum,
   MarkAsPaidStrategyEnum,
   OrderAction,
+  OrderAuthorizeStatusEnum,
   OrderChargeStatusEnum,
   OrderDetailsFragment,
   OrderDetailsQuery,
@@ -1041,6 +1042,7 @@ export const ORDER_AMOUNT = 234.93;
 export const order = (placeholder: string): OrderDetailsWithMetadataFragment => ({
   __typename: "Order",
   giftCards: [],
+  displayGrossPrices: true,
   actions: [OrderAction.CAPTURE, OrderAction.MARK_AS_PAID, OrderAction.REFUND, OrderAction.VOID],
   shippingMethods: [
     {
@@ -1847,6 +1849,7 @@ export const order = (placeholder: string): OrderDetailsWithMetadataFragment => 
   number: "9",
   paymentStatus: PaymentChargeStatusEnum.NOT_CHARGED,
   chargeStatus: OrderChargeStatusEnum.NONE,
+  authorizeStatus: OrderAuthorizeStatusEnum.NONE,
   privateMetadata: [],
   shippingAddress: {
     __typename: "Address",
@@ -1950,6 +1953,8 @@ export const order = (placeholder: string): OrderDetailsWithMetadataFragment => 
 export const draftOrder = (placeholder: string): OrderDetailsWithMetadataFragment => ({
   __typename: "Order" as const,
   chargeStatus: OrderChargeStatusEnum.NONE,
+  displayGrossPrices: true,
+  authorizeStatus: OrderAuthorizeStatusEnum.NONE,
   giftCards: [],
   actions: [OrderAction.CAPTURE],
   shippingMethods: [],
@@ -2742,6 +2747,7 @@ export const transactionApp: AppAvatarFragment = {
   name: "Checkout App",
   id: "1234",
   __typename: "App",
+  brand: null,
 };
 
 export const transactionEvent: Omit<TransactionEventFragment, "createdBy"> & {
@@ -3507,7 +3513,7 @@ export const grantedRefunds: OrderGrantedRefundFragment[] = [
     shippingCostsIncluded: true,
     amount: prepareMoney(),
     reason: "Products returned",
-    app: { id: "123", name: "Saleor Checkout", __typename: "App" },
+    app: { id: "123", name: "Saleor Checkout", __typename: "App", brand: null },
     user: null,
     createdAt: "2022-08-22T10:40:22.226875+00:00",
     __typename: "OrderGrantedRefund",

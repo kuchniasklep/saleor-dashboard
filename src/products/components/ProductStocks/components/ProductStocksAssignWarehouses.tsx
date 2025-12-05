@@ -4,9 +4,10 @@ import { InfiniteScroll } from "@dashboard/components/InfiniteScroll";
 import { DashboardModal } from "@dashboard/components/Modal";
 import ResponsiveTable from "@dashboard/components/ResponsiveTable";
 import TableRowLink from "@dashboard/components/TableRowLink";
+import { SaleorThrobber } from "@dashboard/components/Throbber";
 import { WarehouseFragment } from "@dashboard/graphql";
 import useSearchQuery from "@dashboard/hooks/useSearchQuery";
-import { CircularProgress, TableBody, TableCell, TableRow, TextField } from "@material-ui/core";
+import { TableBody, TableCell, TableRow, TextField } from "@material-ui/core";
 import { ConfirmButton } from "@saleor/macaw-ui";
 import { Button, Option, sprinkles, Text } from "@saleor/macaw-ui-next";
 import { useState } from "react";
@@ -77,7 +78,7 @@ export const ProductStocksAssignWarehouses = ({
             fullWidth
             InputProps={{
               autoComplete: "off",
-              endAdornment: loading && <CircularProgress size={16} />,
+              endAdornment: loading && <SaleorThrobber size={16} />,
             }}
           />
 
@@ -97,15 +98,21 @@ export const ProductStocksAssignWarehouses = ({
                   </TableRow>
                 )}
                 {warehousesToAssign.map(warehouse => {
+                  const isChecked = warehouses.some(w => w.value === warehouse.id);
+
                   return (
                     <TableRowLink key={warehouse.id}>
                       <TableCell padding="checkbox">
                         <Checkbox
+                          checked={isChecked}
                           onChange={() =>
-                            setWarehouses(prev => [
-                              ...prev,
-                              { value: warehouse.id, label: warehouse.name },
-                            ])
+                            setWarehouses(prev => {
+                              if (isChecked) {
+                                return prev.filter(w => w.value !== warehouse.id);
+                              }
+
+                              return [...prev, { value: warehouse.id, label: warehouse.name }];
+                            })
                           }
                         />
                       </TableCell>
