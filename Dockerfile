@@ -4,7 +4,7 @@ RUN corepack enable && corepack prepare pnpm@10 --activate
 WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 ENV CI 1
-RUN pnpm install
+RUN pnpm install --no-frozen-lockfile
 
 COPY nginx/ nginx/
 COPY assets/ assets/
