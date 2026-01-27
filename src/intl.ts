@@ -5,6 +5,18 @@ export const commonMessages = defineMessages({
     id: "hOxIeP",
     defaultMessage: "Availability",
   },
+  success: {
+    id: "xrKHS6",
+    defaultMessage: "Success",
+  },
+  info: {
+    id: "we4Lby",
+    defaultMessage: "Info",
+  },
+  warning: {
+    id: "3SVI5p",
+    defaultMessage: "Warning",
+  },
   products: {
     id: "7NFfmz",
     defaultMessage: "Products",
@@ -340,6 +352,11 @@ export const buttonMessages = defineMessages({
     defaultMessage: "Manage",
     description: "button",
   },
+  moreOptions: {
+    id: "oIS3NK",
+    defaultMessage: "Show more",
+    description: "button",
+  },
   nextStep: {
     id: "wlQTfb",
     defaultMessage: "Next",
@@ -403,6 +420,11 @@ export const buttonMessages = defineMessages({
   close: {
     id: "rbrahO",
     defaultMessage: "Close",
+  },
+  copyToClipboard: {
+    id: "ZGmd4h",
+    defaultMessage: "Copy to clipboard",
+    description: "button",
   },
   proceed: {
     id: "VNX4fn",

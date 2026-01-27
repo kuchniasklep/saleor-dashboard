@@ -71,7 +71,7 @@ const transaction = {
 
 describe("OrderSummary", () => {
   describe("Basic Rendering", () => {
-    it("should render order summary title", () => {
+    it("should render summary title", () => {
       // Arrange
       const mockOrder = orderFixture("test-id");
       const onMarkAsPaid = jest.fn();
@@ -84,7 +84,67 @@ describe("OrderSummary", () => {
       );
 
       // Assert
-      expect(screen.getByText("Order summary")).toBeInTheDocument();
+      expect(screen.getByText("Summary")).toBeInTheDocument();
+    });
+  });
+
+  describe("PaymentsSummaryEmptyState", () => {
+    it("should display empty state with CreditCard icon when hasNoPayment is true", () => {
+      // Arrange
+      const mockOrder = createOrderWithNoPayment();
+      const onMarkAsPaid = jest.fn();
+
+      // Act
+      render(
+        <Wrapper>
+          <OrderSummary order={mockOrder} onMarkAsPaid={onMarkAsPaid} />
+        </Wrapper>,
+      );
+
+      // Assert
+      expect(screen.getByText("No payment received")).toBeInTheDocument();
+    });
+
+    it("should display instruction message in empty state", () => {
+      // Arrange
+      const mockOrder = createOrderWithNoPayment();
+      const onMarkAsPaid = jest.fn();
+
+      // Act
+      render(
+        <Wrapper>
+          <OrderSummary order={mockOrder} onMarkAsPaid={onMarkAsPaid} />
+        </Wrapper>,
+      );
+
+      // Assert
+      expect(
+        screen.getByText("Mark as paid manually if the payment is confirmed"),
+      ).toBeInTheDocument();
+    });
+
+    it("should not display empty state when order has transactions", () => {
+      // Arrange
+      const mockOrder = {
+        ...orderFixture("test-id"),
+        transactions: [transaction],
+        payments: [],
+        grantedRefunds: [],
+      };
+      const onMarkAsPaid = jest.fn();
+
+      // Act
+      render(
+        <Wrapper>
+          <OrderSummary order={mockOrder} onMarkAsPaid={onMarkAsPaid} />
+        </Wrapper>,
+      );
+
+      // Assert
+      expect(screen.queryByText("No payment received")).not.toBeInTheDocument();
+      expect(
+        screen.queryByText("Mark as paid manually if the payment is confirmed"),
+      ).not.toBeInTheDocument();
     });
   });
 
@@ -371,7 +431,7 @@ describe("OrderSummary", () => {
       );
 
       // Assert
-      expect(screen.getByTestId("markAsPaidButton")).toBeInTheDocument();
+      expect(screen.getByTestId("mark-as-paid-button")).toBeInTheDocument();
     });
 
     it("should call onLegacyPaymentsApiCapture when Capture button is clicked", async () => {
@@ -498,7 +558,7 @@ describe("OrderSummary", () => {
         </Wrapper>,
       );
 
-      const markAsPaidButton = screen.getByTestId("markAsPaidButton");
+      const markAsPaidButton = screen.getByTestId("mark-as-paid-button");
 
       await userEvent.click(markAsPaidButton);
 
@@ -540,7 +600,7 @@ describe("OrderSummary", () => {
       expect(screen.getByText("Capture")).toBeInTheDocument();
       expect(screen.getByText("Refund")).toBeInTheDocument();
       expect(screen.getByText("Void")).toBeInTheDocument();
-      expect(screen.getByTestId("markAsPaidButton")).toBeInTheDocument();
+      expect(screen.getByTestId("mark-as-paid-button")).toBeInTheDocument();
     });
   });
 

@@ -3,7 +3,6 @@ import { FetchResult } from "@apollo/client";
 import { TopNav } from "@dashboard/components/AppLayout/TopNav";
 import CardSpacer from "@dashboard/components/CardSpacer";
 import { ConfirmButtonTransitionState } from "@dashboard/components/ConfirmButton";
-import { DateTime } from "@dashboard/components/Date";
 import { DetailPageLayout } from "@dashboard/components/Layouts";
 import { Savebar } from "@dashboard/components/Savebar";
 import { AppWidgets } from "@dashboard/extensions/components/AppWidgets/AppWidgets";
@@ -23,13 +22,17 @@ import { SubmitPromise } from "@dashboard/hooks/useForm";
 import useNavigator from "@dashboard/hooks/useNavigator";
 import OrderChannelSectionCard from "@dashboard/orders/components/OrderChannelSectionCard";
 import { orderDraftListUrl } from "@dashboard/orders/urls";
+import { OrderDiscountContext } from "@dashboard/products/components/OrderDiscountProviders/OrderDiscountProvider";
 import { FetchMoreProps, RelayToFlat } from "@dashboard/types";
-import { Box, Divider, Skeleton, Text } from "@saleor/macaw-ui-next";
+import { Divider } from "@saleor/macaw-ui-next";
+import { useContext } from "react";
 import { useIntl } from "react-intl";
 
 import OrderCustomer, { CustomerEditData } from "../OrderCustomer";
+import Title from "../OrderDetailsPage/Title";
 import OrderDraftDetails from "../OrderDraftDetails/OrderDraftDetails";
 import OrderHistory, { FormData as HistoryFormData } from "../OrderHistory";
+import { OrderSummary } from "../OrderSummary/OrderSummary";
 import OrderDraftAlert from "./OrderDraftAlert";
 
 interface OrderDraftPageProps extends FetchMoreProps {
@@ -90,6 +93,7 @@ const OrderDraftPage = (props: OrderDraftPageProps) => {
   } = props;
   const navigate = useNavigator();
   const intl = useIntl();
+  const orderDiscountContext = useContext(OrderDiscountContext);
   const backLinkUrl = useBackLinkWithState({
     path: draftOrderListUrl,
   });
@@ -104,23 +108,7 @@ const OrderDraftPage = (props: OrderDraftPageProps) => {
 
   return (
     <DetailPageLayout>
-      <TopNav
-        href={backLinkUrl}
-        title={
-          <Box display="flex" alignItems="center" gap={3}>
-            <span>{order?.number ? "#" + order?.number : undefined}</span>
-            <div>
-              {order && order.created ? (
-                <Text size={3} fontWeight="regular">
-                  <DateTime date={order.created} plain />
-                </Text>
-              ) : (
-                <Skeleton style={{ width: "10em" }} />
-              )}
-            </div>
-          </Box>
-        }
-      >
+      <TopNav href={backLinkUrl} title={<Title order={order} />}>
         <TopNav.Menu
           items={[
             {
@@ -130,6 +118,7 @@ const OrderDraftPage = (props: OrderDraftPageProps) => {
                 description: "button",
               }),
               onSelect: onDraftRemove,
+              color: "critical1" as const,
             },
             ...extensionMenuItems,
           ]}
@@ -146,9 +135,20 @@ const OrderDraftPage = (props: OrderDraftPageProps) => {
           onOrderLineAdd={onOrderLineAdd}
           onOrderLineChange={onOrderLineChange}
           onOrderLineRemove={onOrderLineRemove}
-          onShippingMethodEdit={onShippingMethodEdit}
           onOrderLineShowMetadata={onOrderLineShowMetadata}
         />
+        {order && orderDiscountContext && (
+          <>
+            <OrderSummary
+              order={order}
+              isEditable
+              onShippingMethodEdit={onShippingMethodEdit}
+              errors={errors}
+              {...orderDiscountContext}
+            />
+            <CardSpacer />
+          </>
+        )}
         <OrderHistory
           history={order?.events}
           orderCurrency={order?.total?.gross.currency}
@@ -158,8 +158,6 @@ const OrderDraftPage = (props: OrderDraftPageProps) => {
         />
       </DetailPageLayout.Content>
       <DetailPageLayout.RightSidebar>
-        <OrderChannelSectionCard channel={order?.channel} />
-        <CardSpacer />
         <OrderCustomer
           canEditAddresses={!!order?.user}
           canEditCustomer={true}
@@ -175,6 +173,9 @@ const OrderDraftPage = (props: OrderDraftPageProps) => {
           onProfileView={onProfileView}
           onShippingAddressEdit={onShippingAddressEdit}
         />
+        <CardSpacer />
+        <Divider />
+        <OrderChannelSectionCard channel={order?.channel} />
         {DRAFT_ORDER_DETAILS_WIDGETS.length > 0 && order.id && (
           <>
             <CardSpacer />

@@ -12,7 +12,7 @@ import useNavigator from "@dashboard/hooks/useNavigator";
 import { sectionNames } from "@dashboard/intl";
 import { menuListUrl, MenuListUrlSortField } from "@dashboard/structures/urls";
 import { ListActions, PageListProps, SortPage } from "@dashboard/types";
-import { Box, Button, ChevronRightIcon, Text } from "@saleor/macaw-ui-next";
+import { Box, Button, Text } from "@saleor/macaw-ui-next";
 import { FormattedMessage, useIntl } from "react-intl";
 
 import MenuList from "../MenuList";
@@ -49,18 +49,13 @@ const MenuListPage = ({ selectedMenuIds, ...listProps }: MenuListPageProps) => {
         withoutBorder
       >
         <Box __flex={1} display="flex" justifyContent="space-between" alignItems="center">
-          <Box display="flex">
-            <Box marginX={5} display="flex" alignItems="center">
-              <ChevronRightIcon />
-            </Box>
-            <Text size={6}>
-              <FormattedMessage
-                id="vDp2tH"
-                defaultMessage="All structures"
-                description="all structures"
-              />
-            </Text>
-          </Box>
+          <Text size={6} fontWeight="regular">
+            <FormattedMessage
+              id="vDp2tH"
+              defaultMessage="All structures"
+              description="all structures"
+            />
+          </Text>
           <Box display="flex" alignItems="center" gap={2}>
             {extensionMenuItems.length > 0 && <TopNav.Menu items={extensionMenuItems} />}
             {extensionCreateButtonItems.length > 0 ? (

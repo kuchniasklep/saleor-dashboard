@@ -14,7 +14,7 @@ import { useHasManagedAppsPermission } from "@dashboard/hooks/useHasManagedAppsP
 import useNavigator from "@dashboard/hooks/useNavigator";
 import createDialogActionHandlers from "@dashboard/utils/handlers/dialogActionHandlers";
 import { useOnboarding } from "@dashboard/welcomePage/WelcomePageOnboarding/onboardingContext";
-import { Box, ChevronRightIcon, Text } from "@saleor/macaw-ui-next";
+import { Box, Text } from "@saleor/macaw-ui-next";
 import { useEffect } from "react";
 import { useIntl } from "react-intl";
 
@@ -74,12 +74,9 @@ export const InstalledExtensions = ({ params }: InstalledExtensionsProps) => {
         subtitle={subtitle}
       >
         <Box __flex={1} display="flex" justifyContent="space-between" alignItems="center">
-          <Box display="flex">
-            <Box marginX={3} display="flex" alignItems="center">
-              <ChevronRightIcon />
-            </Box>
-            <Text size={6}>{intl.formatMessage(headerTitles.installedExtensions)}</Text>
-          </Box>
+          <Text size={6} fontWeight="regular">
+            {intl.formatMessage(headerTitles.installedExtensions)}
+          </Text>
         </Box>
         <Box display="flex" gap={4} alignItems="center">
           {hasManagedAppsPermission && <AddExtensionDropdown />}

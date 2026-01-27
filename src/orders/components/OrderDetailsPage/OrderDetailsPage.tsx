@@ -5,6 +5,7 @@ import { CardSpacer } from "@dashboard/components/CardSpacer";
 import { ConfirmButtonTransitionState } from "@dashboard/components/ConfirmButton";
 import { useDevModeContext } from "@dashboard/components/DevModePanel/hooks";
 import Form from "@dashboard/components/Form";
+import { iconSize, iconStrokeWidth } from "@dashboard/components/icons";
 import { DetailPageLayout } from "@dashboard/components/Layouts";
 import { MetadataIdSchema } from "@dashboard/components/Metadata";
 import { Savebar } from "@dashboard/components/Savebar";
@@ -27,9 +28,11 @@ import { defaultGraphiQLQuery } from "@dashboard/orders/queries";
 import { rippleOrderMetadata } from "@dashboard/orders/ripples/orderMetadata";
 import { orderShouldUseTransactions } from "@dashboard/orders/types";
 import { orderListUrl } from "@dashboard/orders/urls";
+import { OrderDiscountContext } from "@dashboard/products/components/OrderDiscountProviders/OrderDiscountProvider";
 import { Ripple } from "@dashboard/ripples/components/Ripple";
 import { Box, Button, Divider } from "@saleor/macaw-ui-next";
 import { Code } from "lucide-react";
+import { useContext } from "react";
 import { useIntl } from "react-intl";
 
 import { getMutationErrors, maybe } from "../../../misc";
@@ -135,6 +138,7 @@ const OrderDetailsPage = (props: OrderDetailsPageProps) => {
   } = props;
   const navigate = useNavigator();
   const intl = useIntl();
+  const orderDiscountContext = useContext(OrderDiscountContext);
   const isOrderUnconfirmed = order?.status === OrderStatus.UNCONFIRMED;
   const canCancel = order?.status !== OrderStatus.CANCELED;
   const canEditAddresses = order?.status !== OrderStatus.CANCELED;
@@ -165,6 +169,7 @@ const OrderDetailsPage = (props: OrderDetailsPageProps) => {
       item: {
         label: intl.formatMessage(messages.cancelOrder),
         onSelect: onOrderCancel,
+        color: "critical1" as const,
       },
       shouldExist: canCancel,
     },
@@ -203,7 +208,7 @@ const OrderDetailsPage = (props: OrderDetailsPageProps) => {
               <Box position="relative" marginRight={3}>
                 <Button
                   variant="secondary"
-                  icon={<Code />}
+                  icon={<Code size={iconSize.medium} strokeWidth={iconStrokeWidth} />}
                   onClick={onOrderShowMetadata}
                   data-test-id="show-order-metadata"
                   title="Edit order metadata"
@@ -247,7 +252,6 @@ const OrderDetailsPage = (props: OrderDetailsPageProps) => {
                     onOrderLineAdd={onOrderLineAdd}
                     onOrderLineChange={onOrderLineChange}
                     onOrderLineRemove={onOrderLineRemove}
-                    onShippingMethodEdit={onShippingMethodEdit}
                   />
                   <CardSpacer />
                 </>
@@ -267,7 +271,7 @@ const OrderDetailsPage = (props: OrderDetailsPageProps) => {
                 />
               ))}
 
-              {order && (
+              {order && !isOrderUnconfirmed && (
                 <>
                   <OrderSummary
                     order={order}
@@ -276,6 +280,39 @@ const OrderDetailsPage = (props: OrderDetailsPageProps) => {
                     onLegacyPaymentsApiCapture={onPaymentCapture}
                     onLegacyPaymentsApiRefund={onPaymentRefund}
                     onLegacyPaymentsApiVoid={onPaymentVoid}
+                  />
+                  <CardSpacer />
+
+                  {orderShouldUseTransactions(order) && (
+                    <>
+                      <OrderTransactionsSection
+                        order={order}
+                        shop={shop}
+                        onTransactionAction={onTransactionAction}
+                        onPaymentCapture={onPaymentCapture}
+                        onPaymentVoid={onPaymentVoid}
+                        onAddManualTransaction={onAddManualTransaction}
+                        onRefundAdd={onRefundAdd}
+                      />
+                      <CardSpacer />
+                    </>
+                  )}
+                </>
+              )}
+
+              {order && isOrderUnconfirmed && orderDiscountContext && (
+                <>
+                  <OrderSummary
+                    order={order}
+                    onMarkAsPaid={onMarkAsPaid}
+                    useLegacyPaymentsApi={!orderShouldUseTransactions(order)}
+                    onLegacyPaymentsApiCapture={onPaymentCapture}
+                    onLegacyPaymentsApiRefund={onPaymentRefund}
+                    onLegacyPaymentsApiVoid={onPaymentVoid}
+                    isEditable
+                    onShippingMethodEdit={onShippingMethodEdit}
+                    errors={errors}
+                    {...orderDiscountContext}
                   />
                   <CardSpacer />
 
@@ -312,8 +349,10 @@ const OrderDetailsPage = (props: OrderDetailsPageProps) => {
                 onProfileView={onProfileView}
               />
               <CardSpacer />
+              <Divider />
               <OrderChannelSectionCard channel={order?.channel} />
               <CardSpacer />
+              <Divider />
               {!isOrderUnconfirmed && (
                 <>
                   <OrderInvoiceList
@@ -323,6 +362,7 @@ const OrderDetailsPage = (props: OrderDetailsPageProps) => {
                     onInvoiceSend={onInvoiceSend}
                   />
                   <CardSpacer />
+                  <Divider />
                 </>
               )}
               <OrderCustomerNote note={maybe(() => order.customerNote)} />

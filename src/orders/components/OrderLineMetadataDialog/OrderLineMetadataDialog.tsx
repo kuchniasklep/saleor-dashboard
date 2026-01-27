@@ -1,4 +1,5 @@
 import { ButtonWithLoader } from "@dashboard/components/ButtonWithLoader/ButtonWithLoader";
+import ExitFormDialog from "@dashboard/components/Form/ExitFormDialog";
 import { MetadataFormData } from "@dashboard/components/Metadata";
 import { MetadataCard } from "@dashboard/components/Metadata/MetadataCard";
 import { MetadataLoadingCard } from "@dashboard/components/Metadata/MetadataLoadingCard";
@@ -6,11 +7,13 @@ import { DashboardModal } from "@dashboard/components/Modal";
 import { OrderLinesMetadataQuery } from "@dashboard/graphql";
 import { buttonMessages } from "@dashboard/intl";
 import { useHasManageProductsPermission } from "@dashboard/orders/hooks/useHasManageProductsPermission";
+import { productVariantEditUrl } from "@dashboard/products/urls";
 import { mapMetadataItemToInput } from "@dashboard/utils/maps";
 import { Box, Button, Divider, Text } from "@saleor/macaw-ui-next";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { FormattedMessage } from "react-intl";
+import { Link } from "react-router-dom";
 
 import { OrderLineDetails } from "./OrderLineDetails/OrderLineDetails";
 import { TEST_ID_ORDER_LINE_METADATA, TEST_ID_PRODUCT_VARIANT_METADATA } from "./test-ids";
@@ -76,9 +79,22 @@ export const OrderLineMetadataDialog = ({
     handleVariantPrivateMetadataChange,
     orderLineMetadataErrors,
     orderLinePrivateMetadataErrors,
-    variantMetadataErrors,
-    variantPrivateMetadataErrors,
   } = useOrderLineMetadataFormControls({ control, trigger, getValues, formState });
+
+  const [showExitDialog, setShowExitDialog] = useState(false);
+
+  const handleClose = () => {
+    if (formState.isDirty) {
+      setShowExitDialog(true);
+    } else {
+      onClose();
+    }
+  };
+
+  const handleConfirmClose = () => {
+    setShowExitDialog(false);
+    onClose();
+  };
 
   useEffect(() => {
     if (!open) {
@@ -87,7 +103,7 @@ export const OrderLineMetadataDialog = ({
   }, [open, reset]);
 
   return (
-    <DashboardModal open={open} onChange={onClose}>
+    <DashboardModal open={open} onChange={handleClose}>
       <DashboardModal.Content size="md" overflowY="hidden">
         <DashboardModal.Header>
           <OrderLineDetails data={data} loading={loading} />
@@ -176,9 +192,22 @@ export const OrderLineMetadataDialog = ({
                   </Text>
                   <Text>
                     <FormattedMessage
-                      defaultMessage="This is a metadata of the variant that is being used in this ordered item"
-                      description="modal subheader, editable product variant metadata"
-                      id="tquei9"
+                      defaultMessage="The read-only metadata of the actual variant used in this order. {link}"
+                      description="info about variant metadata with link to edit"
+                      id="00d8GP"
+                      values={{
+                        link: data?.variant?.id ? (
+                          <Link to={productVariantEditUrl(data.variant.id)}>
+                            <Text as="span" color="accent1" textDecoration="underline">
+                              <FormattedMessage
+                                defaultMessage="Edit on variant page"
+                                description="link to edit variant metadata"
+                                id="tf+OkY"
+                              />
+                            </Text>
+                          </Link>
+                        ) : null,
+                      }}
                     />
                   </Text>
                 </Box>
@@ -193,24 +222,18 @@ export const OrderLineMetadataDialog = ({
                     <MetadataCard
                       data={mapFieldArrayToMetadataInput(variantMetadataFields)}
                       isPrivate={false}
-                      disabled={loading || submitInProgress || !hasManageProducts}
+                      readonly={true}
+                      defaultExpanded={false}
                       onChange={handleVariantMetadataChange}
-                      error={
-                        variantMetadataErrors.length ? variantMetadataErrors.join(", ") : undefined
-                      }
                     />
 
                     {hasManageProducts && (
                       <MetadataCard
                         data={mapFieldArrayToMetadataInput(variantPrivateMetadataFields)}
                         isPrivate={true}
-                        disabled={loading || submitInProgress || !hasManageProducts}
+                        readonly={true}
+                        defaultExpanded={false}
                         onChange={handleVariantPrivateMetadataChange}
-                        error={
-                          variantPrivateMetadataErrors.length
-                            ? variantPrivateMetadataErrors.join(", ")
-                            : undefined
-                        }
                       />
                     )}
                   </Box>
@@ -227,7 +250,7 @@ export const OrderLineMetadataDialog = ({
           width="100%"
           backgroundColor="default1"
         >
-          <Button data-test-id="back" variant="secondary" onClick={onClose}>
+          <Button data-test-id="back" variant="secondary" onClick={handleClose}>
             <FormattedMessage {...buttonMessages.close} />
           </Button>
           <ButtonWithLoader
@@ -242,6 +265,12 @@ export const OrderLineMetadataDialog = ({
           </ButtonWithLoader>
         </DashboardModal.Actions>
       </DashboardModal.Content>
+
+      <ExitFormDialog
+        isOpen={showExitDialog}
+        onClose={() => setShowExitDialog(false)}
+        onLeave={handleConfirmClose}
+      />
     </DashboardModal>
   );
 };
