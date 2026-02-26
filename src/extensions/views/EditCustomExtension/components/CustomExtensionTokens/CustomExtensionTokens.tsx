@@ -1,10 +1,10 @@
 // @ts-strict-ignore
 import { DashboardCard } from "@dashboard/components/Card";
 import { iconSize, iconStrokeWidthBySize } from "@dashboard/components/icons";
-import ResponsiveTable from "@dashboard/components/ResponsiveTable";
+import { ResponsiveTable } from "@dashboard/components/ResponsiveTable";
 import TableButtonWrapper from "@dashboard/components/TableButtonWrapper";
 import TableRowLink from "@dashboard/components/TableRowLink";
-import { AppUpdateMutation } from "@dashboard/graphql";
+import { type AppUpdateMutation } from "@dashboard/graphql";
 import { renderCollection } from "@dashboard/misc";
 import { TableBody, TableCell, TableHead } from "@material-ui/core";
 import { Box, Button, Skeleton, Text } from "@saleor/macaw-ui-next";
@@ -121,7 +121,7 @@ export const CustomExtensionTokens = (props: CustomAppTokensProps) => {
         </DashboardCard.Toolbar>
       </DashboardCard.Header>
 
-      <DashboardCard.Content paddingX={0}>
+      <DashboardCard.Content>
         <ResponsiveTable>
           {hasManagedAppsPermission && (
             <TableHead>
@@ -136,13 +136,7 @@ export const CustomExtensionTokens = (props: CustomAppTokensProps) => {
                     description="custom app token key"
                   />
                 </TableCell>
-                <TableCell className={classes.colActions}>
-                  <FormattedMessage
-                    id="VHuzgq"
-                    defaultMessage="Actions"
-                    description="table actions"
-                  />
-                </TableCell>
+                <TableCell />
               </TableRowLink>
             </TableHead>
           )}

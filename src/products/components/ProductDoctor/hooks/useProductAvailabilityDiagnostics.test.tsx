@@ -3,18 +3,14 @@ import { renderHook } from "@testing-library/react-hooks";
 import { IntlProvider } from "react-intl";
 
 import { runAvailabilityChecks } from "../utils/availabilityChecks";
-import { ProductDiagnosticData } from "../utils/types";
+import { type ProductDiagnosticData } from "../utils/types";
 import { useProductAvailabilityDiagnostics } from "./useProductAvailabilityDiagnostics";
 
 // Mock Apollo's useQuery
-jest.mock("@apollo/client", () => {
-  const actual = jest.requireActual("@apollo/client");
-
-  return {
-    ...actual,
-    useQuery: jest.fn(),
-  };
-});
+jest.mock("@apollo/client", () => ({
+  ...(jest.requireActual("@apollo/client") as object),
+  useQuery: jest.fn(),
+}));
 
 // Mock the availability checks to isolate hook logic
 jest.mock("../utils/availabilityChecks", () => ({
@@ -34,6 +30,7 @@ const wrapper = ({ children }: { children: React.ReactNode }) => (
 const createMockProduct = (overrides?: Partial<ProductDiagnosticData>): ProductDiagnosticData => ({
   id: "product-123",
   name: "Test Product",
+  isShippingRequired: true,
   channelListings: [
     {
       channel: {

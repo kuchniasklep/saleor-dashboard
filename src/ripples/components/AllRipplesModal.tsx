@@ -1,12 +1,12 @@
 import githubLogo from "@assets/images/github-logo.svg";
 import { DashboardModal } from "@dashboard/components/Modal";
 import { useAnalytics } from "@dashboard/components/ProductAnalytics/useAnalytics";
-import { getStatusColor, PillStatusType } from "@dashboard/misc";
+import { getStatusColor, type PillStatusType } from "@dashboard/misc";
 import { allRipples } from "@dashboard/ripples/allRipples";
 import { useRippleStorage } from "@dashboard/ripples/hooks/useRipplesStorage";
 import { rippleIntroducedRipples } from "@dashboard/ripples/ripples/introducedRipples";
-import { Ripple, RippleType } from "@dashboard/ripples/types";
-import { Box, Button, ModalRootProps, Text, useTheme, vars } from "@saleor/macaw-ui-next";
+import { type Ripple, type RippleType } from "@dashboard/ripples/types";
+import { Box, Button, type ModalRootProps, Text, useTheme, vars } from "@saleor/macaw-ui-next";
 import { ChevronRightIcon } from "lucide-react";
 import { useEffect, useMemo, useState } from "react";
 import SVG from "react-inlinesvg";
@@ -206,9 +206,9 @@ const RippleEntryRow = ({ ripple, dateDisplay, isLast }: RippleEntryRowProps) =>
         </Text>
 
         {/* Description - always use consistent color */}
-        <Box fontSize={3} color="default2" __lineHeight="1.6">
+        <Text fontSize={3} color="default2" __lineHeight="1.6">
           {ripple.content.global}
-        </Box>
+        </Text>
 
         {/* Actions - filter out actions marked as hideInModal */}
         {ripple.actions

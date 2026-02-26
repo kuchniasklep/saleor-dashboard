@@ -18,12 +18,13 @@ import {
 import createDialogActionHandlers from "@dashboard/utils/handlers/dialogActionHandlers";
 import WarehouseDeleteDialog from "@dashboard/warehouses/components/WarehouseDeleteDialog";
 import WarehouseDetailsPage, {
-  WarehouseDetailsPageFormData,
+  type WarehouseDetailsPageFormData,
 } from "@dashboard/warehouses/components/WarehouseDetailsPage";
+import { WarehouseMetadataDialog } from "@dashboard/warehouses/components/WarehouseMetadataDialog/WarehouseMetadataDialog";
 import {
   warehouseListUrl,
   warehouseUrl,
-  WarehouseUrlQueryParams,
+  type WarehouseUrlQueryParams,
 } from "@dashboard/warehouses/urls";
 import { useIntl } from "react-intl";
 
@@ -110,6 +111,7 @@ const WarehouseDetails = ({ id, params }: WarehouseDetailsProps) => {
         saveButtonBarState={updateWarehouseTransitionState}
         warehouse={data?.warehouse}
         onDelete={() => openModal("delete")}
+        onShowMetadata={() => openModal("view-warehouse-metadata")}
         onSubmit={handleSubmit}
       />
       <WarehouseDeleteDialog
@@ -122,6 +124,11 @@ const WarehouseDetails = ({ id, params }: WarehouseDetailsProps) => {
           })
         }
         open={params.action === "delete"}
+      />
+      <WarehouseMetadataDialog
+        open={params.action === "view-warehouse-metadata"}
+        onClose={closeModal}
+        warehouse={data?.warehouse}
       />
     </>
   );

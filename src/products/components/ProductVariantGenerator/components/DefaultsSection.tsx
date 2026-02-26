@@ -1,9 +1,9 @@
-import { Box, Checkbox, CheckedState, Input, Text } from "@saleor/macaw-ui-next";
+import { Box, Checkbox, type CheckedState, Input, Text } from "@saleor/macaw-ui-next";
 import { useCallback } from "react";
 import { useIntl } from "react-intl";
 
 import { messages } from "../messages";
-import { GeneratorDefaults } from "../types";
+import { type GeneratorDefaults } from "../types";
 import styles from "./DefaultsSection.module.css";
 
 interface DefaultsSectionProps {
@@ -64,7 +64,7 @@ export const DefaultsSection = ({
             onCheckedChange={handleSkuEnabledChange}
             name="skuEnabled"
           />
-          <Text size={2} color={defaults.skuEnabled ? "default1" : "default2"}>
+          <Text size={2} color="default1" fontWeight="medium">
             {intl.formatMessage(messages.skuPrefix)}
           </Text>
         </Box>
@@ -101,7 +101,7 @@ export const DefaultsSection = ({
             onCheckedChange={handleStockEnabledChange}
             name="stockEnabled"
           />
-          <Text size={2} color={defaults.stockEnabled ? "default1" : "default2"}>
+          <Text size={2} color="default1" fontWeight="medium">
             {intl.formatMessage(messages.initialStock)}
           </Text>
         </Box>

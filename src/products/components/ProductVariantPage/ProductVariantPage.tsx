@@ -1,21 +1,23 @@
 // @ts-strict-ignore
-import { QueryResult } from "@apollo/client";
+import { type QueryResult } from "@apollo/client";
 import {
   getReferenceAttributeEntityTypeFromAttribute,
   handleContainerReferenceAssignment,
 } from "@dashboard/attributes/utils/data";
-import { useUser } from "@dashboard/auth";
 import { hasPermission } from "@dashboard/auth/misc";
-import { ChannelPriceData } from "@dashboard/channels/utils";
+import { useUser } from "@dashboard/auth/useUser";
+import { type ChannelPriceData } from "@dashboard/channels/utils";
 import { TopNav } from "@dashboard/components/AppLayout/TopNav";
-import AssignAttributeValueDialog from "@dashboard/components/AssignAttributeValueDialog";
+import AssignAttributeValueDialog, {
+  type AssignAttributeValueDialogFilterChangeMap,
+} from "@dashboard/components/AssignAttributeValueDialog";
 import {
-  AttributeInput,
+  type AttributeInput,
   Attributes,
   VariantAttributeScope,
 } from "@dashboard/components/Attributes";
 import CardSpacer from "@dashboard/components/CardSpacer";
-import { ConfirmButtonTransitionState } from "@dashboard/components/ConfirmButton";
+import { type ConfirmButtonTransitionState } from "@dashboard/components/ConfirmButton";
 import Grid from "@dashboard/components/Grid";
 import { iconSize, iconStrokeWidthBySize } from "@dashboard/components/icons";
 import { DetailPageLayout } from "@dashboard/components/Layouts";
@@ -24,15 +26,15 @@ import { Metadata } from "@dashboard/components/Metadata/Metadata";
 import { Savebar } from "@dashboard/components/Savebar";
 import {
   PermissionEnum,
-  ProductChannelListingErrorFragment,
-  ProductErrorWithAttributesFragment,
-  ProductVariantFragment,
-  SearchAttributeValuesQuery,
-  SearchCategoriesQuery,
-  SearchCollectionsQuery,
-  SearchPagesQuery,
-  SearchProductsQuery,
-  SearchWarehousesQuery,
+  type ProductChannelListingErrorFragment,
+  type ProductErrorWithAttributesFragment,
+  type ProductVariantFragment,
+  type SearchAttributeValuesQuery,
+  type SearchCategoriesQuery,
+  type SearchCollectionsQuery,
+  type SearchPagesQuery,
+  type SearchProductsQuery,
+  type SearchWarehousesQuery,
 } from "@dashboard/graphql";
 import useNavigator from "@dashboard/hooks/useNavigator";
 import { VariantDetailsChannelsAvailabilityCard } from "@dashboard/products/components/ProductVariantChannels/ChannelsAvailabilityCard";
@@ -42,9 +44,14 @@ import { productTypeUrl } from "@dashboard/productTypes/urls";
 import { TranslationsButton } from "@dashboard/translations/components/TranslationsButton/TranslationsButton";
 import { productVariantUrl } from "@dashboard/translations/urls";
 import { useCachedLocales } from "@dashboard/translations/useCachedLocales";
-import { Container, FetchMoreProps, RelayToFlat, ReorderAction } from "@dashboard/types";
+import {
+  type Container,
+  type FetchMoreProps,
+  type RelayToFlat,
+  type ReorderAction,
+} from "@dashboard/types";
 import { mapEdgesToItems } from "@dashboard/utils/maps";
-import { Box, Text, Tooltip } from "@saleor/macaw-ui-next";
+import { Box, Skeleton, Text, Tooltip } from "@saleor/macaw-ui-next";
 import { CircleHelp } from "lucide-react";
 import { useState } from "react";
 import { defineMessages, FormattedMessage, useIntl } from "react-intl";
@@ -62,10 +69,10 @@ import ProductVariantNavigation from "../ProductVariantNavigation";
 import { ProductVariantPrice } from "../ProductVariantPrice";
 import ProductVariantSetDefault from "../ProductVariantSetDefault";
 import {
-  ProductVariantUpdateData,
+  type ProductVariantUpdateData,
   ProductVariantUpdateForm,
-  ProductVariantUpdateHandlers,
-  ProductVariantUpdateSubmitData,
+  type ProductVariantUpdateHandlers,
+  type ProductVariantUpdateSubmitData,
 } from "./form";
 import { VariantAttributesSection } from "./VariantAttributesSection";
 
@@ -95,6 +102,8 @@ interface ProductVariantPageProps {
   header: string;
   channels: ChannelPriceData[];
   channelErrors: ProductChannelListingErrorFragment[];
+  /** Whether the product type supports variant attributes */
+  hasVariants: boolean;
   loading?: boolean;
   placeholderImage?: string;
   saveButtonBarState: ConfirmButtonTransitionState;
@@ -116,6 +125,7 @@ interface ProductVariantPageProps {
   fetchAttributeValues: (query: string, attributeId: string) => void;
   onAssignReferencesClick: (attribute: AttributeInput) => void;
   onCloseDialog: () => void;
+  onFilterChange?: AssignAttributeValueDialogFilterChangeMap;
   onVariantPreorderDeactivate: (id: string) => void;
   variantDeactivatePreoderButtonState: ConfirmButtonTransitionState;
   onVariantReorder: ReorderAction;
@@ -136,6 +146,7 @@ export const ProductVariantPage = ({
   defaultVariantId,
   defaultWeightUnit,
   errors: apiErrors,
+  hasVariants,
   header,
   loading,
   placeholderImage,
@@ -155,6 +166,7 @@ export const ProductVariantPage = ({
   onWarehouseConfigure,
   assignReferencesAttributeId,
   onAssignReferencesClick,
+  onFilterChange,
   fetchReferencePages,
   fetchReferenceProducts,
   fetchReferenceCategories,
@@ -204,7 +216,30 @@ export const ProductVariantPage = ({
 
   return (
     <DetailPageLayout gridTemplateColumns={1}>
-      <TopNav href={productUrl(productId)} title={header}>
+      <TopNav
+        href={productUrl(productId)}
+        title={
+          loading ? (
+            <Skeleton __width="200px" />
+          ) : (
+            <Box display="flex" alignItems="center" gap={1}>
+              <Text
+                size={6}
+                color="default2"
+                ellipsis
+                __maxWidth="200px"
+                title={variant?.product?.name}
+              >
+                {variant?.product?.name}
+              </Text>
+              <Text size={6} color="default2">
+                /
+              </Text>
+              <Text size={6}>{header}</Text>
+            </Box>
+          )
+        }
+      >
         {variant?.product?.defaultVariant?.id !== variant?.id && (
           <Box marginRight={3}>
             <ProductVariantSetDefault onSetDefaultVariant={onSetDefaultVariant} />
@@ -220,6 +255,7 @@ export const ProductVariantPage = ({
       </TopNav>
       <DetailPageLayout.Content>
         <ProductVariantUpdateForm
+          key={variant?.id}
           variant={variant}
           onSubmit={onSubmit}
           currentChannels={channels}
@@ -267,6 +303,7 @@ export const ProductVariantPage = ({
                       defaultVariantId={defaultVariantId}
                       fallbackThumbnail={variant?.product?.thumbnail?.url}
                       variants={variant?.product.variants}
+                      loading={loading}
                       onReorder={onVariantReorder}
                     />
                   </div>
@@ -288,7 +325,9 @@ export const ProductVariantPage = ({
                       <VariantAttributesSection
                         title={intl.formatMessage(messages.nonSelectionAttributes)}
                         attributes={nonSelectionAttributes}
+                        totalAttributesCount={data.attributes.length}
                         selectionAttributesExist={selectionAttributes.length > 0}
+                        hasVariants={hasVariants}
                         attributeValues={attributeValues}
                         productTypeName={variant.product.productType.name}
                         productTypeUrl={productTypeUrl(variant.product.productType.id)}
@@ -306,7 +345,7 @@ export const ProductVariantPage = ({
                         richTextGetters={attributeRichTextGetters}
                       />
                     )}
-                    {selectionAttributes.length > 0 && (
+                    {hasVariants && selectionAttributes.length > 0 && (
                       <>
                         <CardSpacer />
                         <Attributes
@@ -454,6 +493,7 @@ export const ProductVariantPage = ({
                     onSubmit={attributeValues =>
                       handleAssignReferenceAttribute(attributeValues, data, handlers)
                     }
+                    onFilterChange={onFilterChange}
                   />
                 )}
                 {variant && (

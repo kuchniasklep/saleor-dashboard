@@ -4,11 +4,13 @@ import {
   handleUploadMultipleFiles,
   prepareAttributesInput,
 } from "@dashboard/attributes/utils/handlers";
-import { AttributeInput } from "@dashboard/components/Attributes";
+import { type AttributeInput } from "@dashboard/components/Attributes";
 import { WindowTitle } from "@dashboard/components/WindowTitle";
 import { DEFAULT_INITIAL_SEARCH_DATA, VALUES_PAGINATE_BY } from "@dashboard/config";
 import {
-  PageErrorWithAttributesFragment,
+  AttributeEntityTypeEnum,
+  type PageErrorWithAttributesFragment,
+  type PageWhereInput,
   useFileUploadMutation,
   usePageCreateMutation,
   usePageTypeQuery,
@@ -30,11 +32,12 @@ import useAttributeValueSearchHandler from "@dashboard/utils/handlers/attributeV
 import createMetadataCreateHandler from "@dashboard/utils/handlers/metadataCreateHandler";
 import { mapEdgesToItems } from "@dashboard/utils/maps";
 import { getParsedDataForJsonStringField } from "@dashboard/utils/richText/misc";
+import { useCallback } from "react";
 import { useIntl } from "react-intl";
 
 import PageDetailsPage from "../components/PageDetailsPage";
-import { PageSubmitData } from "../components/PageDetailsPage/form";
-import { pageCreateUrl, PageCreateUrlQueryParams, pageUrl } from "../urls";
+import { type PageSubmitData } from "../components/PageDetailsPage/form";
+import { pageCreateUrl, type PageCreateUrlQueryParams, pageUrl } from "../urls";
 
 interface PageCreateProps {
   id: string;
@@ -175,6 +178,18 @@ const PageCreate = ({ params }: PageCreateProps) => {
     search: searchPages,
     result: searchPagesOpts,
   } = useReferencePageSearch(refAttr);
+
+  const handlePageFilterChange = useCallback(
+    (where: PageWhereInput, query: string) => {
+      searchPagesOpts.refetch({
+        ...DEFAULT_INITIAL_SEARCH_DATA,
+        where,
+        query,
+      });
+    },
+    [searchPagesOpts.refetch],
+  );
+
   const fetchMoreReferenceCategories = {
     hasMore: searchCategoriesOpts.data?.search?.pageInfo?.hasNextPage,
     loading: searchCategoriesOpts.loading,
@@ -234,6 +249,9 @@ const PageCreate = ({ params }: PageCreateProps) => {
         selectedPageType={selectedPageType?.pageType}
         onSelectPageType={handleSelectPageTypeId}
         onAttributeSelectBlur={searchAttributeReset}
+        onFilterChange={{
+          [AttributeEntityTypeEnum.PAGE]: handlePageFilterChange,
+        }}
       />
     </>
   );

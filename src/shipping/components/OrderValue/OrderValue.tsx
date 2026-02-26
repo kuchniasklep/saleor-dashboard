@@ -1,16 +1,20 @@
-import { ChannelShippingData } from "@dashboard/channels/utils";
+import { type ChannelShippingData } from "@dashboard/channels/utils";
 import { DashboardCard } from "@dashboard/components/Card";
 import ControlledCheckbox from "@dashboard/components/ControlledCheckbox";
 import PriceField from "@dashboard/components/PriceField";
-import ResponsiveTable from "@dashboard/components/ResponsiveTable";
+import { ResponsiveTable } from "@dashboard/components/ResponsiveTable";
 import TableHead from "@dashboard/components/TableHead";
 import TableRowLink from "@dashboard/components/TableRowLink";
-import { ShippingChannelsErrorFragment } from "@dashboard/graphql";
-import { ChangeEvent } from "@dashboard/hooks/useForm";
-import { ChannelError, getFormChannelError, getFormChannelErrors } from "@dashboard/utils/errors";
+import { type ShippingChannelsErrorFragment } from "@dashboard/graphql";
+import { type ChangeEvent } from "@dashboard/hooks/useForm";
+import {
+  type ChannelError,
+  getFormChannelError,
+  getFormChannelErrors,
+} from "@dashboard/utils/errors";
 import getShippingErrorMessage from "@dashboard/utils/errors/shipping";
 import { TableBody, TableCell } from "@material-ui/core";
-import { Text } from "@saleor/macaw-ui-next";
+import { sprinkles, Text } from "@saleor/macaw-ui-next";
 import { FormattedMessage, useIntl } from "react-intl";
 
 import { useStyles } from "./styles";
@@ -57,32 +61,30 @@ const OrderValue = ({
           })}
         </DashboardCard.Title>
       </DashboardCard.Header>
-      <div className={classes.content}>
-        <div className={classes.subheader}>
-          <ControlledCheckbox
-            data-test-id="order-value-checkbox"
-            name="orderValueRestricted"
-            label={
-              <>
-                <FormattedMessage
-                  id="Dgp38J"
-                  defaultMessage="Restrict order value"
-                  description="checkbox label"
-                />
-                <Text size={2} fontWeight="light" display="block">
-                  {intl.formatMessage({
-                    id: "aZDHYr",
-                    defaultMessage: "This rate will apply to all orders",
-                    description: "price rates info",
-                  })}
-                </Text>
-              </>
-            }
-            checked={orderValueRestricted}
-            onChange={onChange}
-            disabled={disabled}
-          />
-        </div>
+      <DashboardCard.Content>
+        <ControlledCheckbox
+          data-test-id="order-value-checkbox"
+          name="orderValueRestricted"
+          label={
+            <>
+              <FormattedMessage
+                id="Dgp38J"
+                defaultMessage="Restrict order value"
+                description="checkbox label"
+              />
+              <Text size={2} fontWeight="light" display="block">
+                {intl.formatMessage({
+                  id: "aZDHYr",
+                  defaultMessage: "This rate will apply to all orders",
+                  description: "price rates info",
+                })}
+              </Text>
+            </>
+          }
+          checked={orderValueRestricted}
+          onChange={onChange}
+          disabled={disabled}
+        />
         {orderValueRestricted && (
           <ResponsiveTable className={classes.table}>
             <TableHead colSpan={numberOfColumns} disabled={disabled} items={[]}>
@@ -126,6 +128,7 @@ const OrderValue = ({
                     </TableCell>
                     <TableCell className={classes.price}>
                       <PriceField
+                        className={sprinkles({ marginY: 2 })}
                         data-test-id="min-value-price-input"
                         disabled={disabled}
                         error={!!minError}
@@ -147,6 +150,7 @@ const OrderValue = ({
                     </TableCell>
                     <TableCell className={classes.price}>
                       <PriceField
+                        className={sprinkles({ marginY: 2 })}
                         data-test-id="max-value-price-input"
                         disabled={disabled}
                         error={!!maxError}
@@ -173,7 +177,7 @@ const OrderValue = ({
             </TableBody>
           </ResponsiveTable>
         )}
-      </div>
+      </DashboardCard.Content>
     </DashboardCard>
   );
 };

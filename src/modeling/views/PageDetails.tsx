@@ -10,16 +10,18 @@ import {
   prepareAttributesInput,
 } from "@dashboard/attributes/utils/handlers";
 import ActionDialog from "@dashboard/components/ActionDialog";
-import { AttributeInput } from "@dashboard/components/Attributes";
+import { type AttributeInput } from "@dashboard/components/Attributes";
 import { WindowTitle } from "@dashboard/components/WindowTitle";
 import { DEFAULT_INITIAL_SEARCH_DATA, VALUES_PAGINATE_BY } from "@dashboard/config";
 import {
-  AttributeErrorFragment,
-  AttributeValueInput,
-  PageDetailsFragment,
-  PageErrorFragment,
-  PageInput,
-  UploadErrorFragment,
+  AttributeEntityTypeEnum,
+  type AttributeErrorFragment,
+  type AttributeValueInput,
+  type PageDetailsFragment,
+  type PageErrorFragment,
+  type PageInput,
+  type PageWhereInput,
+  type UploadErrorFragment,
   useAttributeValueDeleteMutation,
   useFileUploadMutation,
   usePageDetailsQuery,
@@ -40,12 +42,13 @@ import useAttributeValueSearchHandler from "@dashboard/utils/handlers/attributeV
 import createMetadataUpdateHandler from "@dashboard/utils/handlers/metadataUpdateHandler";
 import { mapEdgesToItems } from "@dashboard/utils/maps";
 import { getParsedDataForJsonStringField } from "@dashboard/utils/richText/misc";
+import { useCallback } from "react";
 import { FormattedMessage, useIntl } from "react-intl";
 
 import { getStringOrPlaceholder, maybe } from "../../misc";
 import PageDetailsPage from "../components/PageDetailsPage";
-import { PageData, PageSubmitData } from "../components/PageDetailsPage/form";
-import { pageListUrl, pageUrl, PageUrlQueryParams } from "../urls";
+import { type PageData, type PageSubmitData } from "../components/PageDetailsPage/form";
+import { pageListUrl, pageUrl, type PageUrlQueryParams } from "../urls";
 import { getAttributeInputFromPage } from "../utils/data";
 
 interface PageDetailsProps {
@@ -208,6 +211,17 @@ const PageDetails = ({ id, params }: PageDetailsProps) => {
     onFetchMore: loadMoreAttributeValues,
   };
 
+  const handlePageFilterChange = useCallback(
+    (where: PageWhereInput, query: string) => {
+      searchPagesOpts.refetch({
+        ...DEFAULT_INITIAL_SEARCH_DATA,
+        where,
+        query,
+      });
+    },
+    [searchPagesOpts.refetch],
+  );
+
   return (
     <>
       <WindowTitle title={maybe(() => pageDetails.data.page.title)} />
@@ -248,6 +262,9 @@ const PageDetails = ({ id, params }: PageDetailsProps) => {
         fetchMoreAttributeValues={fetchMoreAttributeValues}
         onCloseDialog={() => navigate(pageUrl(id))}
         onAttributeSelectBlur={searchAttributeReset}
+        onFilterChange={{
+          [AttributeEntityTypeEnum.PAGE]: handlePageFilterChange,
+        }}
       />
       <ActionDialog
         open={params.action === "remove"}

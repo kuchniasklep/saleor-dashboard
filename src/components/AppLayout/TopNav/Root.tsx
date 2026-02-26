@@ -1,7 +1,6 @@
-import { useUser } from "@dashboard/auth";
-import { Box, BoxProps, Text } from "@saleor/macaw-ui-next";
-import { PropsWithChildren } from "react";
-import * as React from "react";
+import { useUser } from "@dashboard/auth/useUser";
+import { Box, type BoxProps, Text } from "@saleor/macaw-ui-next";
+import { type PropsWithChildren } from "react";
 
 import useAppChannel from "../AppChannelContext";
 import AppChannelSelect from "../AppChannelSelect";
@@ -43,7 +42,13 @@ export const Root = ({
             {title}
           </Text>
         </Box>
-        <Box display="flex" flexWrap="nowrap" height="100%" __flex={isAlignToRight ? "initial" : 1}>
+        <Box
+          display="flex"
+          flexWrap="nowrap"
+          height="100%"
+          gap={2}
+          __flex={isAlignToRight ? "initial" : 1}
+        >
           {isPickerActive && channels.length > 0 && (
             <AppChannelSelect
               channels={channels}

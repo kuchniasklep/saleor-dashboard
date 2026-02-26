@@ -1,11 +1,13 @@
 import { DashboardCard } from "@dashboard/components/Card";
-import { ChannelOpts } from "@dashboard/components/ChannelsAvailabilityCard/types";
+import { type ChannelOpts } from "@dashboard/components/ChannelsAvailabilityCard/types";
 import { iconSize, iconStrokeWidth } from "@dashboard/components/icons";
 import {
-  ChannelFragment,
-  ProductChannelListingAddInput,
-  ProductChannelListingErrorFragment,
+  type ChannelFragment,
+  type ProductChannelListingAddInput,
+  type ProductChannelListingErrorFragment,
 } from "@dashboard/graphql";
+import { rippleProductAvailabilityDiagnostics } from "@dashboard/products/ripples/productAvailabilityDiagnostics";
+import { Ripple } from "@dashboard/ripples/components/Ripple";
 import { Accordion, Box, Button, Skeleton, Spinner, Text, Tooltip } from "@saleor/macaw-ui-next";
 import { CheckCircle, ChevronLeft, ChevronRight, Info, Search, X, XCircle } from "lucide-react";
 import React, { useEffect, useMemo, useState } from "react";
@@ -13,7 +15,7 @@ import { useIntl } from "react-intl";
 
 import { AvailabilityChannelItem } from "./AvailabilityChannelItem";
 import {
-  ChannelVerificationResult,
+  type ChannelVerificationResult,
   usePublicApiVerification,
 } from "./hooks/usePublicApiVerification";
 import { messages } from "./messages";
@@ -25,7 +27,7 @@ import {
   paginateItems,
 } from "./utils/channelUtils";
 import { mergeFormDataWithChannelSummaries } from "./utils/mergeChannelSummaries";
-import { DiagnosticsPermissions, DiagnosticsResult } from "./utils/types";
+import { type DiagnosticsPermissions, type DiagnosticsResult } from "./utils/types";
 
 interface AvailabilityCardProps {
   diagnostics: DiagnosticsResult;
@@ -142,7 +144,10 @@ export const AvailabilityCard = ({
       <DashboardCard.Header>
         <Box display="flex" flexDirection="column" gap={1}>
           <DashboardCard.Title>
-            {intl.formatMessage(messages.availabilityTitle)}
+            <Box display="flex" alignItems="center" gap={2}>
+              {intl.formatMessage(messages.availabilityTitle)}
+              <Ripple model={rippleProductAvailabilityDiagnostics} />
+            </Box>
           </DashboardCard.Title>
           {!isLoading && (
             <Text size={2} color="default2">
@@ -154,7 +159,12 @@ export const AvailabilityCard = ({
           )}
         </Box>
         {onManageClick && (
-          <Button variant="secondary" size="small" onClick={onManageClick}>
+          <Button
+            variant="secondary"
+            size="small"
+            onClick={onManageClick}
+            data-test-id="channels-availability-manage-button"
+          >
             {intl.formatMessage(messages.manageButton)}
           </Button>
         )}

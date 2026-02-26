@@ -1,13 +1,13 @@
-import { VariantAttributeFragment } from "@dashboard/graphql";
+import { type VariantAttributeFragment } from "@dashboard/graphql";
 import { mapEdgesToItems } from "@dashboard/utils/maps";
 import { useCallback, useMemo, useState } from "react";
 
 import {
-  AttributeData,
-  ExistingVariantCombination,
-  ExistingVariantData,
-  GeneratorDefaults,
-  SelectionState,
+  type AttributeData,
+  type ExistingVariantCombination,
+  type ExistingVariantData,
+  type GeneratorDefaults,
+  type SelectionState,
 } from "./types";
 import { extractExistingCombinations, generateVariantPreviews } from "./utils";
 
@@ -118,6 +118,7 @@ export function useVariantGenerator({
     [attributes, selections],
   );
 
+  // canGenerate: true when there are new variants to create and all attributes have selections
   const canGenerate = newVariantsCount > 0 && hasSelectionPerAttribute;
 
   // Matrix view requires exactly 2 attributes with selections
@@ -154,6 +155,7 @@ export function useVariantGenerator({
     isTruncated,
     existingCombinations,
     canGenerate,
+    hasSelectionPerAttribute,
     canShowMatrix,
     reset,
   };

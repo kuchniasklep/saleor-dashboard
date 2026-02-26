@@ -4,11 +4,13 @@ import {
   handleUploadMultipleFiles,
   prepareAttributesInput,
 } from "@dashboard/attributes/utils/handlers";
-import { AttributeInput } from "@dashboard/components/Attributes";
+import { type AttributeInput } from "@dashboard/components/Attributes";
 import NotFoundPage from "@dashboard/components/NotFoundPage";
 import { WindowTitle } from "@dashboard/components/WindowTitle";
 import { DEFAULT_INITIAL_SEARCH_DATA } from "@dashboard/config";
 import {
+  AttributeEntityTypeEnum,
+  type PageWhereInput,
   useFileUploadMutation,
   useProductVariantChannelListingUpdateMutation,
   useProductVariantCreateDataQuery,
@@ -31,15 +33,16 @@ import useAttributeValueSearchHandler from "@dashboard/utils/handlers/attributeV
 import createMetadataCreateHandler from "@dashboard/utils/handlers/metadataCreateHandler";
 import { mapEdgesToItems } from "@dashboard/utils/maps";
 import { warehouseAddPath } from "@dashboard/warehouses/urls";
+import { useCallback } from "react";
 import { useIntl } from "react-intl";
 
 import { getMutationErrors, weight } from "../../misc";
-import { ProductVariantCreateData } from "../components/ProductVariantCreatePage/form";
+import { type ProductVariantCreateData } from "../components/ProductVariantCreatePage/form";
 import { ProductVariantCreatePage } from "../components/ProductVariantCreatePage/ProductVariantCreatePage";
 import {
   productListUrl,
   productVariantAddUrl,
-  ProductVariantAddUrlQueryParams,
+  type ProductVariantAddUrlQueryParams,
   productVariantEditUrl,
 } from "../urls";
 import { variantCreateMessages as messages } from "./messages";
@@ -216,6 +219,16 @@ const ProductVariant = ({ productId, params }: ProductVariantCreateProps) => {
   } = useCollectionSearch({
     variables: DEFAULT_INITIAL_SEARCH_DATA,
   });
+  const handlePageFilterChange = useCallback(
+    (where: PageWhereInput, query: string) => {
+      searchPagesOpts.refetch({
+        ...DEFAULT_INITIAL_SEARCH_DATA,
+        where,
+        query,
+      });
+    },
+    [searchPagesOpts.refetch],
+  );
   const {
     loadMore: loadMoreAttributeValues,
     search: searchAttributeValues,
@@ -306,6 +319,9 @@ const ProductVariant = ({ productId, params }: ProductVariantCreateProps) => {
         fetchMoreAttributeValues={fetchMoreAttributeValues}
         onCloseDialog={() => navigate(productVariantAddUrl(productId))}
         onAttributeSelectBlur={searchAttributeReset}
+        onFilterChange={{
+          [AttributeEntityTypeEnum.PAGE]: handlePageFilterChange,
+        }}
       />
     </>
   );
