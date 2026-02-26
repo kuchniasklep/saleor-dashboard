@@ -80,10 +80,13 @@ export const CustomerEditForm: React.FC<CustomerEditFormProps> = ({
               }
             }}
             onFocus={() => {
-              if (fetchUsers) {
-                fetchUsers("");
-              }
+              fetchUsers?.("");
             }}
+            onInputValueChange={value => {
+              setUserDisplayName(value);
+              fetchUsers?.(value);
+            }}
+            loading={loading}
             name="query"
             value={{
               label: userDisplayName,
