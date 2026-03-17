@@ -281,9 +281,9 @@ export type AppInstallInput = {
   /** Determine if app will be set active or not. */
   activateAfterInstallation?: InputMaybe<Scalars['Boolean']>;
   /** Name of the app to install. */
-  appName?: InputMaybe<Scalars['String']>;
+  appName: Scalars['String'];
   /** URL to app's manifest in JSON format. */
-  manifestUrl?: InputMaybe<Scalars['String']>;
+  manifestUrl: Scalars['String'];
   /** List of permission code names to assign to this app. */
   permissions?: InputMaybe<Array<PermissionEnum>>;
 };
@@ -1648,256 +1648,507 @@ export type ContainsFilterInput = {
  * The `EU` value is DEPRECATED and will be removed in Saleor 3.21.
  */
 export enum CountryCode {
+  /** Andorra */
   AD = 'AD',
+  /** United Arab Emirates */
   AE = 'AE',
+  /** Afghanistan */
   AF = 'AF',
+  /** Antigua and Barbuda */
   AG = 'AG',
+  /** Anguilla */
   AI = 'AI',
+  /** Albania */
   AL = 'AL',
+  /** Armenia */
   AM = 'AM',
+  /** Angola */
   AO = 'AO',
+  /** Antarctica */
   AQ = 'AQ',
+  /** Argentina */
   AR = 'AR',
+  /** American Samoa */
   AS = 'AS',
+  /** Austria */
   AT = 'AT',
+  /** Australia */
   AU = 'AU',
+  /** Aruba */
   AW = 'AW',
+  /** Åland Islands */
   AX = 'AX',
+  /** Azerbaijan */
   AZ = 'AZ',
+  /** Bosnia and Herzegovina */
   BA = 'BA',
+  /** Barbados */
   BB = 'BB',
+  /** Bangladesh */
   BD = 'BD',
+  /** Belgium */
   BE = 'BE',
+  /** Burkina Faso */
   BF = 'BF',
+  /** Bulgaria */
   BG = 'BG',
+  /** Bahrain */
   BH = 'BH',
+  /** Burundi */
   BI = 'BI',
+  /** Benin */
   BJ = 'BJ',
+  /** Saint Barthélemy */
   BL = 'BL',
+  /** Bermuda */
   BM = 'BM',
+  /** Brunei */
   BN = 'BN',
+  /** Bolivia */
   BO = 'BO',
+  /** Bonaire, Sint Eustatius and Saba */
   BQ = 'BQ',
+  /** Brazil */
   BR = 'BR',
+  /** Bahamas */
   BS = 'BS',
+  /** Bhutan */
   BT = 'BT',
+  /** Bouvet Island */
   BV = 'BV',
+  /** Botswana */
   BW = 'BW',
+  /** Belarus */
   BY = 'BY',
+  /** Belize */
   BZ = 'BZ',
+  /** Canada */
   CA = 'CA',
+  /** Cocos (Keeling) Islands */
   CC = 'CC',
+  /** Congo (the Democratic Republic of the) */
   CD = 'CD',
+  /** Central African Republic */
   CF = 'CF',
+  /** Congo */
   CG = 'CG',
+  /** Switzerland */
   CH = 'CH',
+  /** Côte d'Ivoire */
   CI = 'CI',
+  /** Cook Islands */
   CK = 'CK',
+  /** Chile */
   CL = 'CL',
+  /** Cameroon */
   CM = 'CM',
+  /** China */
   CN = 'CN',
+  /** Colombia */
   CO = 'CO',
+  /** Costa Rica */
   CR = 'CR',
+  /** Cuba */
   CU = 'CU',
+  /** Cabo Verde */
   CV = 'CV',
+  /** Curaçao */
   CW = 'CW',
+  /** Christmas Island */
   CX = 'CX',
+  /** Cyprus */
   CY = 'CY',
+  /** Czechia */
   CZ = 'CZ',
+  /** Germany */
   DE = 'DE',
+  /** Djibouti */
   DJ = 'DJ',
+  /** Denmark */
   DK = 'DK',
+  /** Dominica */
   DM = 'DM',
+  /** Dominican Republic */
   DO = 'DO',
+  /** Algeria */
   DZ = 'DZ',
+  /** Ecuador */
   EC = 'EC',
+  /** Estonia */
   EE = 'EE',
+  /** Egypt */
   EG = 'EG',
+  /** Western Sahara */
   EH = 'EH',
+  /** Eritrea */
   ER = 'ER',
+  /** Spain */
   ES = 'ES',
+  /** Ethiopia */
   ET = 'ET',
+  /** European Union */
   EU = 'EU',
+  /** Finland */
   FI = 'FI',
+  /** Fiji */
   FJ = 'FJ',
+  /** Falkland Islands (Malvinas) */
   FK = 'FK',
+  /** Micronesia */
   FM = 'FM',
+  /** Faroe Islands */
   FO = 'FO',
+  /** France */
   FR = 'FR',
+  /** Gabon */
   GA = 'GA',
+  /** United Kingdom */
   GB = 'GB',
+  /** Grenada */
   GD = 'GD',
+  /** Georgia */
   GE = 'GE',
+  /** French Guiana */
   GF = 'GF',
+  /** Guernsey */
   GG = 'GG',
+  /** Ghana */
   GH = 'GH',
+  /** Gibraltar */
   GI = 'GI',
+  /** Greenland */
   GL = 'GL',
+  /** Gambia */
   GM = 'GM',
+  /** Guinea */
   GN = 'GN',
+  /** Guadeloupe */
   GP = 'GP',
+  /** Equatorial Guinea */
   GQ = 'GQ',
+  /** Greece */
   GR = 'GR',
+  /** South Georgia and the South Sandwich Islands */
   GS = 'GS',
+  /** Guatemala */
   GT = 'GT',
+  /** Guam */
   GU = 'GU',
+  /** Guinea-Bissau */
   GW = 'GW',
+  /** Guyana */
   GY = 'GY',
+  /** Hong Kong */
   HK = 'HK',
+  /** Heard Island and McDonald Islands */
   HM = 'HM',
+  /** Honduras */
   HN = 'HN',
+  /** Croatia */
   HR = 'HR',
+  /** Haiti */
   HT = 'HT',
+  /** Hungary */
   HU = 'HU',
+  /** Indonesia */
   ID = 'ID',
+  /** Ireland */
   IE = 'IE',
+  /** Israel */
   IL = 'IL',
+  /** Isle of Man */
   IM = 'IM',
+  /** India */
   IN = 'IN',
+  /** British Indian Ocean Territory */
   IO = 'IO',
+  /** Iraq */
   IQ = 'IQ',
+  /** Iran */
   IR = 'IR',
+  /** Iceland */
   IS = 'IS',
+  /** Italy */
   IT = 'IT',
+  /** Jersey */
   JE = 'JE',
+  /** Jamaica */
   JM = 'JM',
+  /** Jordan */
   JO = 'JO',
+  /** Japan */
   JP = 'JP',
+  /** Kenya */
   KE = 'KE',
+  /** Kyrgyzstan */
   KG = 'KG',
+  /** Cambodia */
   KH = 'KH',
+  /** Kiribati */
   KI = 'KI',
+  /** Comoros */
   KM = 'KM',
+  /** Saint Kitts and Nevis */
   KN = 'KN',
+  /** North Korea */
   KP = 'KP',
+  /** South Korea */
   KR = 'KR',
+  /** Kuwait */
   KW = 'KW',
+  /** Cayman Islands */
   KY = 'KY',
+  /** Kazakhstan */
   KZ = 'KZ',
+  /** Laos */
   LA = 'LA',
+  /** Lebanon */
   LB = 'LB',
+  /** Saint Lucia */
   LC = 'LC',
+  /** Liechtenstein */
   LI = 'LI',
+  /** Sri Lanka */
   LK = 'LK',
+  /** Liberia */
   LR = 'LR',
+  /** Lesotho */
   LS = 'LS',
+  /** Lithuania */
   LT = 'LT',
+  /** Luxembourg */
   LU = 'LU',
+  /** Latvia */
   LV = 'LV',
+  /** Libya */
   LY = 'LY',
+  /** Morocco */
   MA = 'MA',
+  /** Monaco */
   MC = 'MC',
+  /** Moldova */
   MD = 'MD',
+  /** Montenegro */
   ME = 'ME',
+  /** Saint Martin (French part) */
   MF = 'MF',
+  /** Madagascar */
   MG = 'MG',
+  /** Marshall Islands */
   MH = 'MH',
+  /** North Macedonia */
   MK = 'MK',
+  /** Mali */
   ML = 'ML',
+  /** Myanmar */
   MM = 'MM',
+  /** Mongolia */
   MN = 'MN',
+  /** Macao */
   MO = 'MO',
+  /** Northern Mariana Islands */
   MP = 'MP',
+  /** Martinique */
   MQ = 'MQ',
+  /** Mauritania */
   MR = 'MR',
+  /** Montserrat */
   MS = 'MS',
+  /** Malta */
   MT = 'MT',
+  /** Mauritius */
   MU = 'MU',
+  /** Maldives */
   MV = 'MV',
+  /** Malawi */
   MW = 'MW',
+  /** Mexico */
   MX = 'MX',
+  /** Malaysia */
   MY = 'MY',
+  /** Mozambique */
   MZ = 'MZ',
+  /** Namibia */
   NA = 'NA',
+  /** New Caledonia */
   NC = 'NC',
+  /** Niger */
   NE = 'NE',
+  /** Norfolk Island */
   NF = 'NF',
+  /** Nigeria */
   NG = 'NG',
+  /** Nicaragua */
   NI = 'NI',
+  /** Netherlands */
   NL = 'NL',
+  /** Norway */
   NO = 'NO',
+  /** Nepal */
   NP = 'NP',
+  /** Nauru */
   NR = 'NR',
+  /** Niue */
   NU = 'NU',
+  /** New Zealand */
   NZ = 'NZ',
+  /** Oman */
   OM = 'OM',
+  /** Panama */
   PA = 'PA',
+  /** Peru */
   PE = 'PE',
+  /** French Polynesia */
   PF = 'PF',
+  /** Papua New Guinea */
   PG = 'PG',
+  /** Philippines */
   PH = 'PH',
+  /** Pakistan */
   PK = 'PK',
+  /** Poland */
   PL = 'PL',
+  /** Saint Pierre and Miquelon */
   PM = 'PM',
+  /** Pitcairn */
   PN = 'PN',
+  /** Puerto Rico */
   PR = 'PR',
+  /** Palestine, State of */
   PS = 'PS',
+  /** Portugal */
   PT = 'PT',
+  /** Palau */
   PW = 'PW',
+  /** Paraguay */
   PY = 'PY',
+  /** Qatar */
   QA = 'QA',
+  /** Réunion */
   RE = 'RE',
+  /** Romania */
   RO = 'RO',
+  /** Serbia */
   RS = 'RS',
+  /** Russia */
   RU = 'RU',
+  /** Rwanda */
   RW = 'RW',
+  /** Saudi Arabia */
   SA = 'SA',
+  /** Solomon Islands */
   SB = 'SB',
+  /** Seychelles */
   SC = 'SC',
+  /** Sudan */
   SD = 'SD',
+  /** Sweden */
   SE = 'SE',
+  /** Singapore */
   SG = 'SG',
+  /** Saint Helena, Ascension and Tristan da Cunha */
   SH = 'SH',
+  /** Slovenia */
   SI = 'SI',
+  /** Svalbard and Jan Mayen */
   SJ = 'SJ',
+  /** Slovakia */
   SK = 'SK',
+  /** Sierra Leone */
   SL = 'SL',
+  /** San Marino */
   SM = 'SM',
+  /** Senegal */
   SN = 'SN',
+  /** Somalia */
   SO = 'SO',
+  /** Suriname */
   SR = 'SR',
+  /** South Sudan */
   SS = 'SS',
+  /** Sao Tome and Principe */
   ST = 'ST',
+  /** El Salvador */
   SV = 'SV',
+  /** Sint Maarten (Dutch part) */
   SX = 'SX',
+  /** Syria */
   SY = 'SY',
+  /** Eswatini */
   SZ = 'SZ',
+  /** Turks and Caicos Islands */
   TC = 'TC',
+  /** Chad */
   TD = 'TD',
+  /** French Southern Territories */
   TF = 'TF',
+  /** Togo */
   TG = 'TG',
+  /** Thailand */
   TH = 'TH',
+  /** Tajikistan */
   TJ = 'TJ',
+  /** Tokelau */
   TK = 'TK',
+  /** Timor-Leste */
   TL = 'TL',
+  /** Turkmenistan */
   TM = 'TM',
+  /** Tunisia */
   TN = 'TN',
+  /** Tonga */
   TO = 'TO',
+  /** Türkiye */
   TR = 'TR',
+  /** Trinidad and Tobago */
   TT = 'TT',
+  /** Tuvalu */
   TV = 'TV',
+  /** Taiwan */
   TW = 'TW',
+  /** Tanzania */
   TZ = 'TZ',
+  /** Ukraine */
   UA = 'UA',
+  /** Uganda */
   UG = 'UG',
+  /** United States Minor Outlying Islands */
   UM = 'UM',
+  /** United States of America */
   US = 'US',
+  /** Uruguay */
   UY = 'UY',
+  /** Uzbekistan */
   UZ = 'UZ',
+  /** Holy See */
   VA = 'VA',
+  /** Saint Vincent and the Grenadines */
   VC = 'VC',
+  /** Venezuela */
   VE = 'VE',
+  /** Virgin Islands (British) */
   VG = 'VG',
+  /** Virgin Islands (U.S.) */
   VI = 'VI',
+  /** Vietnam */
   VN = 'VN',
+  /** Vanuatu */
   VU = 'VU',
+  /** Wallis and Futuna */
   WF = 'WF',
+  /** Samoa */
   WS = 'WS',
+  /** Kosovo */
   XK = 'XK',
+  /** Yemen */
   YE = 'YE',
+  /** Mayotte */
   YT = 'YT',
+  /** South Africa */
   ZA = 'ZA',
+  /** Zambia */
   ZM = 'ZM',
+  /** Zimbabwe */
   ZW = 'ZW'
 }
 
@@ -2014,6 +2265,62 @@ export type CustomerInput = {
   privateMetadata?: InputMaybe<Array<MetadataInput>>;
 };
 
+export type CustomerOrderWhereInput = {
+  /** List of conditions that must be met. */
+  AND?: InputMaybe<Array<CustomerOrderWhereInput>>;
+  /** A list of conditions of which at least one must be met. */
+  OR?: InputMaybe<Array<CustomerOrderWhereInput>>;
+  /** Filter by authorize status. */
+  authorizeStatus?: InputMaybe<OrderAuthorizeStatusEnumFilterInput>;
+  /** Filter by billing address of the order. */
+  billingAddress?: InputMaybe<AddressFilterInput>;
+  /** Filter by channel. */
+  channelId?: InputMaybe<GlobalIdFilterInput>;
+  /** Filter by charge status. */
+  chargeStatus?: InputMaybe<OrderChargeStatusEnumFilterInput>;
+  /** Filter by checkout id. */
+  checkoutId?: InputMaybe<GlobalIdFilterInput>;
+  /** Filter by checkout token. */
+  checkoutToken?: InputMaybe<UuidFilterInput>;
+  /** Filter order by created at date. */
+  createdAt?: InputMaybe<DateTimeRangeInput>;
+  /** Filter by whether the order has any fulfillments. */
+  hasFulfillments?: InputMaybe<Scalars['Boolean']>;
+  /** Filter by whether the order has any invoices. */
+  hasInvoices?: InputMaybe<Scalars['Boolean']>;
+  ids?: InputMaybe<Array<Scalars['ID']>>;
+  /** Filter by invoice data associated with the order. Each list item represents conditions that must be satisfied by a single object. The filter matches orders that have related objects meeting all specified groups of conditions. */
+  invoices?: InputMaybe<Array<InvoiceFilterInput>>;
+  /** Filter by whether the order uses the click and collect delivery method. */
+  isClickAndCollect?: InputMaybe<Scalars['Boolean']>;
+  /** Filter based on whether the order includes a gift card purchase. */
+  isGiftCardBought?: InputMaybe<Scalars['Boolean']>;
+  /** Filter based on whether a gift card was used in the order. */
+  isGiftCardUsed?: InputMaybe<Scalars['Boolean']>;
+  /** Filter by number of lines in the order. */
+  linesCount?: InputMaybe<IntFilterInput>;
+  /** Filter by metadata fields. */
+  metadata?: InputMaybe<MetadataFilterInput>;
+  /** Filter by order number. */
+  number?: InputMaybe<IntFilterInput>;
+  /** Filter by the product type of related order lines. */
+  productTypeId?: InputMaybe<GlobalIdFilterInput>;
+  /** Filter by shipping address of the order. */
+  shippingAddress?: InputMaybe<AddressFilterInput>;
+  /** Filter by order status. */
+  status?: InputMaybe<OrderStatusEnumFilterInput>;
+  /** Filter by total gross amount of the order. */
+  totalGross?: InputMaybe<PriceFilterInput>;
+  /** Filter by total net amount of the order. */
+  totalNet?: InputMaybe<PriceFilterInput>;
+  /** Filter order by updated at date. */
+  updatedAt?: InputMaybe<DateTimeRangeInput>;
+  /** Filter by user email. */
+  userEmail?: InputMaybe<StringFilterInput>;
+  /** Filter by voucher code used in the order. */
+  voucherCode?: InputMaybe<StringFilterInput>;
+};
+
 export type CustomerWhereInput = {
   /** List of conditions that must be met. */
   AND?: InputMaybe<Array<CustomerWhereInput>>;
@@ -2082,6 +2389,12 @@ export type DecimalRangeInput = {
   /** Decimal value less than or equal to. */
   lte?: InputMaybe<Scalars['Decimal']>;
 };
+
+export enum DeliveryOptionsCalculateErrorCode {
+  GRAPHQL_ERROR = 'GRAPHQL_ERROR',
+  INVALID = 'INVALID',
+  NOT_FOUND = 'NOT_FOUND'
+}
 
 export type DigitalContentInput = {
   /** Overwrite default automatic_fulfillment setting for variant. */
@@ -2683,6 +2996,27 @@ export type GiftCardFilterInput = {
   tags?: InputMaybe<Array<Scalars['String']>>;
   used?: InputMaybe<Scalars['Boolean']>;
   usedBy?: InputMaybe<Array<Scalars['ID']>>;
+};
+
+export type GiftCardPaymentMethodDetailsInput = {
+  /**
+   * Brand of the gift card used for the transaction. Max length is 40 characters.
+   *
+   * Added in Saleor 3.23.
+   */
+  brand?: InputMaybe<Scalars['String']>;
+  /**
+   * Last characters of the gift card used for the transaction. Max length is 4 characters.
+   *
+   * Added in Saleor 3.23.
+   */
+  lastChars?: InputMaybe<Scalars['String']>;
+  /**
+   * Name of the payment method used for the transaction. Max length is 256 characters.
+   *
+   * Added in Saleor 3.23.
+   */
+  name: Scalars['String'];
 };
 
 export type GiftCardResendInput = {
@@ -5984,13 +6318,19 @@ export type PaymentMethodDetailsFilterInput = {
 };
 
 /**
- * Details of the payment method used for the transaction. One of `card` or `other` is required.
+ * Details of the payment method used for the transaction. One of `card`, `other`, or `giftCard` is required.
  *
  * Added in Saleor 3.22.
  */
 export type PaymentMethodDetailsInput = {
   /** Details of the card payment method used for the transaction. */
   card?: InputMaybe<CardPaymentMethodDetailsInput>;
+  /**
+   * Details of the gift card payment method used for the transaction.
+   *
+   * Added in Saleor 3.23.
+   */
+  giftCard?: InputMaybe<GiftCardPaymentMethodDetailsInput>;
   /** Details of the non-card payment method used for this transaction. */
   other?: InputMaybe<OtherPaymentMethodDetailsInput>;
 };
@@ -6035,9 +6375,11 @@ export enum PaymentMethodTokenizationResult {
  *     The following types are possible:
  *     CARD - represents a card payment method.
  *     OTHER - represents any payment method that is not a card payment.
+ *     GIFT_CARD - represents a gift card payment method.
  */
 export enum PaymentMethodTypeEnum {
   CARD = 'CARD',
+  GIFT_CARD = 'GIFT_CARD',
   OTHER = 'OTHER'
 }
 
@@ -7677,6 +8019,12 @@ export type ShopSettingsInput = {
    * Warning: never store sensitive information, including financial data such as credit card details.
    */
   metadata?: InputMaybe<Array<MetadataInput>>;
+  /**
+   * When enabled, address fields that are not valid for a given country (according to Google's i18n address data) will be preserved instead of being removed during validation. Validation errors are still returned.
+   *
+   * Added in Saleor 3.22.
+   */
+  preserveAllAddressFields?: InputMaybe<Scalars['Boolean']>;
   /**
    * Shop private metadata. Requires permissions to modify and to read the metadata of the object it's attached to.
    *

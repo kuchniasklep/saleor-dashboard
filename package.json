@@ -1,6 +1,6 @@
 {
   "name": "saleor-dashboard",
-  "version": "3.22.33",
+  "version": "3.22.35",
   "repository": {
     "type": "git",
     "url": "git://github.com/saleor/saleor-dashboard.git"
@@ -19,6 +19,7 @@
     "check-types": "pnpm run /^check-types:.*$/",
     "check-types:playwright": "tsc --noEmit --project playwright/tsconfig.json",
     "check-types:src": "tsc --noEmit && tsc-strict",
+    "chromatic": "chromatic --exit-zero-on-changes",
     "dep-status": "depcruise --config .dependency-cruiser.js src",
     "predev": "pnpm run generate",
     "dev": "vite --host",
@@ -85,7 +86,7 @@
     "@reach/auto-id": "^0.16.0",
     "@react-editor-js/core": "2.1.0",
     "@saleor/macaw-ui": "npm:@saleor/macaw-ui@0.7.4",
-    "@saleor/macaw-ui-next": "npm:@saleor/macaw-ui@1.4.1",
+    "@saleor/macaw-ui-next": "npm:@saleor/macaw-ui@1.4.2",
     "@saleor/sdk": "0.6.0",
     "@sentry/react": "^8.55.0",
     "@sentry/vite-plugin": "^2.23.1",
@@ -163,7 +164,7 @@
     "@playwright/test": "1.56.1",
     "@saleor/app-sdk": "1.7.0",
     "@sentry/cli": "^2.58.2",
-    "@storybook/react-vite": "10.2.4",
+    "@storybook/react-vite": "10.2.16",
     "@swc/jest": "^0.2.39",
     "@types/apollo-upload-client": "^17.0.5",
     "@types/chroma-js": "^2.4.5",
@@ -183,6 +184,7 @@
     "@types/uuid": "^9.0.8",
     "@types/webappsec-credential-management": "^0.5.1",
     "@vitejs/plugin-react-swc": "^3.11.0",
+    "chromatic": "^15.2.0",
     "code-inspector-plugin": "^0.6.5",
     "core-js": "^3.46.0",
     "cross-env": "^6.0.3",
@@ -197,7 +199,7 @@
     "eslint-plugin-react-refresh": "^0.4.24",
     "eslint-plugin-react-you-might-not-need-an-effect": "^0.5.6",
     "eslint-plugin-simple-import-sort": "^12.1.1",
-    "eslint-plugin-storybook": "10.2.4",
+    "eslint-plugin-storybook": "10.2.16",
     "eslint-plugin-unicorn": "^61.0.2",
     "eslint-plugin-unused-imports": "^4.3.0",
     "front-matter": "^4.0.2",
@@ -210,7 +212,7 @@
     "playwright-ctrf-json-reporter": "0.0.26",
     "rollup-plugin-polyfill-node": "^0.11.0",
     "sort-package-json": "3.4.0",
-    "storybook": "10.2.4",
+    "storybook": "10.2.16",
     "typescript": "5.8.3",
     "typescript-eslint": "^8.46.4",
     "typescript-strict-plugin": "^2.4.4",
@@ -238,7 +240,7 @@
   },
   "packageManager": "pnpm@10.28.1",
   "engines": {
-    "node": "^20 || ^22",
+    "node": ">=22.15 <23",
     "pnpm": ">=10"
   }
 }

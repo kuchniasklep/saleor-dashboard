@@ -325,6 +325,14 @@ export const CategoryDetailsFragmentDoc = gql`
   parent {
     id
   }
+  ancestors(first: 100) {
+    edges {
+      node {
+        id
+        name
+      }
+    }
+  }
 }
     ${MetadataFragmentDoc}`;
 export const CategoryWithAncestorsFragmentDoc = gql`
@@ -16952,8 +16960,8 @@ export type SearchAvailableProductAttributesQueryHookResult = ReturnType<typeof 
 export type SearchAvailableProductAttributesLazyQueryHookResult = ReturnType<typeof useSearchAvailableProductAttributesLazyQuery>;
 export type SearchAvailableProductAttributesQueryResult = Apollo.QueryResult<Types.SearchAvailableProductAttributesQuery, Types.SearchAvailableProductAttributesQueryVariables>;
 export const SearchCategoriesDocument = gql`
-    query SearchCategories($after: String, $first: Int!, $query: String!) {
-  search: categories(after: $after, first: $first, filter: {search: $query}) {
+    query SearchCategories($after: String, $first: Int!, $filter: CategoryFilterInput) {
+  search: categories(after: $after, first: $first, filter: $filter) {
     edges {
       node {
         ...CategoryWithAncestors
@@ -16981,7 +16989,7 @@ ${PageInfoFragmentDoc}`;
  *   variables: {
  *      after: // value for 'after'
  *      first: // value for 'first'
- *      query: // value for 'query'
+ *      filter: // value for 'filter'
  *   },
  * });
  */
@@ -17042,11 +17050,11 @@ export type SearchCategoriesWithTotalProductsQueryHookResult = ReturnType<typeof
 export type SearchCategoriesWithTotalProductsLazyQueryHookResult = ReturnType<typeof useSearchCategoriesWithTotalProductsLazyQuery>;
 export type SearchCategoriesWithTotalProductsQueryResult = Apollo.QueryResult<Types.SearchCategoriesWithTotalProductsQuery, Types.SearchCategoriesWithTotalProductsQueryVariables>;
 export const SearchCollectionsDocument = gql`
-    query SearchCollections($after: String, $first: Int!, $query: String!, $channel: String) {
+    query SearchCollections($after: String, $first: Int!, $channel: String, $filter: CollectionFilterInput) {
   search: collections(
     after: $after
     first: $first
-    filter: {search: $query}
+    filter: $filter
     channel: $channel
   ) {
     edges {
@@ -17076,8 +17084,8 @@ export const SearchCollectionsDocument = gql`
  *   variables: {
  *      after: // value for 'after'
  *      first: // value for 'first'
- *      query: // value for 'query'
  *      channel: // value for 'channel'
+ *      filter: // value for 'filter'
  *   },
  * });
  */
@@ -17093,11 +17101,11 @@ export type SearchCollectionsQueryHookResult = ReturnType<typeof useSearchCollec
 export type SearchCollectionsLazyQueryHookResult = ReturnType<typeof useSearchCollectionsLazyQuery>;
 export type SearchCollectionsQueryResult = Apollo.QueryResult<Types.SearchCollectionsQuery, Types.SearchCollectionsQueryVariables>;
 export const SearchCollectionsWithTotalProductsDocument = gql`
-    query SearchCollectionsWithTotalProducts($after: String, $first: Int!, $query: String!, $channel: String) {
+    query SearchCollectionsWithTotalProducts($after: String, $first: Int!, $filter: CollectionFilterInput, $channel: String) {
   search: collections(
     after: $after
     first: $first
-    filter: {search: $query}
+    filter: $filter
     channel: $channel
   ) {
     edges {
@@ -17127,7 +17135,7 @@ ${PageInfoFragmentDoc}`;
  *   variables: {
  *      after: // value for 'after'
  *      first: // value for 'first'
- *      query: // value for 'query'
+ *      filter: // value for 'filter'
  *      channel: // value for 'channel'
  *   },
  * });
