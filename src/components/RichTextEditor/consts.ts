@@ -48,8 +48,8 @@ export const tools = (): Record<string, ToolConstructable | ToolSettings> => ({
     class: ImageTool,
     config: {
       endpoints: {
-        byFile: process.env.EDITORJS_IMAGE_BY_FILE_ENDPOINT,
-        byUrl: process.env.EDITORJS_IMAGE_BY_URL_ENDPOINT,
+        byFile: process.env.VITE_EDITORJS_IMAGE_BY_FILE_ENDPOINT,
+        byUrl: process.env.VITE_EDITORJS_IMAGE_BY_URL_ENDPOINT,
       },
       additionalRequestHeaders: {
         Authorization: `Bearer ${storage.getAccessToken()}`,
