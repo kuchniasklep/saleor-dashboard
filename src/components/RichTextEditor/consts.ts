@@ -1,5 +1,6 @@
 // @ts-strict-ignore
 import { StrikethroughIcon } from "@dashboard/icons/StrikethroughIcon";
+
 import { type ToolConstructable, type ToolSettings } from "@editorjs/editorjs";
 import Embed from "@editorjs/embed";
 import Header from "@editorjs/header";
@@ -7,11 +8,13 @@ import List from "@editorjs/list";
 import Paragraph from "@editorjs/paragraph";
 import Quote from "@editorjs/quote";
 import Table from "@editorjs/table";
+import ImageTool from "@editorjs/image";
 import createGenericInlineTool from "editorjs-inline-tool";
+import { storage } from "@dashboard/legacy-sdk/core/storage";
 
 const inlineToolbar = ["link", "bold", "italic", "strikethrough"];
 
-export const tools: Record<string, ToolConstructable | ToolSettings> = {
+export const createTools = (): Record<string, ToolConstructable | ToolSettings> => ({
   embed: Embed,
   header: {
     class: Header,
@@ -35,12 +38,22 @@ export const tools: Record<string, ToolConstructable | ToolSettings> = {
     inlineToolbar,
   },
   strikethrough: createGenericInlineTool({
-    sanitize: {
-      s: {},
-    },
+    sanitize: { s: {} },
     shortcut: "CMD+S",
     tagName: "s",
     toolboxIcon: StrikethroughIcon,
   }),
   table: Table,
-};
+  image: {
+    class: ImageTool,
+    config: {
+      endpoints: {
+        byFile: process.env.EDITORJS_IMAGE_BY_FILE_ENDPOINT,
+        byUrl: process.env.EDITORJS_IMAGE_BY_URL_ENDPOINT,
+      },
+      additionalRequestHeaders: {
+        Authorization: `Bearer ${storage.getAccessToken()}`,
+      },
+    },
+  },
+});
