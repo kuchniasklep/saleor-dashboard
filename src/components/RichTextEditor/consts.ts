@@ -14,7 +14,7 @@ import { storage } from "@dashboard/legacy-sdk/core/storage";
 
 const inlineToolbar = ["link", "bold", "italic", "strikethrough"];
 
-export const createTools = (): Record<string, ToolConstructable | ToolSettings> => ({
+export const tools = (): Record<string, ToolConstructable | ToolSettings> => ({
   embed: Embed,
   header: {
     class: Header,

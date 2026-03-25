@@ -33,7 +33,7 @@ const RichTextEditorContent = ({
     <ReactEditorJS
       holder={id}
       logLevel={"ERROR" as LogLevels.ERROR}
-      tools={tools}
+      tools={tools()}
       {...props}
       defaultValue={value}
       readOnly={true}

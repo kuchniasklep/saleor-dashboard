@@ -6,7 +6,7 @@ import { Box } from "@saleor/macaw-ui-next";
 import clsx from "clsx";
 import * as React from "react";
 
-import { createTools } from "./consts";
+import { tools } from "./consts";
 import { useHasRendered, useUpdateOnRerender } from "./hooks";
 import { ReactEditorJS } from "./ReactEditorJS";
 import useStyles from "./styles";
@@ -96,7 +96,7 @@ const RichTextEditor = ({
         <ReactEditorJS
           // match with the id of holder div
           holder={id}
-          tools={createTools()}
+          tools={tools()}
           // Log level is undefined at runtime
           logLevel={"ERROR" as LogLevels.ERROR}
           onInitialize={handleInitialize}
