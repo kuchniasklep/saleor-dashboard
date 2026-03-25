@@ -7,7 +7,6 @@ import Header from "@editorjs/header";
 import List from "@editorjs/list";
 import Paragraph from "@editorjs/paragraph";
 import Quote from "@editorjs/quote";
-import Table from "@editorjs/table";
 import ImageTool from "@editorjs/image";
 import createGenericInlineTool from "editorjs-inline-tool";
 import { storage } from "@dashboard/legacy-sdk/core/storage";
@@ -43,7 +42,6 @@ export const tools = (): Record<string, ToolConstructable | ToolSettings> => ({
     tagName: "s",
     toolboxIcon: StrikethroughIcon,
   }),
-  table: Table,
   image: {
     class: ImageTool,
     config: {
