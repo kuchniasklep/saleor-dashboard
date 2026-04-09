@@ -106,6 +106,9 @@
     "context": "input label",
     "string": "Globalny próg"
   },
+  "/jJLYy": {
+    "string": "Transakcje"
+  },
   "/nZy6A": {
     "context": "page subtitle",
     "string": "Wydaj zwrot"
@@ -441,6 +444,12 @@
     "context": "tooltip, submit form",
     "string": "Transakcja jest nieodwracalna. Musisz wysłać zwrot ręcznie."
   },
+  "6orx1c": {
+    "string": "Adres do rachunku"
+  },
+  "6oxTyq": {
+    "string": "Wszystkie zdarzenia związane z tym zamówieniem. Więcej informacji na temat zdarzeń związanych z zamówieniami znajdziesz w naszej dokumentacji {link}."
+  },
   "6pPMp9": {
     "string": "Cena netto"
   },
@@ -453,6 +462,9 @@
   "720c51": {
     "context": "tax classes name input placeholder",
     "string": "Nazwa stawki podatkowej"
+  },
+  "73SSOz": {
+    "string": "Wszystkie linijki zgodnie z zamówieniem klienta."
   },
   "74Cxe8": {
     "context": "table header product label",
@@ -1115,6 +1127,13 @@
     "context": "Popover title",
     "string": "Warunki"
   },
+  "LgbKvU": {
+    "string": "Komentarz"
+  },
+  "LhGd2m": {
+    "context": "tooltip for variant selection attributes",
+    "string": "Atrybuty określające opcje wariantów, spośród których klienci mogą wybierać w sklepie internetowym.{br}Można je dostosować w ustawieniach {productTypeLink}."
+  },
   "Ljtqmt": {
     "context": "page header, order id unknown",
     "string": "Zamówienie"
@@ -1736,6 +1755,9 @@
     "context": "button",
     "string": "Kopiuj nagłówki"
   },
+  "ZpVtCa": {
+    "string": "Adres wysyłki"
+  },
   "ZrIt1W": {
     "string": "Usuń rabat"
   },
@@ -2002,6 +2024,9 @@
   "fKrRhF": {
     "string": "Informacje ogólne"
   },
+  "fL08MU": {
+    "string": "Wartość zamówienia"
+  },
   "fLCV/w": {
     "string": "Dodaj nową wartość"
   },
@@ -2071,6 +2096,10 @@
   "gksZwp": {
     "context": "button",
     "string": "Utwórz typ produktu"
+  },
+  "glR0om": {
+    "context": "shipping label",
+    "string": "Shipping"
   },
   "gr1BBC": {
     "string": "Żądanie działania transakcji zakończone sukcesem"
@@ -2510,6 +2539,9 @@
   "q5Lfp4": {
     "context": "tooltip",
     "string": "Zamówienie zawiera produkty z włączoną opcją \"Śledź zapasy\"."
+  },
+  "q7bXR4": {
+    "string": "Podsumowanie płatności"
   },
   "q7v0W7": {
     "context": "save draft button",
@@ -3660,6 +3692,9 @@
     "context": "channel currency",
     "string": "Waluta"
   },
+  "9TENcY": {
+    "string": "Wszystkie płatności z zarejestrowanych transakcji"
+  },
   "9TbDQD": {
     "context": "order number label",
     "string": "Numer zamówienia"
@@ -3729,6 +3764,9 @@
   "Aeq79M": {
     "context": "PluginDetailsChannelsCard no channels subtitle",
     "string": "Ustawienia Plugin są wspólne dla wszystkich kanałów"
+  },
+  "AiurXc": {
+    "string": "Zaległe zatwierdzone"
   },
   "AjInNW": {
     "context": "dialog description",
@@ -4242,6 +4280,10 @@
     "context": "error message",
     "string": "Maksymalna waga nie może być niższa niż minimalna"
   },
+  "H5jL5+": {
+    "context": "button",
+    "string": "Dodaj komentarz"
+  },
   "H5yp8O": {
     "context": "label",
     "string": "Nazwa typu produktu"
@@ -4252,6 +4294,9 @@
   "HSmg1/": {
     "context": "gift cards section name",
     "string": "Karty podarunkowe"
+  },
+  "HTiAMm": {
+    "string": "Podatki"
   },
   "HVFq//": {
     "context": "button",
@@ -4526,6 +4571,9 @@
   },
   "L87bp7": {
     "string": "Płatność za zamówienie została pomyślnie anulowana"
+  },
+  "L8seEc": {
+    "string": "Wartość produktów"
   },
   "LA13a5": {
     "context": "channel select label",
@@ -5509,6 +5557,10 @@
   "Zptsep": {
     "context": "order was discounted event title",
     "string": "Zamówienie zostało przecenione o"
+  },
+  "ZrdoSS": {
+    "context": "customer gift cards card no cards subtitle",
+    "string": "Ten klient nie posiada żadnych kart podarunkowych"
   },
   "ZuqkSp": {
     "context": "note input subtitle",
@@ -7504,6 +7556,9 @@
     "context": "dialog title",
     "string": "Usuń atrybut"
   },
+  "JIQ7KX": {
+    "string": "Całosć przechwycona"
+  },
   "A9QSur": {
     "context": "area units type",
     "string": "Terytorium"
@@ -7741,6 +7796,10 @@
   "HvJPcU": {
     "string": "Usunięto kategorię"
   },
+  "HwIhau": {
+    "context": "status pill for fully authorized payment",
+    "string": "W pełni autoryzowane"
+  },
   "KCjd1o": {
     "context": "dialog title",
     "string": "Usuń produkty"
@@ -7867,6 +7926,9 @@
   "Ykw8k5": {
     "context": "dialog title",
     "string": "Usuń kolekcje"
+  },
+  "Ynjq+C": {
+    "string": "W pełni opłacone"
   },
   "C7eDb9": {
     "string": "Grupy uprawnień"
@@ -9499,6 +9561,9 @@
   "aCJwVq": {
     "context": "warehouse",
     "string": "Nazwa"
+  },
+  "o5GUx9": {
+    "string": "Zaległe"
   },
   "o5KXAN": {
     "context": "delete webhook",
