@@ -7294,6 +7294,13 @@
     "context": "header",
     "string": "Aktywność"
   },
+  "wVjyOX": {
+    "string": "W pełni autoryzowane"
+  },
+  "wWELJW": {
+    "context": "search results",
+    "string": "Nie odnaleziono produktów"
+  },
   "wWTUrM": {
     "string": "Brak aktywności"
   },
