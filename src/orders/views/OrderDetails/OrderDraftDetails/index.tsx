@@ -113,7 +113,7 @@ export const OrderDraftDetails = ({
       channel: order.channel.slug,
       address: getVariantSearchAddress(order),
       isPublished: true,
-      stockAvailability: StockAvailability.IN_STOCK,
+      //stockAvailability: StockAvailability.IN_STOCK, SKIP STOCK AVAILABILITY CHECKING
     },
   });
   const {
