@@ -81,6 +81,9 @@
     "context": "section description",
     "string": "Strategia określa preferencje magazynów dla alokacji zapasów i rezerwacji."
   },
+  "/H9LeU": {
+    "string": "Odkryj sklep z aplikacjami Saleor"
+  },
   "/Fa+RP": {
     "string": "Nie udało się załadować najlepszych produktów"
   },
@@ -124,6 +127,39 @@
   "/yJJvI": {
     "context": "dialog header",
     "string": "Wybierz typ produktu"
+  },
+  "/yy0uS": {
+    "context": "message when no SKU prefix is provided",
+    "string": "SKU nie zostanie ustawiony"
+  },
+  "/z5aI6": {
+    "context": "section header",
+    "string": "Rozszerzenia Webhooks"
+  },
+  "/zFGgP": {
+    "string": "+{count} więcej"
+  },
+  "0+sGhF": {
+    "context": "Suffix for show-more button when hidden problems include active ones",
+    "string": ", w tym {active} aktywne"
+  },
+  "0+zatS": {
+    "string": "Dzień dobry {userName}, witamy w panelu administracyjnym Twojego sklepu"
+  },
+  "0/Y0nG": {
+    "context": "date group header",
+    "string": "Ostatnie 7 dni"
+  },
+  "00d8GP": {
+    "context": "info about variant metadata with link to edit",
+    "string": "Metadane tylko do odczytu dotyczące konkretnego wariantu użytego w tym zamówieniu. {link}"
+  },
+  "033/zW": {
+    "context": "explore extensions section name",
+    "string": "Odkryj"
+  },
+  "0Azlrb": {
+    "string": "Manage"
   },
   "01+5kQ": {
     "string": "Oznacz jako opłacone"
@@ -1496,6 +1532,9 @@
     "context": "Dry run sync events alert",
     "string": "Suchy przebieg obecnie nie jest dostępny dla synchronicznych wydarzeń"
   },
+  "Tp5T7U": {
+    "string": "Dołącz do naszej społeczności zajmującej się oprogramowaniem open source."
+  },
   "TxYWkD": {
     "context": "page header, edit view",
     "string": "Edytuj zwrot"
@@ -1597,6 +1636,10 @@
     "context": "change warehouse dialog search placeholder",
     "string": "Szukaj magazynów"
   },
+  "WD+kjr": {
+    "context": "page title - extensions",
+    "string": "Rozszerzenia"
+  },
   "WHgdsk": {
     "string": "Braki magazynowe"
   },
@@ -1616,6 +1659,12 @@
   "WigK1f": {
     "context": "helper text",
     "string": "Wszystkie przedmioty zwrócono"
+  },
+  "Wj5TbN": {
+    "string": "Problemy"
+  },
+  "Wk00wL": {
+    "string": "Dołącz do społeczności open source"
   },
   "Wm+KUd": {
     "string": "Nagłówki"
@@ -1652,6 +1701,9 @@
   },
   "XPruqs": {
     "string": "Zamówienie"
+  },
+  "XVQpjm": {
+    "string": "Dodaj nowe funkcje do platformy Saleor i zintegruj ją z usługami innych dostawców. Można je instalować, zarządzać nimi i wyświetlać bezpośrednio w panelu Saleor Dashboard."
   },
   "XVuPMw": {
     "string": "Czy na pewno chcesz usunąć tę regułę?"
@@ -2366,6 +2418,10 @@
     "context": "country rates list label for the default rate",
     "string": "Domyślna stawka kraju"
   },
+  "loEfAh": {
+    "context": "onboarding completed message",
+    "string": "Wdrażanie zakończone 🎉"
+  },
   "lqIzC8": {
     "string": "To pole musi być unikalne"
   },
@@ -2836,6 +2892,10 @@
   "x0n6YG": {
     "string": "Ten zwrot jest obecnie przetwarzany i nie można go edytować"
   },
+  "x0wum5": {
+    "context": "home sidebar card title",
+    "string": "Informacje o sklepie"
+  },
   "x2mg39": {
     "context": "Transaction event description",
     "string": "Używane w zamówieniu"
@@ -2927,6 +2987,9 @@
   "z9c6/C": {
     "string": "Przestarzałe"
   },
+  "z9f2oQ": {
+    "string": "Najnowsze aktualizacje panelu"
+  },
   "zHx85l": {
     "context": "value input helper text",
     "string": "Nie może być wyższa niż 100%"
@@ -2968,6 +3031,20 @@
   "znbVYT": {
     "context": "product available for purchase date",
     "string": "Będzie dostępny od {date}"
+  },
+  "zo5aT3": {
+    "string": "Metadane magazynu"
+  },
+  "zoUlyR": {
+    "string": "Przejdź do typów produktów"
+  },
+  "zp9VHt": {
+    "context": "etykieta przycisku CTA",
+    "string": "Przeglądaj aktualizacje"
+  },
+  "zsz6LN": {
+    "context": "opis etapu wdrażania",
+    "string": "Zapoznaj się z centralnym centrum zarządzania wszystkimi dostępnymi rozszerzeniami. Tutaj możesz łatwo nadzorować swoje rozszerzenia i ulepszać Saleor za pomocą niestandardowych rozwiązań wykorzystujących webhooki i API."
   },
   "+B25o/": {
     "context": "dialog header",
@@ -3925,6 +4002,13 @@
   "CYZse9": {
     "context": "card description",
     "string": "Rozszerz lub ogranicz uprawnienia grupy do dostępu do określonej części systemu saleor."
+  },
+  "Cc3Z40": {
+    "string": "Poznaj proces realizacji transakcji"
+  },
+  "Cf7i/g": {
+    "context": "Info box title when product is not published",
+    "string": "Ukryte przed publicznym API."
   },
   "CZmloB": {
     "string": "Realizacja pomyślnie zaktualizowana"
@@ -4953,6 +5037,12 @@
     "context": "OrderCustomer Fulfillment from All Warehouses",
     "string": "Realizuj z wszystkich magazynów"
   },
+  "RABrGb": {
+    "string": "Zaoszczędź wiele godzin samodzielnego testowania Saleor, kontaktując się z naszym inżynierem ds. rozwiązań."
+  },
+  "RBkNPr": {
+    "string": "Pełna obsługa zaawansowanych scenariuszy realizacji transakcji, takich jak płatności dzielone, realizacja zamówień w częściach oraz płatności koordynowane."
+  },
   "RBxYJf": {
     "context": "sale status",
     "string": "Wygasły"
@@ -5566,6 +5656,19 @@
     "context": "note input subtitle",
     "string": "Dlaczego ta karta podarunkowa została wydana. Ta uwaga nie będzie widoczna dla klienta. Notatka zostanie zapisana w historii kart podarunkowych"
   },
+  "Zvo5iu": {
+    "string": "Dokumentacja API"
+  },
+  "ZwtDkP": {
+    "string": "Strona utworzona"
+  },
+  "Zx1w1e": {
+    "string": "edytowano"
+  },
+  "a+WuZg": {
+    "context": "etykieta przycisku CTA",
+    "string": "Wyświetl dokumentację"
+  },
   "a+kgkq": {
     "context": "tag label",
     "string": "Tag Karty"
@@ -5934,6 +6037,16 @@
   "g6yuk2": {
     "context": "export items to csv file, choice field label",
     "string": "Eksportuj informacje dla:"
+  },
+  "g8lXTL": {
+    "context": "swatch attribute",
+    "string": "Swatch"
+  },
+  "g9HrbF": {
+    "string": "Potrzebujesz pomocy technicznej?"
+  },
+  "g9M3PH": {
+    "string": "Wykryto problemy.{break}Sprawdź alerty rozszerzenia."
   },
   "gAqkrG": {
     "context": "gift card history message",
@@ -6779,6 +6892,12 @@
   "sw8Wl2": {
     "context": "variant pricing section subtitle",
     "string": "Nie ma kanału do określenia cen. Musisz najpierw dodać wariant do kanałów, aby określić ceny."
+  },
+  "swOKYO": {
+    "string": "Zapoznaj się z najnowszymi ulepszeniami, nowymi funkcjami, poprawkami i usprawnieniami wydajności, które sprawiają, że korzystanie z pulpitu nawigacyjnego jest jeszcze przyjemniejsze."
+  },
+  "sy+pv5": {
+    "string": "Email"
   },
   "szXISP": {
     "context": "permission group name",
@@ -9354,6 +9473,10 @@
     "context": "staff member's account",
     "string": "Aktywna"
   },
+  "HRXLYk": {
+    "context": "cta button label",
+    "string": "Skontaktuj się z nami"
+  },
   "Fc3O3r": {
     "context": "staff member's account",
     "string": "Dezaktywowane"
@@ -9451,7 +9574,7 @@
     "string": "Sposoby dostawy"
   },
   "c8nvms": {
-    "string": "Wyprzedaże"
+    "string": "Sprzedaż"
   },
   "etP0+D": {
     "string": "Kupony zniżkowe"
