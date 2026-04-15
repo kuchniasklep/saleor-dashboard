@@ -763,7 +763,7 @@
   },
   "Cn6l5R": {
     "context": "playground shortcut",
-    "string": "GraphQL Playground"
+    "string": "GraphQL"
   },
   "CrY98m": {
     "context": "button, marks order as paid (legacy payments)",
@@ -1325,6 +1325,10 @@
   "PDw0YN": {
     "context": "open new window button",
     "string": "Otwórz ten produkt w GraphiQL"
+  },
+  "PF7Zsp": {
+    "context": "Status when product has availability issues",
+    "string": "Problemy"
   },
   "PFnobO": {
     "string": "większy"
@@ -2061,6 +2065,10 @@
     "context": "order transaction refund summary description",
     "string": "Kwota zwrotu jest obliczana automatycznie na podstawie wybranych przedmiotów. Można ją zmodyfikować ręcznie, jeśli jest to konieczne."
   },
+  "f71A+Y": {
+    "context": "Title for delivery configuration section in channel",
+    "string": "Konfiguracja dostawy"
+  },
   "f91E8b": {
     "context": "app repository",
     "string": "Repozytorium"
@@ -2561,6 +2569,17 @@
     "context": "status",
     "string": "Dezaktywowane"
   },
+  "pJ5/7G": {
+    "string": "Zamknij i schowaj wszystkie podpowiedzi"
+  },
+  "pMAlSC": {
+    "context": "Shown when a value cannot be determined due to permissions",
+    "string": "Nieznane"
+  },
+  "pMXWrd": {
+    "context": "Label for available for purchase toggle",
+    "string": "Dostępne do sprzedaży"
+  },
   "pOUOnw": {
     "context": "tab name",
     "string": "Wszystkie bony"
@@ -2811,6 +2830,18 @@
     "context": "button",
     "string": "Otwórz w GraphiQL"
   },
+  "vG57x5": {
+    "context": "card update success alert title",
+    "string": "Saldo karty zaktualizowane"
+  },
+  "vGfmv8": {
+    "context": "card title, app install page, about privacy",
+    "string": "Info"
+  },
+  "vLc9Td": {
+    "context": "Title for public API verification section",
+    "string": "Weryfikacja publicznego API"
+  },
   "vSy+II": {
     "string": "Gwiazdka na Githubie"
   },
@@ -2833,6 +2864,14 @@
   "vqu+23": {
     "context": "success notifier message",
     "string": "Zapisano projekt"
+  },
+  "vsSdHA": {
+    "context": "Description for status when product has availability issues",
+    "string": "Posiada problemy dostępności"
+  },
+  "vwA9Fq": {
+    "context": "notification",
+    "string": "Zaznaczone modele zostały usunięte."
   },
   "vz3yxp": {
     "string": "Uprawnienia kanałów"
@@ -4189,6 +4228,10 @@
     "context": "info card title",
     "string": "Informacje o karcie"
   },
+  "EoNN9v": {
+    "context": "Label for visible in listings toggle",
+    "string": "Pokazuj w listingach"
+  },
   "ErNH3D": {
     "string": "Zdefiniuj, gdzie ten atrybut powinien być używany w systemie Saleor"
   },
@@ -4939,6 +4982,13 @@
     "context": "no channels found title",
     "string": "Nie znaleziono kanałów"
   },
+  "PeEood": {
+    "string": "Klient zaktualizowany"
+  },
+  "PeMebc": {
+    "context": "search section name",
+    "string": "Wyszukaj"
+  },
   "PiSXjb": {
     "context": "check to require numeric attribute unit",
     "string": "Wybierz jednostkę"
@@ -5238,6 +5288,10 @@
     "context": "product",
     "string": "Wysyłkowy"
   },
+  "U5dMfQ": {
+    "context": "Label for published toggle",
+    "string": "Opublikowany"
+  },
   "U8eeLW": {
     "context": "button",
     "string": "Przypisz produkty"
@@ -5374,6 +5428,10 @@
     "context": "header",
     "string": "Ustawienia zamówienia"
   },
+  "VvhNCi": {
+    "context": "command menu shortcut",
+    "string": "Menu komend"
+  },
   "VvFJ/T": {
     "context": "PageTypeDeleteWarningDialog single no assigned items description",
     "string": "Czy na pewno chcesz usunąć <b>{typeName}</b>? Jeśli go usuniesz, nie będziesz mógł go przypisać do utworzonych stron."
@@ -5505,6 +5563,10 @@
   "XQBVEJ": {
     "context": "order return error description when cannot refund",
     "string": "Napotkaliśmy problem podczas zwrotu produktów. Produkty nie zostały zwrócone. Proszę spróbować ponownie."
+  },
+  "XQfBeC": {
+    "context": "Availability card title",
+    "string": "Dostępność"
   },
   "XRf1Bi": {
     "context": "order refunded success message",
@@ -6501,6 +6563,10 @@
     "context": "resend code to customer title",
     "string": "Wyślij ponownie kod do klienta"
   },
+  "mvDujQ": {
+    "context": "Description when product is visible in listings",
+    "string": "Pojawi się w kategoriach, kolekcjach i wynikach wyszukiwania."
+  },
   "mxtAFx": {
     "string": "Czy na pewno chcesz usunąć szkic #{orderNumber}?"
   },
@@ -7197,6 +7263,10 @@
     "context": "dialog header",
     "string": "Przypisz Wariant"
   },
+  "xFSJR1": {
+    "context": "recent changes shortcut",
+    "string": "Nowe zmiany"
+  },
   "xHj9Qe": {
     "context": "gift card settings header",
     "string": "Ustawienia Kart Podarunkowych"
@@ -7536,6 +7606,13 @@
     "context": "product availability",
     "string": "Dostępne do zakupu"
   },
+  "P4Hja1": {
+    "string": "Utwórz nową strefę wysyłki"
+  },
+  "P5HhQl": {
+    "context": "catalog section name",
+    "string": "Katalog"
+  },
   "KupNHw": {
     "context": "product field",
     "string": "Kategoria"
@@ -7586,6 +7663,10 @@
   "qJedl0": {
     "context": "product label",
     "string": "Opublikowany"
+  },
+  "qKiqXs": {
+    "context": "Date suffix for toggle controls",
+    "string": "od {date}"
   },
   "ppLwx3": {
     "context": "number of categories",
@@ -9640,6 +9721,10 @@
   "Xb6BJ9": {
     "context": "error message",
     "string": "Płatności stworzone ręcznie nie podlegają zwrotowi"
+  },
+  "XbX2Ta": {
+    "context": "Checkbox label for scheduling publication for a future date",
+    "string": "Zaplanuj na później"
   },
   "sZ27WU": {
     "context": "error message",
