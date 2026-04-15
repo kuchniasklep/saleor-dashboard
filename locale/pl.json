@@ -663,6 +663,10 @@
     "context": "channels availability text",
     "string": "W {selectedChannelsCount} z {allChannelsCount, plural, one {# kanału} other {# kanałów}}"
   },
+  "ADvpV/": {
+    "context": "Product can be purchased by customers",
+    "string": "Dostępny do zakupu"
+  },
   "AMlXrQ": {
     "context": "submit button",
     "string": "Utwórz transakcję ręczną"
@@ -756,6 +760,10 @@
   "ClKKID": {
     "context": "channel publication status",
     "string": "Nieopublikowane"
+  },
+  "Cmu1M8": {
+    "context": "Product cannot be purchased by customers",
+    "string": "Niedostępne do zakupu"
   },
   "CmxKIg": {
     "context": "window title",
@@ -1229,6 +1237,13 @@
   "MzXBdd": {
     "context": "Refund failure status",
     "string": "Niepowodzenie"
+  },
+  "MzXzjL": {
+    "string": "Magazyn usunięty"
+  },
+  "N1Z/Er": {
+    "context": "Title when product is not visible in listings",
+    "string": "Ukryty z wyszukiwania."
   },
   "N7XGzW": {
     "context": "error message",
@@ -2422,6 +2437,10 @@
   "lfXze9": {
     "string": "Usuń bony"
   },
+  "lgateT": {
+    "context": "Warning when no stock in channel warehouses",
+    "string": "Brak stanu magazynowego dla \"{channelName}\""
+  },
   "lnteBJ": {
     "context": "country rates list label for the default rate",
     "string": "Domyślna stawka kraju"
@@ -2532,6 +2551,10 @@
   "of/+iV": {
     "context": "transaction event type, refund was reversed, funds are back to store account",
     "string": "Zwrot cofnięty"
+  },
+  "ofT0HH": {
+    "context": "Info box description for unpublished products",
+    "string": "Klienci nie mogą wyszukać ani wyświetlić tego produktu."
   },
   "onUvP+": {
     "context": "discount type",
@@ -6235,6 +6258,10 @@
     "context": "order refund amount",
     "string": "Wartość wymienionych produktów"
   },
+  "iAaYh4": {
+    "context": "Info box description for unavailable products",
+    "string": "Klienci mogą wyświetlić ten produkt ale nie mogą dodać go do koszyka."
+  },
   "iAvKNf": {
     "context": "navigator help mode description",
     "string": "Wyświetl pomoc"
@@ -6578,6 +6605,10 @@
     "context": "WarehousesSection select field add text",
     "string": "Dodaj nowy magazyn"
   },
+  "n51nG4": {
+    "context": "Description for no stock warning",
+    "string": "Dodaj stan do przynajmniej jednego magazynu przypisanego do tego kanału."
+  },
   "n7Fg8i": {
     "string": "Pomyślnie utworzona sprzedaż"
   },
@@ -6874,6 +6905,10 @@
   "rl1t+o": {
     "context": "expires in label",
     "string": "Wygasa za"
+  },
+  "roQH8c": {
+    "context": "Description when product is not visible in listings",
+    "string": "Klienci wciąż mogą wyświetlić produkt bezpośrednim linkiem."
   },
   "rpFdD1": {
     "string": "Szukaj rodzaju produktu"
@@ -8195,6 +8230,10 @@
   "2i81/P": {
     "context": "section header button",
     "string": "Zarządzaj"
+  },
+  "2nnp9+": {
+    "context": "Info box title when product is not available for purchase",
+    "string": "Widoczny ale niedostępny do sprzedaży."
   },
   "UjsI4o": {
     "context": "date",
