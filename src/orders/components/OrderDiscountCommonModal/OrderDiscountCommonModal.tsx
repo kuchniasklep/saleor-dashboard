@@ -208,8 +208,8 @@ const OrderDiscountCommonModal = ({
       ? recalculatedValueFromPercentageToFixed
       : recalculatedValueFromFixedToPercentage;
 
-    setValueErrorMsg(getErrorMessage(recalculatedValue));
-    setValue(recalculatedValue);
+    setValueErrorMsg(getErrorMessage(toFixed(recalculatedValue, 2))); // FIX ISSUES WITH SETTING 0.01 VALUES
+    setValue(toFixed(recalculatedValue, 2)); // FIX ISSUES WITH SETTING 0.01 VALUES
     previousCalculationMode.current = calculationMode;
   };
 
@@ -247,7 +247,7 @@ const OrderDiscountCommonModal = ({
           hint={valueErrorMsg || ""}
           value={value}
           onChange={handleSetDiscountValue}
-          onBlur={() => setValue(toFixed(value, 2))}
+          onBlur={() => setValue(toFixed(value, 2))} // FIX ISSUES WITH SETTING 0.01 VALUES
           currencySymbol={valueFieldSymbol}
         />
         <CardSpacer />

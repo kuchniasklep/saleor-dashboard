@@ -94,7 +94,7 @@ const OrderInvoiceList = (props: OrderInvoiceListProps) => {
                       description="invoice number prefix"
                     />{" "}
                     {invoice.number}
-                    <Text size={2} fontWeight="light">
+                    <Text size={2} fontWeight="light" marginLeft={1}>
                       <FormattedMessage
                         id="F0AXNs"
                         defaultMessage="created"
