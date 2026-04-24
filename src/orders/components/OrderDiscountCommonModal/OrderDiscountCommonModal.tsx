@@ -245,8 +245,9 @@ const OrderDiscountCommonModal = ({
           label={intl.formatMessage(messages.discountValueLabel)}
           error={!!valueErrorMsg}
           hint={valueErrorMsg || ""}
-          value={toFixed(value, 2)}
+          value={value}
           onChange={handleSetDiscountValue}
+          onBlur={() => setValue(toFixed(value, 2))}
           currencySymbol={valueFieldSymbol}
         />
         <CardSpacer />

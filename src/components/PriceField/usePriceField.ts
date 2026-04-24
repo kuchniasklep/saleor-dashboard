@@ -27,7 +27,7 @@ export function usePriceField(currency: string | undefined, onChange: FormChange
     onChange({
       target: {
         name: e.target.name,
-        value: value ? parseFloat(value) : null,
+        value: value ?? null,
       },
     });
   };
