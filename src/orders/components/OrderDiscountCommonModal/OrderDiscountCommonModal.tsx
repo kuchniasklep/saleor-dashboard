@@ -293,7 +293,8 @@ const OrderDiscountCommonModal = ({
         />
         <CardSpacer />
         <PriceField
-          label={intl.formatMessage(messages.discountValueLabel)}
+        // DISCOUNT CALCULATION CHANGES
+          label={(isLineDiscountFixed && lineDiscount) ? "Wartość przedmiotu" : intl.formatMessage(messages.discountValueLabel)}
           error={!!valueErrorMsg}
           hint={valueErrorMsg || ""}
           value={value}
