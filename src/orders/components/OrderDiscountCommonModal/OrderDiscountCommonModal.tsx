@@ -99,6 +99,11 @@ const OrderDiscountCommonModal = ({
   removeStatus,
 }: OrderDiscountCommonModalProps) => {
   const { currency, amount: maxAmount } = maxPrice;
+
+  // DISCOUNT CALCULATION CHANGES
+  const lineDiscount = modalType === ORDER_LINE_DISCOUNT;
+  // DISCOUNT CALCULATION CHANGES
+
   const getInitialDiscountValue = (calculationMode: DiscountValueTypeEnum) => {
     if (!existingDiscount?.value) {
       return "";
@@ -106,12 +111,19 @@ const OrderDiscountCommonModal = ({
 
     const stringifiedValue = existingDiscount.value.toString();
 
+    // DISCOUNT CALCULATION CHANGES
+    if (lineDiscount && calculationMode === DiscountValueTypeEnum.FIXED) {
+      return toFixed((maxAmount - parseFloat(stringifiedValue)).toString(), 2);
+    }
+    // DISCOUNT CALCULATION CHANGES
+
     if (calculationMode === DiscountValueTypeEnum.FIXED) {
       return parseFloat(stringifiedValue).toString();
     }
 
     return stringifiedValue;
   };
+  
   const getInitialData = () => {
     const calculationMode = existingDiscount?.calculationMode || DiscountValueTypeEnum.PERCENTAGE;
 
@@ -141,6 +153,8 @@ const OrderDiscountCommonModal = ({
     },
   ];
   const isDiscountTypePercentage = calculationMode === DiscountValueTypeEnum.PERCENTAGE;
+  const isLineDiscountFixed = calculationMode === DiscountValueTypeEnum.FIXED;
+
   const handleSetDiscountValue = (event: React.ChangeEvent<HTMLInputElement>) => {
     const value = event.target.value;
 
@@ -148,7 +162,26 @@ const OrderDiscountCommonModal = ({
     setValue(value);
   };
   const getParsedDiscountValue = () => parseFloat(value) || 0;
+
+  // DISCOUNT CALCULATION CHANGES
+  const getApiDiscountValue = () => {
+    if (isLineDiscountFixed && lineDiscount) {
+      return Math.max(maxAmount - getParsedDiscountValue(), 0);
+    }
+ 
+    return getParsedDiscountValue();
+  };
+  // DISCOUNT CALCULATION CHANGES
+
   const isAmountTooLarge = (value?: string) => {
+
+    // DISCOUNT CALCULATION CHANGES
+    if (isLineDiscountFixed && lineDiscount) {
+      const entered = value !== undefined ? parseFloat(value) || 0 : getParsedDiscountValue();
+      return entered > maxAmount;
+    }
+    // DISCOUNT CALCULATION CHANGES
+
     const topAmount = isDiscountTypePercentage ? 100 : maxAmount;
 
     if (value) {
@@ -176,7 +209,7 @@ const OrderDiscountCommonModal = ({
     onConfirm({
       calculationMode,
       reason,
-      value: getParsedDiscountValue(),
+      value: getApiDiscountValue(), // DISCOUNT CALCULATION CHANGES
     });
   };
   const setDefaultValues = () => {
@@ -196,17 +229,33 @@ const OrderDiscountCommonModal = ({
     const changedFromPercentageToFixed =
       previousCalculationMode.current === DiscountValueTypeEnum.PERCENTAGE &&
       calculationMode === DiscountValueTypeEnum.FIXED;
-    const recalculatedValueFromPercentageToFixed = (
-      (getParsedDiscountValue() * maxPrice.amount) /
-      100
-    ).toString();
-    const recalculatedValueFromFixedToPercentage = (
-      (getParsedDiscountValue() / maxPrice.amount) *
-      100
-    ).toString();
-    const recalculatedValue = changedFromPercentageToFixed
-      ? recalculatedValueFromPercentageToFixed
-      : recalculatedValueFromFixedToPercentage;
+
+    // DISCOUNT CALCULATION CHANGES
+    let recalculatedValue: string;
+
+    if (lineDiscount) {
+      if (changedFromPercentageToFixed) {
+        recalculatedValue = (maxPrice.amount - (getParsedDiscountValue() / 100) * maxPrice.amount).toString();
+      } else {
+        recalculatedValue = ((1 - getParsedDiscountValue() / maxPrice.amount) * 100).toString();
+      }
+
+    } else {
+      const recalculatedValueFromPercentageToFixed = (
+        (getParsedDiscountValue() * maxPrice.amount) /
+        100
+      ).toString();
+
+      const recalculatedValueFromFixedToPercentage = (
+        (getParsedDiscountValue() / maxPrice.amount) *
+        100
+      ).toString();
+
+      recalculatedValue = changedFromPercentageToFixed
+        ? recalculatedValueFromPercentageToFixed
+        : recalculatedValueFromFixedToPercentage;
+    }
+    // DISCOUNT CALCULATION CHANGES
 
     setValueErrorMsg(getErrorMessage(toFixed(recalculatedValue, 2))); // FIX ISSUES WITH SETTING 0.01 VALUES
     setValue(toFixed(recalculatedValue, 2)); // FIX ISSUES WITH SETTING 0.01 VALUES
@@ -219,6 +268,8 @@ const OrderDiscountCommonModal = ({
     modalType === ORDER_LINE_DISCOUNT ? messages.itemDiscountTitle : messages.orderDiscountTitle;
   const valueFieldSymbol = calculationMode === DiscountValueTypeEnum.FIXED ? currency : "%";
   const isSubmitDisabled = !getParsedDiscountValue() || !!valueErrorMsg || isAmountTooLarge();
+
+  
 
   return (
     <DashboardCard borderRadius={3} gap={0}>
