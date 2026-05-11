@@ -182,23 +182,30 @@ const AttributeRow = ({
     case AttributeInputTypeEnum.NUMERIC:
       return (
         <BasicAttributeRow label={attribute.label}>
-      <Input
-        disabled={disabled}
-        error={!!error}
-        label=""
-        name={`attribute:${attribute.label}`}
-        id={`attribute:${attribute.label}`}
-        onChange={event => {
-          const val = event.target.value;
-          if (val === "" || /^-?\d*\.?\d*$/.test(val)) {
-            onChange(attribute.id, val);
-          }
-        }}
-        type="text"
-        value={attribute.value[0]}
-        size="small"
-        helperText={getErrorMessage(error, intl)}
-      />
+        <Input
+          disabled={disabled}
+          error={!!error}
+          label=""
+          name={`attribute:${attribute.label}`}
+          id={`attribute:${attribute.label}`}
+          onChange={event => {
+            const val = event.target.value.replace(/,/g, ".");
+            if (val === "" || /^-?\d*\.?\d*$/.test(val)) {
+              onChange(attribute.id, val);
+            }
+          }}
+          onPaste={event => {
+            event.preventDefault();
+            const pasted = event.clipboardData.getData("text").replace(/,/g, ".");
+            if (pasted === "" || /^-?\d*\.?\d*$/.test(pasted)) {
+              onChange(attribute.id, pasted);
+            }
+          }}
+          type="text"
+          value={attribute.value[0]}
+          size="small"
+          helperText={getErrorMessage(error, intl)}
+        />
     </BasicAttributeRow>
       );
     case AttributeInputTypeEnum.BOOLEAN:
