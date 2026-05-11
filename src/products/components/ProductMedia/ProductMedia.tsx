@@ -37,7 +37,7 @@ interface MediaListContainerProps {
 const MediaListContainer = SortableContainer<MediaListContainerProps>(
   ({ media, preview, onDelete, getEditHref, ...props }) => (
     <div {...props}>
-      {media.map((mediaObj, index) => (
+      {media?.map((mediaObj, index) => (
         <SortableMedia
           key={`item-${mediaObj.id}`}
           index={index}
@@ -85,7 +85,7 @@ const ProductMedia = (props: ProductMediaProps) => {
   const [orderedMedia, setOrderedMedia] = React.useState(media ?? []);
 
   React.useEffect(() => {
-    setOrderedMedia(media);
+    setOrderedMedia(media ?? []);
   }, [media]);
 
   const handleSortEnd = ({ oldIndex, newIndex }) => {
