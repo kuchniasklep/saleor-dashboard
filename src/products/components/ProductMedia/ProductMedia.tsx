@@ -8,7 +8,7 @@ import createMultiFileUploadHandler from "@dashboard/utils/handlers/multiFileUpl
 import { Box, Button, Dropdown, List, Skeleton, sprinkles, Text } from "@saleor/macaw-ui-next";
 import * as React from "react";
 import { FormattedMessage, useIntl } from "react-intl";
-import { SortableContainer, SortableElement } from "react-sortable-hoc";
+import { arrayMove, SortableContainer, SortableElement } from "react-sortable-hoc";
 
 import { messages } from "./messages";
 
@@ -79,6 +79,27 @@ const ProductMedia = (props: ProductMediaProps) => {
   const imagesUpload = React.useRef<HTMLInputElement>(null);
   const anchor = React.useRef<HTMLButtonElement>();
   const [imagesToUpload, setImagesToUpload] = React.useState<ProductMediaFragment[]>([]);
+
+
+  // FIX FOR ORDER NOT UPDATING AFTER DRAGGING
+  const [orderedMedia, setOrderedMedia] = React.useState(media);
+
+  React.useEffect(() => {
+    setOrderedMedia(media);
+  }, [media]);
+
+  const handleSortEnd = ({ oldIndex, newIndex }) => {
+    const reordered = arrayMove(orderedMedia, oldIndex, newIndex);
+  
+    setOrderedMedia(reordered);
+  
+    onImageReorder?.({
+      oldIndex,
+      newIndex,
+    });
+  };
+  // FIX FOR ORDER NOT UPDATING AFTER DRAGGING
+
   const handleImageUpload = createMultiFileUploadHandler(onImageUpload, {
     onAfterUpload: () => setImagesToUpload(prevImagesToUpload => prevImagesToUpload.slice(1)),
     onStart: files => {
@@ -197,9 +218,9 @@ const ProductMedia = (props: ProductMediaProps) => {
                     distance={20}
                     helperClass="dragged"
                     axis="xy"
-                    media={media}
+                    media={orderedMedia}
                     preview={imagesToUpload}
-                    onSortEnd={onImageReorder}
+                    onSortEnd={handleSortEnd}
                     className={sprinkles({
                       display: "flex",
                       gap: 5,
