@@ -82,7 +82,7 @@ const ProductMedia = (props: ProductMediaProps) => {
 
 
   // FIX FOR ORDER NOT UPDATING AFTER DRAGGING
-  const [orderedMedia, setOrderedMedia] = React.useState(media);
+  const [orderedMedia, setOrderedMedia] = React.useState(media ?? []);
 
   React.useEffect(() => {
     setOrderedMedia(media);

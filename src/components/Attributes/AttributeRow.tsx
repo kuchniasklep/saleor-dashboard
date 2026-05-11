@@ -182,19 +182,24 @@ const AttributeRow = ({
     case AttributeInputTypeEnum.NUMERIC:
       return (
         <BasicAttributeRow label={attribute.label}>
-          <Input
-            disabled={disabled}
-            error={!!error}
-            label=""
-            name={`attribute:${attribute.label}`}
-            id={`attribute:${attribute.label}`}
-            onChange={event => onChange(attribute.id, event.target.value)}
-            type="number"
-            value={attribute.value[0]}
-            size="small"
-            helperText={getErrorMessage(error, intl)}
-          />
-        </BasicAttributeRow>
+      <Input
+        disabled={disabled}
+        error={!!error}
+        label=""
+        name={`attribute:${attribute.label}`}
+        id={`attribute:${attribute.label}`}
+        onChange={event => {
+          const val = event.target.value;
+          if (val === "" || /^-?\d*\.?\d*$/.test(val)) {
+            onChange(attribute.id, val);
+          }
+        }}
+        type="text"
+        value={attribute.value[0]}
+        size="small"
+        helperText={getErrorMessage(error, intl)}
+      />
+    </BasicAttributeRow>
       );
     case AttributeInputTypeEnum.BOOLEAN:
       return (
