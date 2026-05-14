@@ -31,10 +31,6 @@ export const assignCollectionProduct = gql`
     $collectionId: ID!
     $productIds: [ID!]!
     $moves: [MoveProductInput!]!
-    $first: Int
-    $after: String
-    $last: Int
-    $before: String
   ) {
     collectionAddProducts(collectionId: $collectionId, products: $productIds) {
       errors {

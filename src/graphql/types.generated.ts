@@ -10296,10 +10296,6 @@ export type CollectionAssignProductMutationVariables = Exact<{
   collectionId: Scalars['ID'];
   productIds: Array<Scalars['ID']> | Scalars['ID'];
   moves: Array<MoveProductInput> | MoveProductInput;
-  first?: InputMaybe<Scalars['Int']>;
-  after?: InputMaybe<Scalars['String']>;
-  last?: InputMaybe<Scalars['Int']>;
-  before?: InputMaybe<Scalars['String']>;
 }>;
 
 
