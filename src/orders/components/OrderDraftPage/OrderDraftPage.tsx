@@ -159,7 +159,7 @@ const OrderDraftPage = (props: OrderDraftPageProps) => {
       </DetailPageLayout.Content>
       <DetailPageLayout.RightSidebar>
         <OrderCustomer
-          canEditAddresses={!!order?.user}
+          canEditAddresses={true}
           canEditCustomer={true}
           fetchUsers={fetchUsers}
           hasMore={hasMore}
