@@ -1,7 +1,6 @@
-import { type SiteSettingsQuery } from "@dashboard/graphql";
-import { PasswordLoginModeEnum, type SiteSettingsStagingQuery } from "@dashboard/graphql/staging";
+import { PasswordLoginModeEnum, type SiteSettingsQuery } from "@dashboard/graphql";
 
-export const shop: SiteSettingsQuery["shop"] & Partial<SiteSettingsStagingQuery["shop"]> = {
+export const shop: SiteSettingsQuery["shop"] = {
   __typename: "Shop",
   companyAddress: {
     __typename: "Address",
@@ -43,6 +42,7 @@ export const shop: SiteSettingsQuery["shop"] & Partial<SiteSettingsStagingQuery[
   limitQuantityPerCheckout: 50,
   enableAccountConfirmationByEmail: true,
   useLegacyUpdateWebhookEmission: true,
+  useLegacyShippingZoneStockAvailability: true,
   preserveAllAddressFields: false,
   passwordLoginMode: PasswordLoginModeEnum.ENABLED,
 };

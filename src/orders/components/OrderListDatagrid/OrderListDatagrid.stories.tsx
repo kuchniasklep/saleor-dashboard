@@ -2,6 +2,7 @@ import { orders } from "@dashboard/orders/fixtures";
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
 
+import { STORYBOOK_CHROMATIC_PARAMS } from "../../../storybook/chromatic";
 import { OrderListDatagrid } from "./OrderListDatagrid";
 
 const meta: Meta<typeof OrderListDatagrid> = {
@@ -15,11 +16,14 @@ const meta: Meta<typeof OrderListDatagrid> = {
     sort: { sort: "number" as any, asc: true },
     onSort: fn(),
     settings: {
-      columns: ["number", "date", "customer", "payment", "status", "total", "channel"],
+      columns: ["number", "date", "customer", "payment", "status", "net", "total", "channel"],
       rowsPerPage: 20,
     },
     onUpdateListSettings: fn(),
     onRowClick: fn(),
+  },
+  parameters: {
+    chromatic: STORYBOOK_CHROMATIC_PARAMS.datagrid,
   },
 };
 

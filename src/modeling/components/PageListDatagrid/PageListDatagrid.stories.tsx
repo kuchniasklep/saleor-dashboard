@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
 
+import { STORYBOOK_CHROMATIC_PARAMS } from "../../../storybook/chromatic";
 import { PageListDatagrid } from "./PageListDatagrid";
 
 const mockPages = [
@@ -46,6 +47,9 @@ const meta: Meta<typeof PageListDatagrid> = {
     onSelectPageIds: fn(),
     onRowClick: fn(),
   },
+  parameters: {
+    chromatic: STORYBOOK_CHROMATIC_PARAMS.datagrid,
+  },
 };
 
 export default meta;
@@ -55,6 +59,9 @@ export const Default: Story = {};
 
 export const Loading: Story = {
   args: { loading: true },
+  parameters: {
+    chromatic: { disableSnapshot: true },
+  },
 };
 
 export const Empty: Story = {

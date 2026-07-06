@@ -8,6 +8,7 @@ import List from "@editorjs/list";
 import Paragraph from "@editorjs/paragraph";
 import Quote from "@editorjs/quote";
 import ImageTool from "@editorjs/image";
+import Table from "@editorjs/table";
 import createGenericInlineTool from "editorjs-inline-tool";
 import { storage } from "@dashboard/legacy-sdk/core/storage";
 
@@ -30,6 +31,15 @@ export const tools = (): Record<string, ToolConstructable | ToolSettings> => ({
   quote: {
     class: Quote,
     inlineToolbar,
+  },
+  table: {
+    // @ts-expect-error Type mismatch between editorjs libraries (@editorjs/table and @editorjs/editorjs)
+    class: Table,
+    inlineToolbar,
+    config: {
+      rows: 2,
+      cols: 2,
+    },
   },
   paragraph: {
     // @ts-expect-error Type mismatch between editorjs libraries (@editorjs/list and @editorjs/editorjs)

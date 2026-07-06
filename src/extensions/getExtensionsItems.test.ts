@@ -52,6 +52,8 @@ const mockedExtension: ExtensionWithParams = {
   open: jest.fn(),
   targetName: "POPUP",
   settings: {},
+  isSaleorOfficial: false,
+  fromCache: false,
 };
 
 describe("getExtensionsItems", () => {

@@ -44,6 +44,7 @@ export default defineConfig(({ command, mode }) => {
     ENVIRONMENT,
     STATIC_URL,
     EXTENSIONS_API_URL,
+    SALEOR_CLOUD_APP_DOMAIN,
     SKIP_SOURCEMAPS,
     CUSTOM_VERSION,
     FLAGS_SERVICE_ENABLED,
@@ -56,6 +57,8 @@ export default defineConfig(({ command, mode }) => {
     SENTRY_PROJECT,
     ENABLED_SERVICE_NAME_HEADER,
     ONBOARDING_USER_JOINED_DATE_THRESHOLD,
+    DEPRECATED_SALEOR_VERSION,
+    DEPRECATED_SALEOR_VERSION_TIMESTAMP,
     // Multi-schema support
     FF_USE_STAGING_SCHEMA,
 
@@ -83,6 +86,7 @@ export default defineConfig(({ command, mode }) => {
           APP_MOUNT_URI,
           STATIC_URL,
           EXTENSIONS_API_URL: EXTENSIONS_API_URL ?? "",
+          SALEOR_CLOUD_APP_DOMAIN: SALEOR_CLOUD_APP_DOMAIN ?? "",
           IS_CLOUD_INSTANCE,
           LOCALE_CODE,
           POSTHOG_KEY,
@@ -154,6 +158,8 @@ export default defineConfig(({ command, mode }) => {
         POSTHOG_HOST,
         ENABLED_SERVICE_NAME_HEADER,
         ONBOARDING_USER_JOINED_DATE_THRESHOLD,
+        DEPRECATED_SALEOR_VERSION,
+        DEPRECATED_SALEOR_VERSION_TIMESTAMP,
         // Multi-schema support
         FF_USE_STAGING_SCHEMA,
 

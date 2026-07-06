@@ -67,6 +67,7 @@ export type InstalledExtension = {
   actions?: ReactNode;
   problems?: AppProblem[];
   appType?: AppTypeEnum | null;
+  isActive?: boolean | null;
   activeProblemCount: number;
   criticalProblemCount: number;
 };
@@ -82,6 +83,19 @@ export interface Extension {
   open: () => void;
   targetName: AppExtensionManifestTarget;
   settings: RelayToFlat<NonNullable<ExtensionListQuery["appExtensions"]>>[0]["settings"];
+  /**
+   * True when the extension's resolved URL is hosted under the configured Saleor
+   * Cloud app domain (SALEOR_CLOUD_APP_DOMAIN). Resolved at the time the
+   * extension is mapped from the GraphQL response.
+   */
+  isSaleorOfficial: boolean;
+  /**
+   * True when this extension was reconstructed from the localStorage snapshot
+   * (background revalidation still in flight). Snapshot extensions have no real
+   * accessToken yet, so token-dependent actions (iframe POST/handshake, new-tab
+   * POST) must wait until this is false.
+   */
+  fromCache: boolean;
 }
 
 export interface ExtensionWithParams extends Omit<Extension, "open"> {

@@ -4,6 +4,7 @@ import { BasicAttributeRow } from "@dashboard/components/Attributes/BasicAttribu
 import { SwatchRow } from "@dashboard/components/Attributes/SwatchRow";
 import {
   booleanAttrValueToValue,
+  getAttributeRowLabelProps,
   getBooleanDropdownOptions,
   getErrorMessage,
   getFileChoice,
@@ -43,6 +44,7 @@ const AttributeRow = ({
   richTextGetters,
 }: AttributeRowProps): JSX.Element => {
   const intl = useIntl();
+  const labelProps = getAttributeRowLabelProps(attribute);
 
   switch (attribute.data.inputType) {
     case AttributeInputTypeEnum.SINGLE_REFERENCE:
@@ -58,7 +60,7 @@ const AttributeRow = ({
       );
     case AttributeInputTypeEnum.REFERENCE:
       return (
-        <BasicAttributeRow label={attribute.label}>
+        <BasicAttributeRow label={attribute.label} {...labelProps}>
           <SortableChipsField
             values={getReferenceDisplayValue(attribute)}
             onValueDelete={value =>
@@ -78,7 +80,7 @@ const AttributeRow = ({
       );
     case AttributeInputTypeEnum.FILE:
       return (
-        <BasicAttributeRow label={attribute.label}>
+        <BasicAttributeRow label={attribute.label} {...labelProps}>
           <FileUploadField
             disabled={disabled}
             loading={loading}
@@ -127,10 +129,7 @@ const AttributeRow = ({
       const value = isTooLong ? getTruncatedTextValue(attributeValue, MAX_LENGTH) : attributeValue;
 
       return (
-        <BasicAttributeRow
-          label={attribute.label}
-          description={intl.formatMessage(inputTypeMessages.plainText)}
-        >
+        <BasicAttributeRow label={attribute.label} {...labelProps}>
           <Input
             disabled={isTooLong || disabled}
             error={!!error}
@@ -157,10 +156,7 @@ const AttributeRow = ({
       const defaultValue = getDefaultValue(attribute.id);
 
       return (
-        <BasicAttributeRow
-          label={attribute.label}
-          description={intl.formatMessage(inputTypeMessages.richText)}
-        >
+        <BasicAttributeRow label={attribute.label} {...labelProps}>
           {getShouldMount(attribute.id) && (
             <Box __minWidth={210}>
               <RichTextEditor
@@ -181,36 +177,24 @@ const AttributeRow = ({
     }
     case AttributeInputTypeEnum.NUMERIC:
       return (
-        <BasicAttributeRow label={attribute.label}>
-        <Input
-          disabled={disabled}
-          error={!!error}
-          label=""
-          name={`attribute:${attribute.label}`}
-          id={`attribute:${attribute.label}`}
-          onChange={event => {
-            const val = event.target.value.replace(/,/g, ".");
-            if (val === "" || /^-?\d*\.?\d*$/.test(val)) {
-              onChange(attribute.id, val);
-            }
-          }}
-          onPaste={event => {
-            event.preventDefault();
-            const pasted = event.clipboardData.getData("text").replace(/,/g, ".");
-            if (pasted === "" || /^-?\d*\.?\d*$/.test(pasted)) {
-              onChange(attribute.id, pasted);
-            }
-          }}
-          type="text"
-          value={attribute.value[0]}
-          size="small"
-          helperText={getErrorMessage(error, intl)}
-        />
-    </BasicAttributeRow>
+        <BasicAttributeRow label={attribute.label} {...labelProps}>
+          <Input
+            disabled={disabled}
+            error={!!error}
+            label=""
+            name={`attribute:${attribute.label}`}
+            id={`attribute:${attribute.label}`}
+            onChange={event => onChange(attribute.id, event.target.value)}
+            type="number"
+            value={attribute.value[0]}
+            size="small"
+            helperText={getErrorMessage(error, intl)}
+          />
+        </BasicAttributeRow>
       );
     case AttributeInputTypeEnum.BOOLEAN:
       return (
-        <BasicAttributeRow label={attribute.label}>
+        <BasicAttributeRow label={attribute.label} {...labelProps}>
           <Box
             as="li"
             display="flex"
@@ -241,7 +225,7 @@ const AttributeRow = ({
       );
     case AttributeInputTypeEnum.DATE:
       return (
-        <BasicAttributeRow label={attribute.label}>
+        <BasicAttributeRow label={attribute.label} {...labelProps}>
           <Input
             width="100%"
             disabled={disabled}
@@ -257,7 +241,7 @@ const AttributeRow = ({
       );
     case AttributeInputTypeEnum.DATE_TIME:
       return (
-        <BasicAttributeRow label={attribute.label}>
+        <BasicAttributeRow label={attribute.label} {...labelProps}>
           <DateTimeField
             name={`attribute:${attribute.label}`}
             disabled={disabled}
@@ -269,7 +253,7 @@ const AttributeRow = ({
       );
     default:
       return (
-        <BasicAttributeRow label={attribute.label}>
+        <BasicAttributeRow label={attribute.label} {...labelProps}>
           {/* TODO It works, but replace it with Macaw Multiselect */}
           <Multiselect
             allowCustomValues

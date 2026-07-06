@@ -9,6 +9,7 @@ import DataEditor, {
   type DataEditorRef,
   type DrawHeaderCallback,
   type EditableGridCell,
+  getMiddleCenterBias,
   type GridCell,
   type GridColumn,
   type GridSelection,
@@ -38,6 +39,7 @@ import { FullScreenContainer } from "./components/FullScreenContainer";
 import { PreventHistoryBack } from "./components/PreventHistoryBack";
 import { RowActions } from "./components/RowActions";
 import { TooltipContainer } from "./components/TooltipContainer";
+import { DEFAULT_ROW_MARKER_WIDTH } from "./const";
 import { useCustomCellRenderers } from "./customCells/useCustomCellRenderers";
 import { headerIcons } from "./headerIcons";
 import useDatagridChange, {
@@ -94,6 +96,10 @@ interface DatagridProps {
   renderRowActions?: (index: number) => ReactElement;
   rowActionBarWidth?: number;
   onRowClick?: (item: Item) => void;
+  /** Fired when a cell is activated via keyboard (Enter/Space) or double-click.
+   *  Glide's `onCellActivated` covers the keyboard equivalent of `onCellClicked`.
+   *  Use this together with `onRowClick` to give clickable cells keyboard parity. */
+  onCellActivated?: (item: Item) => void;
   onColumnMoved?: (startIndex: number, endIndex: number) => void;
   onColumnResize?: (column: GridColumn, newSize: number) => void;
   onRowSelectionChange?: (rowsId: number[], clearSelection: () => void) => void;
@@ -113,6 +119,8 @@ interface DatagridProps {
   navigatorOpts?: NavigatorOpts;
   showTopBorder?: boolean;
   themeOverride?: Partial<Theme>;
+  rowMarkerWidth?: number;
+  rowMarkerTheme?: Partial<Theme>;
 }
 
 export const Datagrid = ({
@@ -129,6 +137,7 @@ export const Datagrid = ({
   renderRowActions,
   rowActionBarWidth = defaultRowActionBarWidth,
   onRowClick,
+  onCellActivated,
   getColumnTooltipContent,
   readonly = false,
   rowMarkers = "checkbox",
@@ -150,6 +159,8 @@ export const Datagrid = ({
   navigatorOpts,
   showTopBorder = true,
   themeOverride,
+  rowMarkerWidth,
+  rowMarkerTheme: rowMarkerThemeOverride,
   ...datagridProps
 }: DatagridProps): ReactElement => {
   const classes = useStyles({ actionButtonPosition });
@@ -166,8 +177,9 @@ export const Datagrid = ({
       accentColor: themeValues.colors.background.accent1,
       accentFg: themeValues.colors.background.default1,
       accentLight: themeValues.colors.background.default2,
+      ...rowMarkerThemeOverride,
     }),
-    [themeValues],
+    [themeValues, rowMarkerThemeOverride],
   );
   const editor = useRef<DataEditorRef | null>(null);
   const customRenderers = useCustomCellRenderers();
@@ -377,6 +389,8 @@ export const Datagrid = ({
   const drawHeader: DrawHeaderCallback = useCallback(
     args => {
       const { ctx, rect, isSelected, spriteManager, theme, column } = args;
+      const columnMeta = availableColumns.find(col => col.id === column.id);
+      const isRightAligned = columnMeta?.headerAlign === "right";
 
       if (isSelected) {
         ctx.fillStyle = themeValues.colors.background.default1;
@@ -392,9 +406,41 @@ export const Datagrid = ({
         spriteManager.drawSprite("gripVertical", "normal", ctx, x, y, iconSize, theme);
       }
 
+      if (isRightAligned && column.id !== "empty") {
+        const xPad = theme.cellHorizontalPadding;
+        const gripReserved = isSelected ? 24 : 0;
+        const drawX = rect.x + rect.width - xPad - gripReserved;
+        const font = `${theme.headerFontStyle} ${theme.fontFamily}`;
+
+        ctx.font = font;
+        ctx.fillStyle = isSelected ? theme.textHeaderSelected : theme.textHeader;
+
+        const textY = rect.y + rect.height / 2 + getMiddleCenterBias(ctx, font);
+
+        ctx.textAlign = "right";
+        ctx.fillText(column.title, drawX, textY);
+        ctx.textAlign = "left";
+
+        if (column.icon !== undefined) {
+          const headerSize = theme.headerIconSize;
+
+          spriteManager.drawSprite(
+            column.icon,
+            isSelected ? "selected" : "normal",
+            ctx,
+            rect.x + xPad,
+            rect.y + (rect.height - headerSize) / 2,
+            headerSize,
+            theme,
+          );
+        }
+
+        return true;
+      }
+
       return false;
     },
-    [themeValues],
+    [themeValues, availableColumns],
   );
   const handleRemoveRows = useCallback(
     (rows: number[]) => {
@@ -531,6 +577,7 @@ export const Datagrid = ({
                     onColumnResize={handleColumnResize}
                     onHeaderClicked={handleHeaderClicked}
                     onCellClicked={handleCellClick}
+                    onCellActivated={onCellActivated}
                     onGridSelectionChange={handleGridSelectionChange}
                     onItemHovered={handleRowHover}
                     getRowThemeOverride={handleGetThemeOverride}
@@ -585,7 +632,7 @@ export const Datagrid = ({
                             )}
                       </div>
                     }
-                    rowMarkerWidth={48}
+                    rowMarkerWidth={rowMarkerWidth ?? DEFAULT_ROW_MARKER_WIDTH}
                   />
                   {/* FIXME: https://github.com/glideapps/glide-data-grid/issues/505 */}
                   {hasColumnGroups && <div className={classes.columnGroupFixer} />}

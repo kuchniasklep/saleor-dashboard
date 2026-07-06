@@ -32,6 +32,9 @@ export const getAbsoluteApiUrl = () => new URL(getApiUrl(), window.location.orig
 export const SW_INTERVAL = parseInt(process.env.SW_INTERVAL ?? "300", 10);
 export const IS_CLOUD_INSTANCE = window.__SALEOR_CONFIG__.IS_CLOUD_INSTANCE === "true";
 
+export const getSaleorCloudAppDomain = (): string | null =>
+  window?.__SALEOR_CONFIG__?.SALEOR_CLOUD_APP_DOMAIN || null;
+
 export const getExtensionsConfig = () => ({
   extensionsApiUri: window.__SALEOR_CONFIG__.EXTENSIONS_API_URL,
 });
@@ -102,8 +105,8 @@ export const defaultListSettings: AppListViewSettings = {
     rowNumber: 10,
   },
   [ListViews.ATTRIBUTE_LIST]: {
-    rowNumber: 10,
-    columns: ["slug", "name", "visible", "searchable", "use-in-faceted-search"],
+    rowNumber: PAGINATE_BY,
+    columns: ["name", "slug", "input-type", "attribute-type", "visible", "use-in-faceted-search"],
   },
   [ListViews.CATEGORY_LIST]: {
     rowNumber: PAGINATE_BY,
@@ -126,7 +129,7 @@ export const defaultListSettings: AppListViewSettings = {
   },
   [ListViews.ORDER_LIST]: {
     rowNumber: PAGINATE_BY,
-    columns: ["number", "date", "customer", "payment", "status", "total", "channel"],
+    columns: ["number", "date", "customer", "payment", "status", "net", "total", "channel"],
   },
   [ListViews.PAGES_LIST]: {
     rowNumber: PAGINATE_BY,
@@ -145,7 +148,7 @@ export const defaultListSettings: AppListViewSettings = {
   },
   [ListViews.DISCOUNTS_LIST]: {
     rowNumber: PAGINATE_BY,
-    columns: ["name", "type", "startDate", "endDate"],
+    columns: ["name", "status", "type", "startDate", "endDate"],
   },
   [ListViews.SHIPPING_METHODS_LIST]: {
     columns: ["name", "countries"],
@@ -153,7 +156,7 @@ export const defaultListSettings: AppListViewSettings = {
   },
   [ListViews.STAFF_MEMBERS_LIST]: {
     rowNumber: PAGINATE_BY,
-    columns: ["name", "email", "status"],
+    columns: ["name", "status", "customer", "email"],
   },
   [ListViews.PERMISSION_GROUP_LIST]: {
     rowNumber: PAGINATE_BY,
@@ -179,7 +182,17 @@ export const defaultListSettings: AppListViewSettings = {
   },
   [ListViews.ORDER_DETAILS_LIST]: {
     rowNumber: PAGINATE_BY,
-    columns: ["product", "sku", "variantName", "quantity", "price", "total", "isGift", "metadata"],
+    columns: [
+      "product",
+      "sku",
+      "variantName",
+      "quantity",
+      "price",
+      "total",
+      "isGift",
+      "reason",
+      "metadata",
+    ],
   },
   [ListViews.ORDER_DRAFT_DETAILS_LIST]: {
     rowNumber: PAGINATE_BY,

@@ -77,6 +77,9 @@ export const fragmentOrderEvent = gql`
         id
         productName
         variantName
+        thumbnail(size: 64) {
+          url
+        }
       }
     }
   }
@@ -116,7 +119,21 @@ export const fragmentOrderLine = gql`
     quantityFulfilled
     quantityToFulfill
     totalPrice {
+      gross {
+        ...MoneyWithFractionDigits
+      }
+      net {
+        ...Money
+      }
+      tax {
+        ...Money
+      }
+    }
+    undiscountedTotalPrice {
       ...TaxedMoney
+      tax {
+        ...Money
+      }
     }
     unitDiscount {
       amount
@@ -135,6 +152,10 @@ export const fragmentOrderLine = gql`
         amount
         currency
       }
+      tax {
+        amount
+        currency
+      }
     }
     unitPrice {
       gross {
@@ -145,9 +166,40 @@ export const fragmentOrderLine = gql`
         amount
         currency
       }
+      tax {
+        amount
+        currency
+      }
     }
+    taxRate
+    taxClass {
+      id
+      name
+    }
+    voucherCode
     thumbnail {
       url
+    }
+    discounts {
+      ...OrderLineDiscount
+    }
+  }
+`;
+
+export const fragmentOrderLineDiscount = gql`
+  fragment OrderLineDiscount on OrderLineDiscount {
+    id
+    type
+    name
+    translatedName
+    valueType
+    value
+    reason
+    total {
+      ...Money
+    }
+    unit {
+      ...Money
     }
   }
 `;
@@ -254,13 +306,6 @@ export const fragmentOrderLineMetadataDetails = gql`
   }
 `;
 
-export const fragmentOrderLineWithMetadata = gql`
-  fragment OrderLineWithMetadata on OrderLine {
-    ...OrderLine
-    ...OrderLineMetadata
-  }
-`;
-
 export const fragmentRefundOrderLine = gql`
   fragment RefundOrderLine on OrderLine {
     id
@@ -279,12 +324,16 @@ export const fragmentRefundOrderLine = gql`
 
 export const fulfillmentFragment = gql`
   fragment Fulfillment on Fulfillment {
-    ...Metadata
     id
     created
     lines {
       id
       quantity
+      reason
+      reasonReference {
+        id
+        title
+      }
       orderLine {
         ...OrderLine
       }
@@ -292,20 +341,14 @@ export const fulfillmentFragment = gql`
     fulfillmentOrder
     status
     trackingNumber
+    reason
+    reasonReference {
+      id
+      title
+    }
     warehouse {
       id
       name
-    }
-  }
-`;
-
-export const fulfillmentFragmentWithMetadata = gql`
-  fragment FulfillmentWithMetadata on Fulfillment {
-    ...Fulfillment
-    lines {
-      orderLine {
-        ...OrderLineWithMetadata
-      }
     }
   }
 `;
@@ -325,10 +368,14 @@ export const orderDiscount = gql`
     id
     type
     name
+    translatedName
     calculationMode: valueType
     value
     reason
     amount {
+      ...Money
+    }
+    total {
       ...Money
     }
   }
@@ -338,7 +385,6 @@ export const fragmentOrderDetails = gql`
   fragment OrderDetails on Order {
     id
     displayGrossPrices
-    ...Metadata
     billingAddress {
       ...Address
     }
@@ -355,7 +401,6 @@ export const fragmentOrderDetails = gql`
       ...OrderGrantedRefund
     }
     isShippingRequired
-    canFinalize
     created
     customerNote
     discounts {
@@ -469,6 +514,13 @@ export const fragmentOrderDetails = gql`
       email
     }
     userEmail
+    voucher {
+      id
+      name
+      code
+      type
+    }
+    voucherCode
     shippingMethods {
       id
       name
@@ -499,15 +551,19 @@ export const fragmentOrderDetails = gql`
   }
 `;
 
-export const fragmentOrderDetailsWithMetadata = gql`
-  fragment OrderDetailsWithMetadata on Order {
-    ...OrderDetails
-    fulfillments {
-      ...FulfillmentWithMetadata
-    }
-    lines {
-      ...OrderLine
-    }
+// Order and fulfillment metadata are loaded on demand when their dialogs open,
+// instead of eagerly with the order details page query.
+export const fragmentOrderMetadata = gql`
+  fragment OrderMetadata on Order {
+    id
+    ...Metadata
+  }
+`;
+
+export const fragmentFulfillmentMetadata = gql`
+  fragment FulfillmentMetadata on Fulfillment {
+    id
+    ...Metadata
   }
 `;
 
@@ -522,46 +578,6 @@ export const fragmentShopOrderSettings = gql`
   fragment ShopOrderSettings on Shop {
     fulfillmentAutoApprove
     fulfillmentAllowUnpaid
-  }
-`;
-
-export const fragmentOrderFulfillLine = gql`
-  fragment OrderFulfillLine on OrderLine {
-    id
-    isShippingRequired
-    productName
-    quantity
-    allocations {
-      id
-      quantity
-      warehouse {
-        id
-        name
-      }
-    }
-    quantityFulfilled
-    quantityToFulfill
-    variant {
-      id
-      name
-      sku
-      preorder {
-        endDate
-      }
-      attributes {
-        values {
-          id
-          name
-        }
-      }
-      stocks {
-        ...Stock
-      }
-      trackInventory
-    }
-    thumbnail(size: 64) {
-      url
-    }
   }
 `;
 
@@ -580,6 +596,39 @@ export const fragmentOrderLineStockData = gql`
       stocks {
         ...Stock
       }
+    }
+  }
+`;
+
+export const fragmentOrderFulfillLine = gql`
+  fragment OrderFulfillLine on OrderLine {
+    ...OrderLineStockData
+    isShippingRequired
+    productName
+    allocations {
+      id
+      warehouse {
+        name
+      }
+    }
+    quantityFulfilled
+    variant {
+      id
+      name
+      sku
+      preorder {
+        endDate
+      }
+      attributes {
+        values {
+          id
+          name
+        }
+      }
+      trackInventory
+    }
+    thumbnail(size: 64) {
+      url
     }
   }
 `;
@@ -642,6 +691,13 @@ export const transactionItemFragment = gql`
     lastDigits
   }
 
+  fragment GiftCardPaymentMethodDetails on GiftCardPaymentMethodDetails {
+    name
+    brand
+    lastChars
+    isSaleorGiftcard
+  }
+
   fragment TransactionItem on TransactionItem {
     ...TransactionBaseItem
     pspReference
@@ -663,8 +719,14 @@ export const transactionItemFragment = gql`
       ... on CardPaymentMethodDetails {
         ...CardPaymentMethodDetails
       }
+      ... on GiftCardPaymentMethodDetails {
+        ...GiftCardPaymentMethodDetails
+      }
       ... on OtherPaymentMethodDetails {
         ...OtherPaymentMethodDetails
+      }
+      ... on GiftCardPaymentMethodDetails {
+        ...GiftCardPaymentMethodDetails
       }
     }
     events {
@@ -793,8 +855,18 @@ export const fragmentOrderGrantedRefunds = gql`
     lines {
       id
       quantity
+      reason
+      reasonReference {
+        id
+        title
+      }
       orderLine {
         id
+        productName
+        variantName
+        thumbnail(size: 64) {
+          url
+        }
       }
     }
   }
@@ -838,6 +910,10 @@ export const orderDetailsGrantedRefund = gql`
       id
       quantity
       reason
+      reasonReference {
+        id
+        title
+      }
       orderLine {
         ...OrderLine
       }

@@ -4,6 +4,7 @@ import { type GetOrderLineDiscountContextConsumerProps } from "@dashboard/produc
 import type { Meta, StoryFn, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
 
+import { STORYBOOK_CHROMATIC_PARAMS } from "../../../storybook/chromatic";
 import { OrderDraftDetailsDatagrid } from "./OrderDraftDetailsDatagrid";
 
 const placeholderImage = "https://via.placeholder.com/64";
@@ -24,6 +25,7 @@ const mockGetOrderLineDiscountValues: GetOrderLineDiscountContextConsumerProps =
     isDialogOpen: false,
     openDialog: fn(),
     closeDialog: fn(),
+    automaticDiscounts: [],
     totalDiscountedPrice: line?.totalPrice?.gross ?? unitPrice,
     unitDiscountedPrice: unitPrice,
     unitUndiscountedPrice: undiscountedPrice,
@@ -49,6 +51,9 @@ const meta: Meta<typeof OrderDraftDetailsDatagrid> = {
     onOrderLineRemove: fn(),
     onOrderLineShowMetadata: fn(),
   },
+  parameters: {
+    chromatic: STORYBOOK_CHROMATIC_PARAMS.datagrid,
+  },
 };
 
 export default meta;
@@ -58,6 +63,9 @@ export const Default: Story = {};
 
 export const Loading: Story = {
   args: { loading: true },
+  parameters: {
+    chromatic: { disableSnapshot: true },
+  },
 };
 
 export const Empty: Story = {

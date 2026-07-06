@@ -77,10 +77,12 @@ const resolveExtensionHref = ({
   id,
   type,
   isActive,
+  appUrl,
 }: {
   id?: string;
   type: AppTypeEnum | null;
   isActive: boolean | null;
+  appUrl?: string | null;
 }) => {
   if (!id) {
     return undefined;
@@ -90,7 +92,7 @@ const resolveExtensionHref = ({
     return ExtensionsUrls.editCustomExtensionUrl(id);
   }
 
-  if (!isActive) {
+  if (!isActive || !appUrl) {
     return ExtensionsUrls.resolveEditManifestExtensionUrl(id);
   }
 
@@ -137,9 +139,7 @@ export const useInstalledExtensions = () => {
     displayLoader: true,
     variables: {
       first: 100,
-      filter: {
-        isActive: true,
-      },
+      filter: {},
       canFetchAppEvents: hasManagedAppsPermission,
     },
   });
@@ -151,7 +151,7 @@ export const useInstalledExtensions = () => {
 
   const installedApps = useMemo<InstalledExtension[]>(
     () =>
-      installedAppsData.map(({ id, name, isActive, brand, type, problems }) => {
+      installedAppsData.map(({ id, name, isActive, brand, type, problems, appUrl }) => {
         const appEvents = eventDeliveriesMap.get(id);
         const lastFailedAttempt = getLatestFailedAttemptFromWebhooks(appEvents?.webhooks ?? []);
 
@@ -167,6 +167,7 @@ export const useInstalledExtensions = () => {
         return {
           id: id,
           name: name ?? "",
+          isActive,
           logo: getExtensionLogo({
             logo: brand?.logo?.default,
             type,
@@ -176,7 +177,7 @@ export const useInstalledExtensions = () => {
             isActive,
             loading: !eventDeliveriesData?.apps,
           }),
-          href: resolveExtensionHref({ id, type, isActive }),
+          href: resolveExtensionHref({ id, type, isActive, appUrl }),
           problems: allProblems,
           appType: type,
           activeProblemCount: activeProblemsForApp.length,

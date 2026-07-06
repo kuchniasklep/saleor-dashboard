@@ -1,9 +1,10 @@
 import { useUser } from "@dashboard/auth/useUser";
 import { categoryListUrl } from "@dashboard/categories/urls";
 import { collectionListUrl } from "@dashboard/collections/urls";
-import { iconSize } from "@dashboard/components/icons";
+import { navigationLucideIconProps } from "@dashboard/components/icons";
 import { configurationMenuUrl } from "@dashboard/configuration/urls";
 import { getConfigMenuItemsPermissions } from "@dashboard/configuration/utils";
+import { rippleNewCustomersView } from "@dashboard/customers/ripples/newCustomersView";
 import { customerListUrl } from "@dashboard/customers/urls";
 import { saleListUrl, voucherListUrl } from "@dashboard/discounts/urls";
 import { SidebarAppAlert } from "@dashboard/extensions/components/AppAlerts/SidebarAppAlert";
@@ -18,17 +19,17 @@ import {
 } from "@dashboard/extensions/urls";
 import { giftCardListUrl } from "@dashboard/giftCards/urls";
 import { PermissionEnum } from "@dashboard/graphql";
+import { rippleHomeWidgets } from "@dashboard/home/ripples/homeWidgets";
 import { ConfigurationIcon } from "@dashboard/icons/Configuration";
 import { CustomersIcon } from "@dashboard/icons/Customers";
 import { DiscountsIcon } from "@dashboard/icons/Discounts";
 import { HomeIcon } from "@dashboard/icons/Home";
 import { MarketplaceIcon } from "@dashboard/icons/Marketplace";
-import ModelingIcon from "@dashboard/icons/Modeling";
+import { ModelingIcon } from "@dashboard/icons/Modeling";
 import { OrdersIcon } from "@dashboard/icons/Orders";
 import { ProductsIcon } from "@dashboard/icons/Products";
 import { TranslationsIcon } from "@dashboard/icons/Translations";
 import { commonMessages, sectionNames } from "@dashboard/intl";
-import { ripplePagesAreModels } from "@dashboard/modeling/ripples/pagesAreModels";
 import { pageListPath } from "@dashboard/modeling/urls";
 import { pageTypeListUrl } from "@dashboard/modelTypes/urls";
 import { orderDraftListUrl, orderListUrl } from "@dashboard/orders/urls";
@@ -42,6 +43,7 @@ import isEmpty from "lodash/isEmpty";
 import { Search } from "lucide-react";
 import { useIntl } from "react-intl";
 
+import { SidebarIconSlot } from "../../SidebarIconSlot";
 import { type SidebarMenuItem } from "../types";
 import { mapToExtensionsItems } from "../utils";
 
@@ -102,11 +104,12 @@ export function useMenuStructure() {
       icon: renderIcon(<HomeIcon />),
       label: intl.formatMessage(sectionNames.home),
       id: "home",
-      url: "/",
+      url: "/home",
       type: "item",
+      endAdornment: <Ripple model={rippleHomeWidgets} />,
     },
     {
-      icon: renderIcon(<Search size={iconSize.small} strokeWidth={2.4} />),
+      icon: renderIcon(<Search {...navigationLucideIconProps} />),
       label: (
         <Box display="flex" alignItems="center" gap={2}>
           {intl.formatMessage(sectionNames.search)}
@@ -192,7 +195,11 @@ export function useMenuStructure() {
         ? [
             {
               label: intl.formatMessage(sectionNames.customers),
-              permissions: [PermissionEnum.MANAGE_USERS],
+              permissions: [
+                PermissionEnum.MANAGE_USERS,
+                PermissionEnum.MANAGE_ORDERS,
+                PermissionEnum.MANAGE_STAFF,
+              ],
               id: "customers",
               url: customerListUrl(),
               type: "item",
@@ -202,7 +209,15 @@ export function useMenuStructure() {
         : undefined,
       icon: renderIcon(<CustomersIcon />),
       label: intl.formatMessage(sectionNames.customers),
-      permissions: [PermissionEnum.MANAGE_USERS],
+      // Sidebar gating uses any-of matching, so users with only MANAGE_ORDERS
+      // or MANAGE_STAFF can navigate to customer pages in read-only mode while
+      // edit affordances remain hidden inside the section itself.
+      permissions: [
+        PermissionEnum.MANAGE_USERS,
+        PermissionEnum.MANAGE_ORDERS,
+        PermissionEnum.MANAGE_STAFF,
+      ],
+      endAdornment: <Ripple model={rippleNewCustomersView} />,
       id: "customers",
       url: customerListUrl(),
       type: !isEmpty(extensions.NAVIGATION_CUSTOMERS) ? "itemGroup" : "item",
@@ -263,7 +278,6 @@ export function useMenuStructure() {
       permissions: [PermissionEnum.MANAGE_PAGES, PermissionEnum.MANAGE_MENUS],
       id: "modeling",
       url: pageListPath,
-      endAdornment: <Ripple model={ripplePagesAreModels} />,
       type: "itemGroup",
     },
     {
@@ -312,9 +326,5 @@ export function useMenuStructure() {
 }
 
 function renderIcon(icon: React.ReactNode) {
-  return (
-    <Box color="default2" __width={20} __height={20}>
-      {icon}
-    </Box>
-  );
+  return <SidebarIconSlot>{icon}</SidebarIconSlot>;
 }

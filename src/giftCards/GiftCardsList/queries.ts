@@ -62,11 +62,3 @@ export const giftCardTotalCount = gql`
     }
   }
 `;
-
-export const giftCardProductsCount = gql`
-  query GiftCardProductsCount($channel: String!) {
-    giftCardProductTypes: productTypes(filter: { kind: GIFT_CARD }) {
-      totalCount
-    }
-  }
-`;

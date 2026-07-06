@@ -1,7 +1,9 @@
 // @ts-strict-ignore
+import { useApolloClient } from "@apollo/client";
 import { type ConfirmButtonTransitionState } from "@dashboard/components/ConfirmButton";
 import {
   type MoneyFragment,
+  OrderDetailsDocument,
   type OrderDetailsFragment,
   useOrderLineDiscountRemoveMutation,
   useOrderLineDiscountUpdateMutation,
@@ -9,22 +11,29 @@ import {
 import { useNotifier } from "@dashboard/hooks/useNotifier";
 import { getDefaultNotifierSuccessErrorData } from "@dashboard/hooks/useNotifier/utils";
 import { getById } from "@dashboard/misc";
-import { type OrderDiscountCommonInput } from "@dashboard/orders/components/OrderDiscountCommonModal/types";
+import { type OrderDiscountCommonInput } from "@dashboard/orders/components/OrderDiscountModal/types";
 import type * as React from "react";
 import { createContext, useContext, useState } from "react";
 import { useIntl } from "react-intl";
 
 import {
+  type AutomaticDiscountInfo,
   type GetOrderLineDiscountContextConsumerProps,
   type OrderDiscountConsumerCommonProps,
   type OrderLineDiscountData,
 } from "./types";
-import { getOrderLineDiscount, getParsedDiscountData, useDiscountDialog } from "./utils";
+import {
+  getAutomaticLineDiscounts,
+  getOrderLineDiscount,
+  getParsedDiscountData,
+  useDiscountDialog,
+} from "./utils";
 
 export interface OrderLineDiscountContextConsumerProps extends OrderDiscountConsumerCommonProps {
   addOrderLineDiscount: (data: OrderDiscountCommonInput) => void;
   removeOrderLineDiscount: () => void;
   orderLineDiscount?: OrderLineDiscountData;
+  automaticDiscounts: AutomaticDiscountInfo[];
   orderLineDiscountUpdateStatus: ConfirmButtonTransitionState;
   orderLineDiscountRemoveStatus: ConfirmButtonTransitionState;
   totalDiscountedPrice: MoneyFragment;
@@ -51,6 +60,7 @@ export const useOrderLineDiscountContext = () => {
 };
 
 export const OrderLineDiscountProvider = ({ children, order }: DiscountProviderProps) => {
+  const apolloClient = useApolloClient();
   const intl = useIntl();
   const notify = useNotifier();
   const { isDialogOpen, openDialog, closeDialog } = useDiscountDialog();
@@ -74,7 +84,13 @@ export const OrderLineDiscountProvider = ({ children, order }: DiscountProviderP
         handleDiscountDataSubmission(errors),
     },
   );
-  const handleDiscountDataSubmission = (errors: any[]) => {
+  const handleDiscountDataSubmission = async (errors: unknown[]) => {
+    if (errors.length === 0) {
+      await apolloClient.refetchQueries({
+        include: [OrderDetailsDocument],
+      });
+    }
+
     closeDialog();
     notify(getDefaultNotifierSuccessErrorData(errors, intl));
   };
@@ -96,6 +112,7 @@ export const OrderLineDiscountProvider = ({ children, order }: DiscountProviderP
     addOrderLineDiscount: addOrUpdateOrderLineDiscount(orderLineId),
     removeOrderLineDiscount: removeOrderLineDiscount(orderLineId),
     orderLineDiscount: getOrderLineDiscount(order, orderLineId),
+    automaticDiscounts: getAutomaticLineDiscounts(order, orderLineId),
     isDialogOpen: isOrderLineDialogOpen(orderLineId),
     orderLineDiscountUpdateStatus: orderLineDiscountAddOrUpdateOpts.status,
     orderLineDiscountRemoveStatus: orderLineDiscountRemoveOpts.status,

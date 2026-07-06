@@ -2,24 +2,25 @@ import { MetadataDialog } from "@dashboard/components/MetadataDialog/MetadataDia
 import { useHandleMetadataSubmit } from "@dashboard/components/MetadataDialog/useHandleMetadataSubmit";
 import { useMetadataForm } from "@dashboard/components/MetadataDialog/useMetadataForm";
 import { mapFieldArrayToMetadataInput } from "@dashboard/components/MetadataDialog/validation";
-import { OrderDetailsDocument, type OrderDetailsQuery } from "@dashboard/graphql";
+import { OrderMetadataDocument } from "@dashboard/graphql";
 import { useEffect } from "react";
 import { useIntl } from "react-intl";
 
-type OrderMetadataDialogData = NonNullable<OrderDetailsQuery["order"]>;
+import { useOrderMetadataValues } from "./useOrderMetadataValues";
 
 interface OrderMetadataDialogProps {
   open: boolean;
   onClose: () => void;
-  order: OrderMetadataDialogData | undefined;
+  orderId: string;
 }
 
-export const OrderMetadataDialog = ({ onClose, open, order }: OrderMetadataDialogProps) => {
+export const OrderMetadataDialog = ({ onClose, open, orderId }: OrderMetadataDialogProps) => {
   const intl = useIntl();
+  const { data: order } = useOrderMetadataValues({ orderId, open });
   const { onSubmit, lastSubmittedData, submitInProgress } = useHandleMetadataSubmit({
     initialData: order,
     onClose,
-    refetchDocument: OrderDetailsDocument,
+    refetchDocument: OrderMetadataDocument,
   });
 
   const {
@@ -60,6 +61,7 @@ export const OrderMetadataDialog = ({ onClose, open, order }: OrderMetadataDialo
       }}
       onChange={handleChange}
       loading={submitInProgress}
+      contentLoading={open && !order}
       errors={{
         metadata: metadataErrors.length ? metadataErrors.join(", ") : undefined,
         privateMetadata: privateMetadataErrors.length

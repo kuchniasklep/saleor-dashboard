@@ -20,6 +20,9 @@ export const orderDiscountAddMutation = gql`
       errors {
         ...OrderError
       }
+      order {
+        ...OrderDetails
+      }
     }
   }
 `;
@@ -29,6 +32,9 @@ export const orderDiscountDeleteMutation = gql`
     orderDiscountDelete(discountId: $discountId) {
       errors {
         ...OrderError
+      }
+      order {
+        ...OrderDetails
       }
     }
   }
@@ -40,6 +46,9 @@ export const orderLineDiscountRemoveMutation = gql`
       errors {
         ...OrderError
       }
+      order {
+        ...OrderDetails
+      }
     }
   }
 `;
@@ -50,6 +59,9 @@ export const orderLineDiscountUpdateMutation = gql`
       errors {
         ...OrderError
       }
+      order {
+        ...OrderDetails
+      }
     }
   }
 `;
@@ -59,6 +71,9 @@ export const orderDiscountUpdateMutation = gql`
     orderDiscountUpdate(input: $input, discountId: $discountId) {
       errors {
         ...OrderError
+      }
+      order {
+        ...OrderDetails
       }
     }
   }
@@ -94,6 +109,9 @@ export const orderConfirmMutation = gql`
     orderConfirm(id: $id) {
       errors {
         ...OrderError
+      }
+      order {
+        ...OrderDetails
       }
     }
   }
@@ -533,6 +551,7 @@ export const orderGrantRefundAddWithOrderMutation = gql`
     $orderId: ID!
     $amount: Decimal
     $reason: String
+    $reasonReferenceId: ID
     $lines: [OrderGrantRefundCreateLineInput!]
     $grantRefundForShipping: Boolean
     $transactionId: ID!
@@ -545,6 +564,7 @@ export const orderGrantRefundAddWithOrderMutation = gql`
         lines: $lines
         grantRefundForShipping: $grantRefundForShipping
         transactionId: $transactionId
+        reasonReference: $reasonReferenceId
       }
     ) {
       errors {

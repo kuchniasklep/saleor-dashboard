@@ -36,7 +36,9 @@ const config = {
     "^react$": "<rootDir>/node_modules/react",
     "^react-dom$": "<rootDir>/node_modules/react-dom",
   },
+  coverageDirectory: "<rootDir>/coverage/units",
   collectCoverageFrom: ["<rootDir>/src/**/*.{ts,tsx}"],
+  coveragePathIgnorePatterns: ["<rootDir>/src/index\\.tsx"],
 };
 
 // eslint-disable-next-line no-undef

@@ -4,6 +4,7 @@ import { ProductListUrlSortField } from "@dashboard/products/urls";
 import type { Meta, StoryFn, StoryObj } from "@storybook/react-vite";
 import { fn } from "storybook/test";
 
+import { STORYBOOK_CHROMATIC_PARAMS } from "../../../storybook/chromatic";
 import { ProductListDatagrid } from "./ProductListDatagrid";
 
 const mockConditionalFilterContext = {
@@ -81,6 +82,9 @@ const meta: Meta<typeof ProductListDatagrid> = {
     availableColumnsAttributesOpts: emptyAvailableColumnsAttributesOpts,
     filterDependency: { label: "Channel", value: "channel-1" },
   },
+  parameters: {
+    chromatic: STORYBOOK_CHROMATIC_PARAMS.datagrid,
+  },
 };
 
 export default meta;
@@ -91,6 +95,9 @@ export const Default: Story = {};
 export const Loading: Story = {
   args: {
     loading: true,
+  },
+  parameters: {
+    chromatic: { disableSnapshot: true },
   },
 };
 

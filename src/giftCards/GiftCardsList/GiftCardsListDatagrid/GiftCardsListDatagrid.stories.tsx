@@ -9,6 +9,7 @@ import type { Meta, StoryObj } from "@storybook/react-vite";
 import { type ReactElement } from "react";
 import { fn } from "storybook/test";
 
+import { STORYBOOK_CHROMATIC_PARAMS } from "../../../storybook/chromatic";
 import { GiftCardsListDatagrid } from "./GiftCardsListDatagrid";
 
 type GiftCardNode = ExtendedGiftCard<
@@ -120,6 +121,7 @@ const defaultContextValue: GiftCardsListConsumerProps = {
   isFilterPresetOpen: false,
   setFilterPresetOpen: fn(),
   presets: [],
+  builtInPresetCount: 0,
   selectedPreset: 0,
   onPresetChange: fn(),
   onPresetDelete: fn(),
@@ -150,6 +152,9 @@ const meta: Meta<typeof GiftCardsListDatagrid> = {
       </MockGiftCardListProvider>
     ),
   ],
+  parameters: {
+    chromatic: STORYBOOK_CHROMATIC_PARAMS.datagrid,
+  },
 };
 
 export default meta;
@@ -165,6 +170,9 @@ export const Loading: Story = {
       </MockGiftCardListProvider>
     ),
   ],
+  parameters: {
+    chromatic: { disableSnapshot: true },
+  },
 };
 
 export const Empty: Story = {

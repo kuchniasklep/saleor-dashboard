@@ -3,7 +3,7 @@ import { type FetchResult } from "@apollo/client";
 import { WindowTitle } from "@dashboard/components/WindowTitle";
 import { DEFAULT_INITIAL_SEARCH_DATA } from "@dashboard/config";
 import {
-  type OrderDetailsWithMetadataQueryResult,
+  type OrderDetailsQueryResult,
   type OrderDraftCancelMutation,
   type OrderDraftCancelMutationVariables,
   type OrderDraftFinalizeMutation,
@@ -27,6 +27,7 @@ import {
 } from "@dashboard/orders/components/OrderCustomerChangeDialog/form";
 import OrderCustomerChangeDialog from "@dashboard/orders/components/OrderCustomerChangeDialog/OrderCustomerChangeDialog";
 import { OrderLineMetadataDialog } from "@dashboard/orders/components/OrderLineMetadataDialog/OrderLineMetadataDialog";
+import { OrderMetadataDialog } from "@dashboard/orders/components/OrderMetadataDialog/OrderMetadataDialog";
 import { getVariantSearchAddress, isAnyAddressEditModalOpen } from "@dashboard/orders/utils/data";
 import { OrderDiscountProvider } from "@dashboard/products/components/OrderDiscountProviders/OrderDiscountProvider";
 import { OrderLineDiscountProvider } from "@dashboard/products/components/OrderDiscountProviders/OrderLineDiscountProvider";
@@ -50,7 +51,7 @@ interface OrderDraftDetailsProps {
   id: string;
   params: OrderUrlQueryParams;
   loading: any;
-  data: OrderDetailsWithMetadataQueryResult["data"];
+  data: OrderDetailsQueryResult["data"];
   orderAddNote: any;
   orderUpdateNote: PartialMutationProviderOutput<
     OrderNoteUpdateMutation,
@@ -228,6 +229,7 @@ export const OrderDraftDetails = ({
             onDraftRemove={() => openModal("cancel")}
             onOrderLineAdd={() => openModal("add-order-line")}
             onOrderLineShowMetadata={id => openModal("view-order-line-metadata", { id })}
+            onOrderShowMetadata={() => openModal("view-order-metadata")}
             order={order}
             channelUsabilityData={channelUsabilityData}
             onProductClick={id => () => navigate(productUrl(encodeURIComponent(id)))}
@@ -305,6 +307,11 @@ export const OrderDraftDetails = ({
         open={params.action === "view-order-line-metadata"}
         onClose={closeModal}
         lineId={params.id}
+        orderId={id}
+      />
+      <OrderMetadataDialog
+        open={params.action === "view-order-metadata"}
+        onClose={closeModal}
         orderId={id}
       />
       <OrderAddressFields

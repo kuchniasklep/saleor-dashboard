@@ -1,12 +1,12 @@
 // @ts-strict-ignore
 import CardSpacer from "@dashboard/components/CardSpacer";
+import { SaleorThrobber } from "@dashboard/components/Throbber";
 import {
   type OrderDetailsFragment,
   type OrderDetailsQuery,
   type TransactionActionEnum,
 } from "@dashboard/graphql/types.generated";
-import { rippleRefreshedOrderSections } from "@dashboard/orders/ripples/newOrderSummary";
-import { Ripple } from "@dashboard/ripples/components/Ripple";
+import { orderHasInFlightTransactionAction } from "@dashboard/orders/components/OrderTransaction/transactionInFlight";
 import { Box, Text } from "@saleor/macaw-ui-next";
 import { useMemo } from "react";
 import { FormattedMessage } from "react-intl";
@@ -43,6 +43,8 @@ export const OrderTransactionsSection = ({
     arr => arr?.length > 0,
   );
 
+  const hasPendingTransaction = orderHasInFlightTransactionAction(order);
+
   return (
     <>
       <OrderDetailsRefundTable orderId={order?.id} order={order} onRefundAdd={onRefundAdd} />
@@ -57,11 +59,13 @@ export const OrderTransactionsSection = ({
           justifyContent="space-between"
           paddingX={6}
         >
-          <Box display="flex" alignItems="center" justifyContent="center" gap={4}>
+          <Box display="flex" alignItems="center" gap={2}>
             <Text size={6} fontWeight="medium">
               <FormattedMessage defaultMessage="Transactions" id="/jJLYy" />
             </Text>
-            <Ripple model={rippleRefreshedOrderSections} />
+            {hasPendingTransaction && (
+              <SaleorThrobber size={20} data-test-id="order-transaction-polling-throbber" />
+            )}
           </Box>
           <OrderAddTransaction order={order} onAddTransaction={onAddManualTransaction} />
         </Box>
