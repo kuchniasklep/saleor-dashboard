@@ -147,6 +147,7 @@ export const OrderLineDiscountModal = ({
       onClose={onClose}
       header={header}
       preFormContent={preFormContent}
+      isLineDiscount={true}
     />
   );
 };

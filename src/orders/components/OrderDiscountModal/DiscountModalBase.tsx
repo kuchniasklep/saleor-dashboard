@@ -27,6 +27,7 @@ interface DiscountModalBaseProps {
   onClose: () => void;
   header: ReactNode;
   preFormContent?: ReactNode;
+  isLineDiscount: boolean;
 }
 
 export const DiscountModalBase = ({
@@ -40,6 +41,7 @@ export const DiscountModalBase = ({
   onClose,
   header,
   preFormContent,
+  isLineDiscount
 }: DiscountModalBaseProps) => {
   const intl = useIntl();
 
@@ -54,6 +56,7 @@ export const DiscountModalBase = ({
     maxPrice,
     existingDiscount,
     isOpen: open,
+    isLineDiscount
   });
 
   const handleConfirm = () => {

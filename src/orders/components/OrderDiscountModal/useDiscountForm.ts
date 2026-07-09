@@ -5,6 +5,7 @@ import { useIntl } from "react-intl";
 
 import { messages } from "./messages";
 import { type OrderDiscountCommonInput } from "./types";
+import { toFixed } from "@dashboard/utils/toFixed";
 
 const numbersRegex = /^[0-9]*\.?[0-9]+$/;
 
@@ -18,6 +19,7 @@ interface UseDiscountFormProps {
   maxPrice: MoneyFragment;
   existingDiscount?: OrderDiscountCommonInput;
   isOpen?: boolean;
+  isLineDiscount: boolean;
 }
 
 const parseNumericValue = (value: string): number => parseFloat(value) || 0;
@@ -27,20 +29,37 @@ function convertValue(
   maxAmount: number,
   from: DiscountValueTypeEnum,
   to: DiscountValueTypeEnum,
+  isLineDiscount: boolean,
 ): string {
   if (value === 0 || maxAmount === 0 || from === to) {
     return value.toString();
   }
 
-  const toFixed = from === DiscountValueTypeEnum.PERCENTAGE && to === DiscountValueTypeEnum.FIXED;
-  const raw = toFixed ? (value * maxAmount) / 100 : (value / maxAmount) * 100;
+  if (isLineDiscount) {
+    const raw =
+      from === DiscountValueTypeEnum.PERCENTAGE && to === DiscountValueTypeEnum.FIXED
+        ? maxAmount - (value / 100) * maxAmount // % discount -> resulting price
+        : (1 - value / maxAmount) * 100; // resulting price -> % discount
+
+    return toFixed(raw.toString(), 2);
+  }
+
+  const percentageToFixed =
+    from === DiscountValueTypeEnum.PERCENTAGE && to === DiscountValueTypeEnum.FIXED;
+  const raw = percentageToFixed ? (value * maxAmount) / 100 : (value / maxAmount) * 100;
 
   return (Math.round(raw * 100) / 100).toString();
 }
 
-export const useDiscountForm = ({ maxPrice, existingDiscount, isOpen }: UseDiscountFormProps) => {
+export const useDiscountForm = ({
+  maxPrice,
+  existingDiscount,
+  isOpen,
+  isLineDiscount,
+}: UseDiscountFormProps) => {
   const intl = useIntl();
   const { currency, amount: maxAmount } = maxPrice;
+
   const previousCalculationMode = useRef<DiscountValueTypeEnum>(
     existingDiscount?.calculationMode || DiscountValueTypeEnum.PERCENTAGE,
   );
@@ -52,10 +71,14 @@ export const useDiscountForm = ({ maxPrice, existingDiscount, isOpen }: UseDisco
     if (existingDiscount?.value) {
       const stringifiedValue = existingDiscount.value.toString();
 
-      value =
-        calculationMode === DiscountValueTypeEnum.FIXED
-          ? parseFloat(stringifiedValue).toString()
-          : stringifiedValue;
+      if (isLineDiscount && calculationMode === DiscountValueTypeEnum.FIXED) {
+        // stored value is the discount amount; display the resulting item price
+        value = toFixed((maxAmount - parseFloat(stringifiedValue)).toString(), 2);
+      } else if (calculationMode === DiscountValueTypeEnum.FIXED) {
+        value = parseFloat(stringifiedValue).toString();
+      } else {
+        value = stringifiedValue;
+      }
     }
 
     return {
@@ -63,7 +86,7 @@ export const useDiscountForm = ({ maxPrice, existingDiscount, isOpen }: UseDisco
       reason: existingDiscount?.reason || "",
       value,
     };
-  }, [existingDiscount?.calculationMode, existingDiscount?.reason, existingDiscount?.value]);
+  }, [existingDiscount?.calculationMode, existingDiscount?.reason, existingDiscount?.value, isLineDiscount, maxAmount]);
 
   const { control, watch, setValue, reset, getValues } = useForm<DiscountFormData>({
     defaultValues: getDefaultValues(),
@@ -100,13 +123,14 @@ export const useDiscountForm = ({ maxPrice, existingDiscount, isOpen }: UseDisco
         maxAmount,
         previousCalculationMode.current,
         newMode,
+        isLineDiscount,
       );
 
       setValue("value", converted);
       setValue("calculationMode", newMode);
       previousCalculationMode.current = newMode;
     },
-    [getValues, maxAmount, setValue],
+    [getValues, maxAmount, setValue, isLineDiscount],
   );
 
   // Validation is derived rather than stored in formState.errors because
@@ -119,6 +143,8 @@ export const useDiscountForm = ({ maxPrice, existingDiscount, isOpen }: UseDisco
     }
 
     const isPercentage = calculationMode === DiscountValueTypeEnum.PERCENTAGE;
+    // Note: for line discounts in FIXED mode, the field holds a resulting
+    // price, but that's still capped by maxAmount, same as topAmount below.
     const topAmount = isPercentage ? 100 : maxAmount;
     const parsedValue = parseNumericValue(value);
 
@@ -139,14 +165,21 @@ export const useDiscountForm = ({ maxPrice, existingDiscount, isOpen }: UseDisco
   const valueFieldSymbol = calculationMode === DiscountValueTypeEnum.FIXED ? currency : "%";
   const isSubmitDisabled = !parsedValue || !!valueErrorMsg;
 
-  const getDiscountData = useCallback(
-    (): OrderDiscountCommonInput => ({
-      calculationMode: getValues("calculationMode"),
+  const getDiscountData = useCallback((): OrderDiscountCommonInput => {
+    const currentCalculationMode = getValues("calculationMode");
+    const currentValue = parseNumericValue(getValues("value"));
+
+    const apiValue =
+      isLineDiscount && currentCalculationMode === DiscountValueTypeEnum.FIXED
+        ? Math.max(maxAmount - currentValue, 0)
+        : currentValue;
+
+    return {
+      calculationMode: currentCalculationMode,
       reason: getValues("reason"),
-      value: parseNumericValue(getValues("value")),
-    }),
-    [getValues],
-  );
+      value: apiValue,
+    };
+  }, [getValues, isLineDiscount, maxAmount]);
 
   return {
     control,

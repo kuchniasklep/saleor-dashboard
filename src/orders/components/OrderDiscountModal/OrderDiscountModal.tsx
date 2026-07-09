@@ -57,6 +57,7 @@ export const OrderDiscountModal = ({
       onRemove={onRemove}
       onClose={onClose}
       header={header}
+      isLineDiscount={false}
     />
   );
 };

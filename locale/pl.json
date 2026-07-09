@@ -2920,6 +2920,14 @@
     "context": "refund amounts were settled",
     "string": "Załatwione"
   },
+  "wKbeLZ": {
+    "context": "include postal codes helper",
+    "string": "Pozostaw listę pustą, aby zastosować tę stawkę do wszystkich kodów pocztowych. Będą mogły z niej korzystać tylko pasujące, dodane zakresy."
+  },
+  "wL850U": {
+    "context": "draft order lines, section header",
+    "string": "Pozycje zamówienia"
+  },
   "wLB8B3": {
     "context": "column header",
     "string": "Widoczność"
@@ -5203,6 +5211,10 @@
   "SHm7ee": {
     "string": "Szukaj według nazwy produktu, atrybutu, typu produktu itp..."
   },
+  "SIrDwV": {
+    "context": "dialog title for order line discount",
+    "string": "Zniżka pozycji"
+  },
   "SNiyXb": {
     "context": "numeric attribute type",
     "string": "Numeryczny"
@@ -6718,6 +6730,10 @@
     "context": "order status",
     "string": "Gotowe do realizacji"
   },
+  "oO2fji": {
+    "context": "dialog title for order discount",
+    "string": "Zniżka na zamówienie"
+  },
   "oQ27V4": {
     "context": "order history message",
     "string": "Informacja o zamówieniu została wysłana do klienta"
@@ -6737,6 +6753,10 @@
   "osPBn1": {
     "context": "currency filter label",
     "string": "Waluta"
+  },
+  "ous0aA": {
+    "context": "dialog subtitle for order discount",
+    "string": "Zastosuj do tego zamówienia zniżkę procentową lub kwotową. (wartość stała odejmowana od wartości zamówienia)"
   },
   "p/Fd7s": {
     "context": "unassign products from shipping rate and save, button",
@@ -8964,7 +8984,7 @@
   },
   "GAmGog": {
     "context": "value input label",
-    "string": "Wartość zniżki"
+    "string": "Wartość"
   },
   "fo7nfa": {
     "context": "fixed amount",
