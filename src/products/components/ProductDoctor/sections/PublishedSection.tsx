@@ -61,9 +61,7 @@ export const PublishedSection = ({
   // Derived UI state based on user's checkbox choice
   const isScheduleMode = summary.isPublished && showDatePicker;
   const isVisibleMode = summary.isPublished && !showDatePicker;
-  const publishedInPast = summary.publishedAt
-    ? Date.parse(summary.publishedAt) < Date.now()
-    : false;
+  const publishedInPast = summary.publishedAt ? !isFutureDate(summary.publishedAt) : false;
 
   // Warning: user is scheduling a currently-visible product
   const movedToScheduled = originalWasVisible && isScheduleMode && !!summary.publishedAt;

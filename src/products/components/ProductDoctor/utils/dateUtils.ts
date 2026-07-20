@@ -6,5 +6,8 @@ export const isFutureDate = (date: string | null | undefined): boolean => {
     return false;
   }
 
-  return Date.parse(date) > Date.now();
+  return Date.parse(date) > Date.now() + CLOCK_SKEW_GRACE_PERIOD_MS;
 };
+
+
+export const CLOCK_SKEW_GRACE_PERIOD_MS = 5000;
